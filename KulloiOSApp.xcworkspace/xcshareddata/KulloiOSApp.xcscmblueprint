@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BCC59CF5CF21CBD81806787D68FA8EA3DE0CB651",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BCC59CF5CF21CBD81806787D68FA8EA3DE0CB651" : 0,
+    "D867CCCCD0536F242AEAEB7DCD425D21BE1D7040" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E17E387B-6A6F-4CB7-9959-B44CF0D797FC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BCC59CF5CF21CBD81806787D68FA8EA3DE0CB651" : "ios\/",
+    "D867CCCCD0536F242AEAEB7DCD425D21BE1D7040" : "ios\/libkullo\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "KulloiOSApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "KulloiOSApp.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/bitbucket.org\/kullo\/ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BCC59CF5CF21CBD81806787D68FA8EA3DE0CB651"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:kullo\/libkullo-ios-bin.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D867CCCCD0536F242AEAEB7DCD425D21BE1D7040"
+    }
+  ]
+}

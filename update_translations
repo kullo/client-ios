@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+
+import glob, os, re, shutil, subprocess, tempfile
+
+
+def parse_lines(lines):
+    for line in lines:
+        yield parse(line)
+
+LINE_REGEX = re.compile(r'"(|.*[^\\])" = "(|.*[^\\])";')
+
+def parse(line):
+    match = LINE_REGEX.match(line)
+    if match:
+        return True, match.group(1), match.group(2)
+    else:
+        return False, None, None
+
+def merge(new_strings, translated_strings):
+    translations = {key: value for (_, key, value) in parse_lines(translated_strings)}
+
+    for line in new_strings:
+        ok, key, value = parse(line)
+        if ok and key in translations:
+            yield "\"%s\" = \"%s\";" % (key, translations[key])
+        else:
+            yield line.strip()
+
+def merge_files(new_strings_filename, translated_strings_filename, merged_strings_filename):
+    with open(new_strings_filename, "r", encoding="utf-16") as new_strings:
+        with open(translated_strings_filename, "r", encoding="utf-8") as translated_strings:
+            with open(merged_strings_filename, "w", encoding="utf-8") as merged_strings:
+                for line in merge(new_strings, translated_strings):
+                    print(line, file=merged_strings)
+
+def merge_and_replace_file(new_strings_filename, translated_strings_filename):
+    merged_strings_filename = make_temp_filename()
+    merge_files(new_strings_filename, translated_strings_filename, merged_strings_filename)
+    os.remove(translated_strings_filename)
+    os.rename(merged_strings_filename, translated_strings_filename)
+
+
+def make_temp_filename(suffix=""):
+    handle, filename = tempfile.mkstemp(suffix=suffix)
+    os.close(handle)
+    return filename
+
+def update_storyboard_translations(storyboard, lprojs):
+    new_strings_filename = make_temp_filename()
+    try:
+        subprocess.check_call(["ibtool", storyboard, "--export-strings-file", new_strings_filename])
+        for lproj in lprojs:
+            storyboard_basename = os.path.basename(storyboard).split(".")[0]
+            translated_strings_filename = lproj + "/" + storyboard_basename + ".strings"
+            merge_and_replace_file(new_strings_filename, translated_strings_filename)
+    finally:
+        os.remove(new_strings_filename)
+
+def update_localizable_strings(base_path, lprojs):
+    tempdir = tempfile.mkdtemp()
+    try:
+        new_strings_filename = tempdir + "/Localizable.strings"
+        sources = glob.glob(base_path + "/**/*.swift", recursive=True)
+        subprocess.check_call(
+            ["genstrings", "-u", "-o", tempdir, *sources],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        for lproj in lprojs:
+            translated_strings_filename = lproj + "/Localizable.strings"
+            merge_and_replace_file(new_strings_filename, translated_strings_filename)
+    finally:
+        shutil.rmtree(tempdir)
+
+
+def get_storyboards(base_path):
+    for path in glob.glob(base_path + "/Base.lproj/*.storyboard"):
+        yield path
+
+def get_lproj_paths(base_path):
+    for path in glob.glob(base_path + "/*.lproj"):
+        if not path.endswith("Base.lproj"):
+            yield path
+
+
+if __name__ == "__main__":
+    base_path = "KulloiOSApp"
+    base_language = "en"
+
+    print("Processing storyboards...")
+    lprojs = [
+        lproj for lproj in get_lproj_paths(base_path)
+        if not lproj.endswith("/" + base_language + ".lproj")
+    ]
+    for storyboard in get_storyboards(base_path):
+        update_storyboard_translations(storyboard, lprojs)
+
+    print("Processing Localizable.strings...")
+    update_localizable_strings(base_path, get_lproj_paths(base_path))
+
+    print("Done!")

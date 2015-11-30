@@ -1,0 +1,189 @@
+/* No comment provided by engineer. */
+"About Kullo" = "Über Kullo";
+
+/* No comment provided by engineer. */
+"Adding recipient" = "Empfänger hinzufügen";
+
+/* No comment provided by engineer. */
+"Address field empty" = "Adressfeld leer";
+
+/* No comment provided by engineer. */
+"Address is empty" = "Das Adressfeld ist leer";
+
+/* No comment provided by engineer. */
+"Address is invalid" = "Die Adresse ist keine gültige Kullo-Adresse";
+
+/* No comment provided by engineer. */
+"Already added" = "Bereits hinzugefügt";
+
+/* No comment provided by engineer. */
+"App" = "App";
+
+/* No comment provided by engineer. */
+"Attachments at one conversation are too big." = "Die Anhänge eines zu versendenden Entwurfs sind zu groß.";
+
+/* No comment provided by engineer. */
+"Attachments too big" = "Anhänge zu groß";
+
+/* No comment provided by engineer. */
+"Cancel" = "Abbrechen";
+
+/* No comment provided by engineer. */
+"Checking if address exists..." = "Prüfe, ob Adresse existiert...";
+
+/* No comment provided by engineer. */
+"Choose from library" = "Wähle aus der Bibliothek";
+
+/* No comment provided by engineer. */
+"Couldn't load data" = "Daten konnten nicht geladen werden";
+
+/* No comment provided by engineer. */
+"Couldn't log in with the given Kullo address and MasterKey." = "Login mit der angegebenen Kullo-Adresse und dem MasterKey fehlgeschlagen.";
+
+/* No comment provided by engineer. */
+"Delete avatar" = "Avatar löschen";
+
+/* No comment provided by engineer. */
+"Downloading attachments" = "Lade Anhänge herunter";
+
+/* No comment provided by engineer. */
+"Edit footer" = "Impressum bearbeiten";
+
+/* No comment provided by engineer. */
+"Edit text" = "Text bearbeiten";
+
+/* No comment provided by engineer. */
+"Empty blocks" = "Der MasterKey ist nicht vollständig";
+
+/* No comment provided by engineer. */
+"Enter name" = "Namen eingeben";
+
+/* No comment provided by engineer. */
+"Enter organization" = "Organisation eingeben";
+
+/* No comment provided by engineer. */
+"Error checking address" = "Fehler beim Prüfen der Adresse";
+
+/* No comment provided by engineer. */
+"Error opening file" = "Fehler beim Öffnen der Datei";
+
+/* No comment provided by engineer. */
+"Feedback" = "Feedback";
+
+/* No comment provided by engineer. */
+"Footer" = "Impressum";
+
+/* No comment provided by engineer. */
+"Invalid address" = "Ungültige Adresse";
+
+/* No comment provided by engineer. */
+"Invalid block" = "Ungültiger Block";
+
+/* No comment provided by engineer. */
+"Invalid entries" = "Ungültige Einträge";
+
+/* No comment provided by engineer. */
+"Libraries" = "Bibliotheken";
+
+/* No comment provided by engineer. */
+"local_error_filesystem" = "Fehler beim Lesen oder Schreiben von lokalen Dateien";
+
+/* No comment provided by engineer. */
+"local_error_unknown" = "Unbekannter lokaler Fehler";
+
+/* No comment provided by engineer. */
+"Log out now?" = "Wirklich abmelden?";
+
+/* No comment provided by engineer. */
+"Login" = "Anmelden";
+
+/* No comment provided by engineer. */
+"Login failed" = "Einloggen fehlgeschlagen";
+
+/* No comment provided by engineer. */
+"Logout" = "Abmelden";
+
+/* No comment provided by engineer. */
+"Logout and delete data" = "Abmelden und Daten löschen";
+
+/* No comment provided by engineer. */
+"logout_warning" = "Nach dem Logout musst du MasterKey und Absender-Informationen erneut eingeben.";
+
+/* No comment provided by engineer. */
+"Name" = "Name";
+
+/* No comment provided by engineer. */
+"network_error_connection" = "Server konnte nicht gefunden werden. Entweder gibt es ein Problem mit dem Netz, oder die angegebene Kullo-Domain existiert nicht.";
+
+/* No comment provided by engineer. */
+"network_error_forbidden" = "Die App wurde vom Server geblockt. Bitte versuche, auf die neueste Version zu aktualisieren.";
+
+/* No comment provided by engineer. */
+"network_error_protocol" = "Die App konnte nicht mit dem Server kommunizieren. Bitte versuche, auf die neueste Version zu aktualisieren.";
+
+/* No comment provided by engineer. */
+"network_error_server" = "Serverfehler; bitte später nochmal versuchen.";
+
+/* No comment provided by engineer. */
+"network_error_unauthorized" = "Ungültige Adresse oder MasterKey.";
+
+/* No comment provided by engineer. */
+"new" = "neu";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Opening file" = "Öffne Datei";
+
+/* No comment provided by engineer. */
+"Organization" = "Organisation";
+
+/* No comment provided by engineer. */
+"Please enter an address." = "Bitte gib eine Adresse ein.";
+
+/* No comment provided by engineer. */
+"Please wait..." = "Bitte warten...";
+
+/* No comment provided by engineer. */
+"Recipient unknown" = "Empfänger unbekannt";
+
+/* No comment provided by engineer. */
+"register_alert_message" = "Die Registrierung in Kullo für iOS ist noch nicht möglich. Wir arbeiten daran!\n\nBitte nutze Kullo für Windows, OS X oder Linux um eine Kullo-Adresse zu registrieren: www.kullo.net";
+
+/* No comment provided by engineer. */
+"register_alert_title" = "Registrierung nur per Desktop-Client";
+
+/* No comment provided by engineer. */
+"Sending messages" = "Sende Nachrichten";
+
+/* No comment provided by engineer. */
+"Software licenses" = "Softwarelizenzen";
+
+/* No comment provided by engineer. */
+"Synchronization error" = "Synchronisationsfehler";
+
+/* No comment provided by engineer. */
+"Take a picture" = "Foto aufnehmen";
+
+/* No comment provided by engineer. */
+"The attachments of the message you were trying to send were too big." = "Die Attachments, die du versucht hast, zu versenden, sind zu groß.";
+
+/* No comment provided by engineer. */
+"The entered address is invalid." = "Die eingegebene Adresse ist ungültig.";
+
+/* No comment provided by engineer. */
+"Version" = "Version";
+
+/* No comment provided by engineer. */
+"We could not find a recipient with this address." = "Wir konnten keinen Empfänger mit dieser Adresse finden.";
+
+/* No comment provided by engineer. */
+"Web" = "Web";
+
+/* No comment provided by engineer. */
+"yesterday" = "gestern";
+
+/* No comment provided by engineer. */
+"You have already added this recipient to the new conversation" = "Du hast diesen Empfänger bereits zur Konversation hinzugefügt.";
+

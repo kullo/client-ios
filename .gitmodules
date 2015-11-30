@@ -1,0 +1,3 @@
+[submodule "libkullo"]
+	path = libkullo
+	url = git@bitbucket.org:kullo/libkullo-ios-bin.git

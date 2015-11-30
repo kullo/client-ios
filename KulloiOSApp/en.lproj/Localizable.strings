@@ -1,0 +1,189 @@
+/* No comment provided by engineer. */
+"About Kullo" = "About Kullo";
+
+/* No comment provided by engineer. */
+"Adding recipient" = "Adding recipient";
+
+/* No comment provided by engineer. */
+"Address field empty" = "Address field empty";
+
+/* No comment provided by engineer. */
+"Address is empty" = "Address is empty";
+
+/* No comment provided by engineer. */
+"Address is invalid" = "Address is invalid";
+
+/* No comment provided by engineer. */
+"Already added" = "Already added";
+
+/* No comment provided by engineer. */
+"App" = "App";
+
+/* No comment provided by engineer. */
+"Attachments at one conversation are too big." = "Attachments at one conversation are too big.";
+
+/* No comment provided by engineer. */
+"Attachments too big" = "Attachments too big";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancel";
+
+/* No comment provided by engineer. */
+"Checking if address exists..." = "Checking if address exists...";
+
+/* No comment provided by engineer. */
+"Choose from library" = "Choose from library";
+
+/* No comment provided by engineer. */
+"Couldn't load data" = "Couldn't load data";
+
+/* No comment provided by engineer. */
+"Couldn't log in with the given Kullo address and MasterKey." = "Couldn't log in with the given Kullo address and MasterKey.";
+
+/* No comment provided by engineer. */
+"Delete avatar" = "Delete avatar";
+
+/* No comment provided by engineer. */
+"Downloading attachments" = "Downloading attachments";
+
+/* No comment provided by engineer. */
+"Edit footer" = "Edit footer";
+
+/* No comment provided by engineer. */
+"Edit text" = "Edit text";
+
+/* No comment provided by engineer. */
+"Empty blocks" = "Empty blocks";
+
+/* No comment provided by engineer. */
+"Enter name" = "Enter name";
+
+/* No comment provided by engineer. */
+"Enter organization" = "Enter organization";
+
+/* No comment provided by engineer. */
+"Error checking address" = "Error checking address";
+
+/* No comment provided by engineer. */
+"Error opening file" = "Error opening file";
+
+/* No comment provided by engineer. */
+"Feedback" = "Feedback";
+
+/* No comment provided by engineer. */
+"Footer" = "Footer";
+
+/* No comment provided by engineer. */
+"Invalid address" = "Invalid address";
+
+/* No comment provided by engineer. */
+"Invalid block" = "Invalid block";
+
+/* No comment provided by engineer. */
+"Invalid entries" = "Invalid entries";
+
+/* No comment provided by engineer. */
+"Libraries" = "Libraries";
+
+/* No comment provided by engineer. */
+"local_error_filesystem" = "Error while reading or writing to local files";
+
+/* No comment provided by engineer. */
+"local_error_unknown" = "Unknown local error";
+
+/* No comment provided by engineer. */
+"Log out now?" = "Log out now?";
+
+/* No comment provided by engineer. */
+"Login" = "Login";
+
+/* No comment provided by engineer. */
+"Login failed" = "Login failed";
+
+/* No comment provided by engineer. */
+"Logout" = "Logout";
+
+/* No comment provided by engineer. */
+"Logout and delete data" = "Logout and delete data";
+
+/* No comment provided by engineer. */
+"logout_warning" = "After logging out you'll need to type in MasterKey and sender settings again.";
+
+/* No comment provided by engineer. */
+"Name" = "Name";
+
+/* No comment provided by engineer. */
+"network_error_connection" = "Could not find server. Either no network connection or unknown kullo domain.";
+
+/* No comment provided by engineer. */
+"network_error_forbidden" = "App was blocked from server, please download new version.";
+
+/* No comment provided by engineer. */
+"network_error_protocol" = "App and server protocol is incompatible, please download new version.";
+
+/* No comment provided by engineer. */
+"network_error_server" = "Server error, please try again later.";
+
+/* No comment provided by engineer. */
+"network_error_unauthorized" = "Invalid address or MasterKey.";
+
+/* No comment provided by engineer. */
+"new" = "new";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Opening file" = "Opening file";
+
+/* No comment provided by engineer. */
+"Organization" = "Organization";
+
+/* No comment provided by engineer. */
+"Please enter an address." = "Please enter an address.";
+
+/* No comment provided by engineer. */
+"Please wait..." = "Please wait...";
+
+/* No comment provided by engineer. */
+"Recipient unknown" = "Recipient unknown";
+
+/* No comment provided by engineer. */
+"register_alert_message" = "Registration in Kullo for iOS is not possible yet. We're on it!\n\nPlease use Kullo for Windows, OS X or Linux to create a Kullo address: www.kullo.net";
+
+/* No comment provided by engineer. */
+"register_alert_title" = "Registration only possible on Desktop";
+
+/* No comment provided by engineer. */
+"Sending messages" = "Sending messages";
+
+/* No comment provided by engineer. */
+"Software licenses" = "Software licenses";
+
+/* No comment provided by engineer. */
+"Synchronization error" = "Synchronization error";
+
+/* No comment provided by engineer. */
+"Take a picture" = "Take a picture";
+
+/* No comment provided by engineer. */
+"The attachments of the message you were trying to send were too big." = "The attachments of the message you were trying to send were too big.";
+
+/* No comment provided by engineer. */
+"The entered address is invalid." = "The entered address is invalid.";
+
+/* No comment provided by engineer. */
+"Version" = "Version";
+
+/* No comment provided by engineer. */
+"We could not find a recipient with this address." = "We could not find a recipient with this address.";
+
+/* No comment provided by engineer. */
+"Web" = "Web";
+
+/* No comment provided by engineer. */
+"yesterday" = "yesterday";
+
+/* No comment provided by engineer. */
+"You have already added this recipient to the new conversation" = "You have already added this recipient to the new conversation";
+

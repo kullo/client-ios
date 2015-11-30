@@ -1,0 +1,54 @@
+/* Copyright 2015 Kullo GmbH. All rights reserved. */
+
+import LibKullo
+
+protocol ClientCheckLoginDelegate: class {
+    
+    func checkLoginSuccess(address: KAAddress, masterKey: KAMasterKey)
+    func checkLoginInvalid(address: KAAddress, masterKey: KAMasterKey)
+    func checkLoginError(error: String)
+    
+}
+
+protocol ClientCreateSessionDelegate: class {
+
+    func createSessionFinished(session: KASession)
+    func createSessionError(address: KAAddress, error: String)
+}
+
+protocol SyncDelegate: class {
+    
+    func syncErrorDraftAttachmentsTooBig(convId: Int64)
+    func syncFinished()
+    func syncError(error: String)
+    
+}
+
+protocol ClientAddressExistsDelegate: class {
+    
+    func clientAddressExistsFinished(address: KAAddress, exists: Bool)
+    func clientAddressExistsError(address: KAAddress, error: String)
+    
+}
+
+protocol MessageAttachmentsSaveToDelegate: class {
+    
+    func messageAttachmentsSaveToFinished(msgId: Int64, attId: Int64, path: String)
+    func messageAttachmentsSaveToError(msgId: Int64, attId: Int64, path: String, error: String)
+        
+}
+
+@objc protocol SessionEventsDelegate: class {
+    
+    optional func sessionEventConversationAdded(convId: Int64)
+    optional func sessionEventConversationChanged(convId: Int64)
+    optional func sessionEventConversationRemoved(convId: Int64)
+    optional func sessionEventMessageAdded(convId: Int64, msgId: Int64)
+    optional func sessionEventMessageRemoved(convId: Int64, msgId: Int64)
+    optional func sessionEventMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64)
+    optional func sessionEventDraftStateChanged(convId: Int64)
+    optional func sessionEventDraftTextChanged(convId: Int64)
+    optional func sessionEventDraftAttachmentAdded(convId: Int64)
+    optional func sessionEventDraftAttachmentRemoved(convId: Int64)
+        
+}
