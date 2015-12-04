@@ -34,7 +34,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     private var blockTextFields = [UITextField]()
     private weak var alertDialog: UIAlertController?
 
-    enum CredentialsError : ErrorType {
+    enum CredentialsError {
         case EmptyAddress
         case InvalidAddress
         case EmptyBlocks
@@ -82,89 +82,71 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     func inputFieldsAreValidIfNotGiveUserFeedback() -> Bool {
         let okAction = AlertHelper.getAlertOKAction()
-        
-        do {
-            try validateInputFields()
-        } catch CredentialsError.EmptyAddress {
-            alertDialog?.title = NSLocalizedString("Invalid entries", comment: "")
-            alertDialog?.message = NSLocalizedString("Address is empty", comment: "")
+
+        if let error = validateInputFields() {
+            alertDialog?.title = NSLocalizedString("Login failed", comment: "")
             alertDialog?.addAction(okAction)
-            log.info("Empty address")
-            return false
-        } catch CredentialsError.InvalidAddress {
-            alertDialog?.title = NSLocalizedString("Invalid entries", comment: "")
-            alertDialog?.message = NSLocalizedString("Address is invalid", comment: "")
-            alertDialog?.addAction(okAction)
-            log.info("Invalid address")
-            return false
-        } catch CredentialsError.EmptyBlocks {
-            alertDialog?.title = NSLocalizedString("Invalid entries", comment: "")
-            alertDialog?.message = NSLocalizedString("Empty blocks", comment: "")
-            alertDialog?.addAction(okAction)
-            log.info("Empty blocks")
-            return false
-        } catch CredentialsError.InvalidBlock {
-            alertDialog?.title = NSLocalizedString("Invalid entries", comment: "")
-            alertDialog?.message = NSLocalizedString("Invalid block", comment: "")
-            alertDialog?.addAction(okAction)
-            log.info("Invalid blocks")
-            return false
-        } catch {
-            alertDialog?.title = NSLocalizedString("Invalid entries", comment: "")
-            alertDialog?.message = nil
-            alertDialog?.addAction(okAction)
-            log.error("Validating input error type catched but unknown.")
-            return false
+
+            switch error {
+            case .EmptyAddress:
+                alertDialog?.message = NSLocalizedString("validation_empty_address", comment: "")
+                return false
+            case .InvalidAddress:
+                alertDialog?.message = NSLocalizedString("validation_invalid_address", comment: "")
+                return false
+            case .EmptyBlocks:
+                alertDialog?.message = NSLocalizedString("validation_empty_blocks", comment: "")
+                return false
+            case .InvalidBlock:
+                alertDialog?.message = NSLocalizedString("validation_invalid_blocks", comment: "")
+                return false
+            }
         }
 
         return true
     }
 
-    func validateInputFields() throws {
-        if let addressText = addressTextField.text {
-            if addressText.characters.count > 0 {
-                guard KulloConnector.isValidKulloAddress(addressText) else {
-                    setTextFieldDesignToErrorStatus(addressTextField)
-                    throw CredentialsError.InvalidAddress
-                }
-            } else {
-                setTextFieldDesignToErrorStatus(addressTextField)
-                throw CredentialsError.EmptyAddress
-            }
-        } else {
+    func validateInputFields() -> CredentialsError? {
+        let addressText = addressTextField.text ?? ""
+
+        if addressText.isEmpty {
             setTextFieldDesignToErrorStatus(addressTextField)
-            throw CredentialsError.EmptyAddress
+            return CredentialsError.EmptyAddress
         }
 
-        var invalidBlock : Bool = false
-        var emptyBlock : Bool = false
+        if !KulloConnector.isValidKulloAddress(addressText) {
+            setTextFieldDesignToErrorStatus(addressTextField)
+            return CredentialsError.InvalidAddress
+        }
+
+        setTextFieldDesignToNormalStatus(addressTextField)
+
+        var invalidBlock = false
+        var emptyBlock = false
 
         for blockTextField in blockTextFields {
-            if let blockText = blockTextField.text {
-                if blockText.characters.count > 0 {
-                    if KulloConnector.isValidMasterKeyBlock(blockText) {
-                        setTextFieldDesignToNormalStatus(blockTextField)
-                    } else {
-                        invalidBlock = true
-                        setTextFieldDesignToErrorStatus(blockTextField)
-                    }
-                } else {
-                    setTextFieldDesignToErrorStatus(blockTextField)
-                    emptyBlock = true
-                }
-            } else {
-                setTextFieldDesignToErrorStatus(blockTextField)
+            let blockText = blockTextField.text ?? ""
+
+            if blockText.isEmpty {
                 emptyBlock = true
+                setTextFieldDesignToErrorStatus(blockTextField)
+
+            } else if !KulloConnector.isValidMasterKeyBlock(blockText) {
+                invalidBlock = true
+                setTextFieldDesignToErrorStatus(blockTextField)
+
+            } else {
+                setTextFieldDesignToNormalStatus(blockTextField)
             }
         }
 
         if emptyBlock {
-            throw CredentialsError.EmptyBlocks
+            return CredentialsError.EmptyBlocks
         }
-
         if invalidBlock {
-            throw CredentialsError.InvalidBlock
+            return CredentialsError.InvalidBlock
         }
+        return nil
     }
 
     func getKeyBlocksAsStringArray() -> [String] {
@@ -175,15 +157,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
 
         return blockArray
-    }
-
-    // MARK: Register
-
-    @IBAction func registerButtonClicked(sender: UIButton) {
-        alertDialog = showInfoDialog(
-            NSLocalizedString("register_alert_title", comment: ""),
-            message: NSLocalizedString("register_alert_message", comment: "")
-        )
     }
 
     // MARK: UI
@@ -234,13 +207,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             setTextFieldDesignToNormalStatus(textField)
 
         } else if blockTextFields.contains(textField) {
-            if blockTextFieldValidateAndSetErrorStatus(textField) {
-                blockTextFieldFocusNext(textField)
+            if validateBlockFieldAndSetErrorStatus(textField) {
+                focusNextBlockField(textField)
             }
         }
     }
 
-    func blockTextFieldValidateAndSetErrorStatus(textField : UITextField) -> Bool {
+    func validateBlockFieldAndSetErrorStatus(textField: UITextField) -> Bool {
         if textField.text?.characters.count == 6 {
             if KulloConnector.isValidMasterKeyBlock(textField.text!) {
                 setTextFieldDesignToNormalStatus(textField)
@@ -255,7 +228,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func blockTextFieldFocusNext(textField : UITextField) {
+    func focusNextBlockField(textField: UITextField) {
         let indexOfTextfield = blockTextFields.indexOf(textField)
         if indexOfTextfield < blockTextFields.count - 1 {
             blockTextFields[indexOfTextfield! + 1].becomeFirstResponder()
@@ -264,12 +237,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func setTextFieldDesignToErrorStatus(textField : UITextField) {
+    func setTextFieldDesignToErrorStatus(textField: UITextField) {
         textField.backgroundColor = colorTextFieldErrorBG
         textField.textColor = colorTextFieldErrorText
     }
 
-    func setTextFieldDesignToNormalStatus(textField : UITextField) {
+    func setTextFieldDesignToNormalStatus(textField: UITextField) {
         textField.backgroundColor = colorTextFieldBG
         textField.textColor = colorTextFieldText
     }

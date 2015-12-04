@@ -11,18 +11,22 @@ class MoreViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
 
     enum Section: Int {
-        case Avatar, Settings, Logout, About, Feedback
+        case Avatar, Settings, Account, About, Feedback
     }
     let numberOfSections = 5
 
     let numberOfAvatarRows = 1
     let numberOfSettingsRows = 3
-    let numberOfLogoutRows = 1
+    let numberOfAccountRows = 3
     let numberOfAboutRows = 4
     let numberOfFeedbackRows = 1
 
     enum SettingsRow: Int {
         case Name, Organization, Footer
+    }
+
+    enum AccountRow: Int {
+        case Address, MasterKey, Logout
     }
 
     enum AboutRow: Int {
@@ -79,8 +83,8 @@ extension MoreViewController : UITableViewDataSource {
             return numberOfAvatarRows
         case .Settings:
             return numberOfSettingsRows
-        case .Logout:
-            return numberOfLogoutRows
+        case .Account:
+            return numberOfAccountRows
         case .About:
             return numberOfAboutRows
         case .Feedback:
@@ -121,9 +125,17 @@ extension MoreViewController : UITableViewDataSource {
                 cell = getActionCell(tableView, indexPath: indexPath, cellType: .Footer)
             }
 
-        case .Logout:
-            cell = getActionCell(tableView, indexPath: indexPath, cellType: .Logout)
-            
+        case .Account:
+            switch AccountRow(rawValue: indexPath.row)! {
+            case .Address:
+                cell = getEditInlineCell(tableView, indexPath: indexPath, cellType: .Address)
+                cell.userInteractionEnabled = false
+            case .MasterKey:
+                cell = getActionCell(tableView, indexPath: indexPath, cellType: .MasterKey)
+            case .Logout:
+                cell = getActionCell(tableView, indexPath: indexPath, cellType: .Logout)
+            }
+
         case .About:
             switch AboutRow(rawValue: indexPath.row)! {
             case .Version:
@@ -183,8 +195,16 @@ extension MoreViewController : UITableViewDelegate {
                 showDetailViewControllerForMoreCellType(.Footer)
             }
 
-        case .Logout:
-            logoutClicked()
+        case .Account:
+            switch AccountRow(rawValue: indexPath.row)! {
+            case .Address:
+                // do nothing on selection
+                break
+            case .MasterKey:
+                showDetailViewControllerForMoreCellType(.MasterKey)
+            case .Logout:
+                logoutClicked()
+            }
 
         case .About:
             switch AboutRow(rawValue: indexPath.row)! {
@@ -207,7 +227,7 @@ extension MoreViewController : UITableViewDelegate {
         let detailViewControllerName: String
         switch cellType {
 
-        case .Footer:
+        case .Footer, .MasterKey:
             detailViewControllerName = "MoreEditTextViewController"
 
         case .Version:
@@ -224,8 +244,11 @@ extension MoreViewController : UITableViewDelegate {
         }
         let detailViewController = storyboard!.instantiateViewControllerWithIdentifier(detailViewControllerName)
 
-        if cellType == .Footer {
-            (detailViewController as! MoreEditTextViewController).cellType = .Footer
+        switch cellType {
+        case .Footer, .MasterKey:
+            (detailViewController as! MoreEditTextViewController).cellType = cellType
+        default:
+            break
         }
         navigationController!.pushViewController(detailViewController, animated: true)
     }
@@ -323,14 +346,14 @@ extension MoreViewController : UINavigationControllerDelegate, UIImagePickerCont
 }
 
 enum MoreCellType {
-    case Undefined
-    
     case Image
-    
+
     case Name
     case Organization
     case Footer
-    
+
+    case Address
+    case MasterKey
     case Logout
 
     case Version

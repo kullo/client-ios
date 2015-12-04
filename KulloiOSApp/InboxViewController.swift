@@ -34,10 +34,14 @@ class InboxViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        // scroll to top if refreshing so that refresh control is visible
+        if KulloConnector.sharedInstance.isSyncRunning() {
+            tableView.setContentOffset(CGPointMake(0, -refreshControl.frame.height), animated: false)
+        }
+
         KulloConnector.sharedInstance.addSessionEventsDelegate(self)
         KulloConnector.sharedInstance.addSyncDelegate(self)
         updateDataAndRefreshTable()
-        refreshControl.endRefreshing()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -58,6 +62,9 @@ class InboxViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
 
+        // necessary to unfreeze refresh control after re-entering view
+        refreshControl.endRefreshing()
+
         KulloConnector.sharedInstance.removeSyncDelegate(self)
         KulloConnector.sharedInstance.removeSessionEventsDelegate(self)
     }
@@ -65,8 +72,8 @@ class InboxViewController: UIViewController {
     // MARK: Actions
 
     func conversationsRefresh(refreshControl: UIRefreshControl) {
-        updateListAppearance()
         KulloConnector.sharedInstance.sync(.WithoutAttachments)
+        updateListAppearance()
     }
 
     // MARK: Data
@@ -79,13 +86,20 @@ class InboxViewController: UIViewController {
 
     func updateListAppearance() {
         let haveSession = KulloConnector.sharedInstance.hasSession()
+        let syncIsRunning = KulloConnector.sharedInstance.isSyncRunning()
         let conversationsEmpty = conversationIds.count == 0
+
+        if syncIsRunning {
+            refreshControl.beginRefreshing()
+        } else {
+            refreshControl.endRefreshing()
+        }
 
         // show pull to refresh hint only when
         // * we have a session
         // * we have no conversations
-        // * we're not refreshing
-        let showSwipeHint = haveSession && conversationsEmpty && !refreshControl.refreshing
+        // * we're not syncing
+        let showSwipeHint = haveSession && conversationsEmpty && !syncIsRunning
         if swipeHintImageView.hidden != !showSwipeHint {
             UIView.transitionWithView(
                 swipeHintImageView,
@@ -122,6 +136,11 @@ class InboxViewController: UIViewController {
             default: break
             }
         }
+    }
+
+    @IBAction func goToInbox(sender: UIStoryboardSegue) {
+        // Do nothing, we are already at the inbox.
+        // Used for DismissSegues.
     }
 
     @IBAction func logout(sender: UIStoryboardSegue) {
@@ -171,8 +190,6 @@ extension InboxViewController : ClientCreateSessionDelegate {
 extension InboxViewController : SyncDelegate {
 
     func syncErrorDraftAttachmentsTooBig(convId: Int64) {
-        refreshControl.endRefreshing()
-
         showInfoDialog(
             NSLocalizedString("Attachments too big", comment: ""),
             message: NSLocalizedString("Attachments at one conversation are too big.", comment: "")
@@ -180,12 +197,11 @@ extension InboxViewController : SyncDelegate {
     }
 
     func syncFinished() {
-        updateDataAndRefreshTable()
-        refreshControl.endRefreshing()
+        updateListAppearance()
     }
 
     func syncError(error: String) {
-        refreshControl.endRefreshing()
+        updateListAppearance()
 
         showInfoDialog(
             NSLocalizedString("Synchronization error", comment: ""),

@@ -5,13 +5,10 @@
 "Adding recipient" = "Empfänger hinzufügen";
 
 /* No comment provided by engineer. */
+"Address" = "Adresse";
+
+/* No comment provided by engineer. */
 "Address field empty" = "Adressfeld leer";
-
-/* No comment provided by engineer. */
-"Address is empty" = "Das Adressfeld ist leer";
-
-/* No comment provided by engineer. */
-"Address is invalid" = "Die Adresse ist keine gültige Kullo-Adresse";
 
 /* No comment provided by engineer. */
 "Already added" = "Bereits hinzugefügt";
@@ -53,9 +50,6 @@
 "Edit text" = "Text bearbeiten";
 
 /* No comment provided by engineer. */
-"Empty blocks" = "Der MasterKey ist nicht vollständig";
-
-/* No comment provided by engineer. */
 "Enter name" = "Namen eingeben";
 
 /* No comment provided by engineer. */
@@ -75,12 +69,6 @@
 
 /* No comment provided by engineer. */
 "Invalid address" = "Ungültige Adresse";
-
-/* No comment provided by engineer. */
-"Invalid block" = "Ungültiger Block";
-
-/* No comment provided by engineer. */
-"Invalid entries" = "Ungültige Einträge";
 
 /* No comment provided by engineer. */
 "Libraries" = "Bibliotheken";
@@ -108,6 +96,9 @@
 
 /* No comment provided by engineer. */
 "logout_warning" = "Nach dem Logout musst du MasterKey und Absender-Informationen erneut eingeben.";
+
+/* No comment provided by engineer. */
+"MasterKey" = "MasterKey";
 
 /* No comment provided by engineer. */
 "Name" = "Name";
@@ -149,10 +140,22 @@
 "Recipient unknown" = "Empfänger unbekannt";
 
 /* No comment provided by engineer. */
-"register_alert_message" = "Die Registrierung in Kullo für iOS ist noch nicht möglich. Wir arbeiten daran!\n\nBitte nutze Kullo für Windows, OS X oder Linux um eine Kullo-Adresse zu registrieren: www.kullo.net";
+"Registering address" = "Registeriere Adresse";
 
 /* No comment provided by engineer. */
-"register_alert_title" = "Registrierung nur per Desktop-Client";
+"Registration failed" = "Registrierung fehlgeschlagen";
+
+/* No comment provided by engineer. */
+"registration_address_blocked" = "Diese Adresse kann nicht registriert werden, weil sie gesperrt ist.";
+
+/* No comment provided by engineer. */
+"registration_address_challenge" = "Diese Adresse kann nur über Kullo für Desktop registriert werden.";
+
+/* No comment provided by engineer. */
+"registration_address_exists" = "Diese Adresse existiert bereits.";
+
+/* No comment provided by engineer. */
+"registration_invalid_address" = "Diese Adresse ist ungültig. Bitte stelle sicher, dass du ausschließlich erlaubte Zeichen verwendest.";
 
 /* No comment provided by engineer. */
 "Sending messages" = "Sende Nachrichten";
@@ -171,6 +174,18 @@
 
 /* No comment provided by engineer. */
 "The entered address is invalid." = "Die eingegebene Adresse ist ungültig.";
+
+/* No comment provided by engineer. */
+"validation_empty_address" = "Bitte gib die Adresse des Kullo-Kontos ein, in das du dich einloggen willst.";
+
+/* No comment provided by engineer. */
+"validation_empty_blocks" = "Bitte fülle alle MasterKey-Blöcke aus.";
+
+/* No comment provided by engineer. */
+"validation_invalid_address" = "Die Kullo-Adresse ist ungültig. Eine gültige Kullo-Adresse sieht so aus: hi#kullo.net";
+
+/* No comment provided by engineer. */
+"validation_invalid_blocks" = "Ein oder mehrere MasterKey-Blöcke sind ungültig. Bitte überprüfe, dass du die Zahlen richtig eingegeben hast. Ein gültiger Block besteht aus 6 Ziffern.";
 
 /* No comment provided by engineer. */
 "Version" = "Version";

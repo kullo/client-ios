@@ -11,14 +11,14 @@
 /* Class = "UINavigationItem"; title = "Compose"; ObjectID = "3Qk-af-SMq"; */
 "3Qk-af-SMq.title" = "Schreiben";
 
-/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "3TC-Cn-ND7"; */
-"3TC-Cn-ND7.normalTitle" = "Registrieren";
-
 /* Class = "UILabel"; text = "Doe Inc."; ObjectID = "5qf-IK-PDp"; */
 "5qf-IK-PDp.text" = "Kullo GmbH";
 
 /* Class = "UITextField"; placeholder = "Block O"; ObjectID = "79q-jj-8at"; */
 "79q-jj-8at.placeholder" = "Block O";
+
+/* Class = "UILabel"; text = "#kullo.net"; ObjectID = "8Ic-K5-LKJ"; */
+"8Ic-K5-LKJ.text" = "#kullo.net";
 
 /* Class = "UITextField"; placeholder = "Block B"; ObjectID = "8RR-Km-JnN"; */
 "8RR-Km-JnN.placeholder" = "Block B";
@@ -26,11 +26,23 @@
 /* Class = "UITextField"; placeholder = "Block G"; ObjectID = "AJV-dQ-m2t"; */
 "AJV-dQ-m2t.placeholder" = "Block G";
 
+/* Class = "UIViewController"; title = "Login"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Einloggen";
+
 /* Class = "UILabel"; text = "Kullo address"; ObjectID = "BfX-65-I7I"; */
 "BfX-65-I7I.text" = "Kullo-Adresse";
 
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "CVK-Za-my8"; */
+"CVK-Za-my8.normalTitle" = "Registrieren";
+
 /* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ChC-ju-5hr"; */
 "ChC-ju-5hr.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "This may take a few minutes. Please be patient."; ObjectID = "Ezo-cu-Zfm"; */
+"Ezo-cu-Zfm.text" = "Das kann einige Minuten dauern. Bitte habe Geduld.";
+
+/* Class = "UIViewController"; title = "Registration"; ObjectID = "F35-Bi-mh7"; */
+"F35-Bi-mh7.title" = "Registrierung";
 
 /* Class = "UITextField"; placeholder = "Block K"; ObjectID = "GyY-5R-r4g"; */
 "GyY-5R-r4g.placeholder" = "Block K";
@@ -43,6 +55,9 @@
 
 /* Class = "UILabel"; text = "MasterKey"; ObjectID = "L8X-sr-mmA"; */
 "L8X-sr-mmA.text" = "MasterKey";
+
+/* Class = "UINavigationItem"; title = "Login"; ObjectID = "LJy-LU-PLu"; */
+"LJy-LU-PLu.title" = "Einloggen";
 
 /* Class = "UILabel"; text = "Avatar"; ObjectID = "Lak-QN-Kl3"; */
 "Lak-QN-Kl3.text" = "Avatar";
@@ -65,6 +80,9 @@
 /* Class = "UILabel"; text = "John Doe"; ObjectID = "ObQ-DL-0k7"; */
 "ObQ-DL-0k7.text" = "John Doe";
 
+/* Class = "UIBarButtonItem"; title = "Next"; ObjectID = "P3v-lZ-M2e"; */
+"P3v-lZ-M2e.title" = "Weiter";
+
 /* Class = "UITextView"; text = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nGermany\n\nManaging Directors/Vertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nCommercial register/Registergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nVAT identification number/USt-ID:\nDE294537976\n\nBerlin office:\nKullo GmbH\nc/o xit GmbH\nBülowstraße 66\n10783 Berlin\nGermany"; ObjectID = "PeU-cW-Z6C"; */
 "PeU-cW-Z6C.text" = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nDeutschland\n\nVertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nRegistergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nUSt-ID:\nDE294537976\n\nBüro Berlin:\nKullo GmbH\nc/o xit GmbH\nBülowstraße 66\n10783 Berlin\nDeutschland";
 
@@ -83,8 +101,17 @@
 /* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "UCU-fz-qr2"; */
 "UCU-fz-qr2.title" = "Abbrechen";
 
+/* Class = "UINavigationItem"; title = "Keys"; ObjectID = "Udi-4a-1AL"; */
+"Udi-4a-1AL.title" = "Schlüssel";
+
+/* Class = "UILabel"; text = "Choose your Kullo address"; ObjectID = "VnJ-bJ-DW5"; */
+"VnJ-bJ-DW5.text" = "Wähle deine Kullo-Adresse";
+
 /* Class = "UINavigationItem"; title = "New conversation"; ObjectID = "WL2-3u-prC"; */
 "WL2-3u-prC.title" = "Neue Konversation";
+
+/* Class = "UILabel"; text = "What we're doing right now is generating strong cryptographic keys for you so that you can communicate securely. Finding secure keys takes some time because we need to make sure they are as secure as advertised. We do it on your device so that nobody else (including us) learns about them."; ObjectID = "Xd7-ed-TSn"; */
+"Xd7-ed-TSn.text" = "Wir erzeugen gerade starke kryptographische Schlüssel, damit du sicher kommunizieren kannst. Schlüssel zu suchen dauert ein wenig, denn wir müssen dafür sorgen, dass sie wirklich sicher sind. Wir erzeugen sie auf deinem Gerät, damit sie niemand anderes (uns eingeschlossen) einsehen kann.";
 
 /* Class = "UILabel"; text = "Kullo Address"; ObjectID = "XfA-Sk-Spb"; */
 "XfA-Sk-Spb.text" = "Kullo-Adresse";
@@ -94,6 +121,9 @@
 
 /* Class = "UITextField"; placeholder = "Block E"; ObjectID = "XjT-tR-yHN"; */
 "XjT-tR-yHN.placeholder" = "Block E";
+
+/* Class = "UILabel"; text = "You can use letters and numbers. You can use more than one word, separated by . or - or _."; ObjectID = "YDp-zM-j1V"; */
+"YDp-zM-j1V.text" = "Du kannst Buchstaben und Ziffern benutzen. Außerdem kannst du . oder - oder _ benutzen, um deine Adresse zu unterteilen.";
 
 /* Class = "UITextField"; text = "EditCellContent"; ObjectID = "aRy-fS-mxF"; */
 "aRy-fS-mxF.text" = "EditCellContent";
@@ -119,14 +149,32 @@
 /* Class = "UILabel"; text = "contract.pdf"; ObjectID = "eOT-8Q-kx9"; */
 "eOT-8Q-kx9.text" = "contract.pdf";
 
+/* Class = "UIViewController"; title = "Welcome"; ObjectID = "eYV-k4-J4T"; */
+"eYV-k4-J4T.title" = "Willkommen";
+
+/* Class = "UILabel"; text = "Need a new account?"; ObjectID = "efa-Sv-FzQ"; */
+"efa-Sv-FzQ.text" = "Benötigst du eine neue Adresse?";
+
 /* Class = "UILabel"; text = "CellContent"; ObjectID = "egp-ym-rN7"; */
 "egp-ym-rN7.text" = "CellContent";
 
 /* Class = "UINavigationItem"; title = "Inbox"; ObjectID = "fA0-y3-c7N"; */
 "fA0-y3-c7N.title" = "Posteingang";
 
+/* Class = "UINavigationItem"; title = "Address"; ObjectID = "fCH-i6-8qX"; */
+"fCH-i6-8qX.title" = "Adresse";
+
+/* Class = "UINavigationItem"; title = "Welcome"; ObjectID = "g5e-1t-qIV"; */
+"g5e-1t-qIV.title" = "Willkommen";
+
+/* Class = "UITextField"; placeholder = "your.username"; ObjectID = "g7p-5P-Qol"; */
+"g7p-5P-Qol.placeholder" = "dein.benutzername";
+
 /* Class = "UITextField"; placeholder = "Block I"; ObjectID = "gr3-g7-Pjm"; */
 "gr3-g7-Pjm.placeholder" = "Block I";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "iSO-H5-JSJ"; */
+"iSO-H5-JSJ.normalTitle" = "Einloggen";
 
 /* Class = "UITextField"; placeholder = "Block F"; ObjectID = "j0E-ui-Ct5"; */
 "j0E-ui-Ct5.placeholder" = "Block F";
@@ -136,6 +184,9 @@
 
 /* Class = "UITextField"; placeholder = "Block P"; ObjectID = "kFi-UX-mKF"; */
 "kFi-UX-mKF.placeholder" = "Block P";
+
+/* Class = "UILabel"; text = "Generating keys"; ObjectID = "lD5-ne-Kwf"; */
+"lD5-ne-Kwf.text" = "Erzeuge Schlüssel";
 
 /* Class = "UITextField"; placeholder = "Block N"; ObjectID = "lKk-ER-omB"; */
 "lKk-ER-omB.placeholder" = "Block N";
@@ -148,6 +199,9 @@
 
 /* Class = "UIBarButtonItem"; title = "Create"; ObjectID = "orP-jt-Tet"; */
 "orP-jt-Tet.title" = "Erstellen";
+
+/* Class = "UILabel"; text = "Already have an account?"; ObjectID = "os7-Ye-HNU"; */
+"os7-Ye-HNU.text" = "Hast du bereits eine Adresse?";
 
 /* Class = "UIBarButtonItem"; title = "Download"; ObjectID = "poX-uh-lVf"; */
 "poX-uh-lVf.title" = "Herunterladen";
@@ -172,6 +226,9 @@
 
 /* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "tqR-YT-OqM"; */
 "tqR-YT-OqM.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIBarButtonItem"; title = "Register"; ObjectID = "uan-ZT-9fR"; */
+"uan-ZT-9fR.title" = "Registrieren";
 
 /* Class = "UIButton"; normalTitle = "Add"; ObjectID = "ucv-vI-50h"; */
 "ucv-vI-50h.normalTitle" = "Hinzufügen";

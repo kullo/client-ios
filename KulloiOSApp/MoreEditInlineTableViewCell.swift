@@ -6,7 +6,7 @@ class MoreEditInlineTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     // MARK: Properties
     
-    var cellType: MoreCellType = MoreCellType.Undefined
+    var cellType: MoreCellType?
     
     @IBOutlet var cellTitle: UILabel!
     @IBOutlet var cellEditContent: UITextField!
@@ -27,6 +27,13 @@ class MoreEditInlineTableViewCell: UITableViewCell, UITextFieldDelegate {
         self.cellType = cellType
         
         switch cellType {
+        case .Address:
+            let address = KulloConnector.sharedInstance.getClientAddress()
+            cellTitle.text = NSLocalizedString("Address", comment: "")
+            cellEditContent.placeholder = ""
+            cellEditContent.text = address
+            cellEditContent.userInteractionEnabled = false
+
         case .Name:
             let name = KulloConnector.sharedInstance.getClientName()
             cellTitle.text = NSLocalizedString("Name", comment: "")
@@ -46,15 +53,12 @@ class MoreEditInlineTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
 
     @IBAction func textfieldEditingChanged(textField: UITextField) {
-        
-        let text = textField.text
-        
-        if let _ = text {
+        if let text = textField.text, let cellType = self.cellType {
             switch cellType {
             case MoreCellType.Name:
-                KulloConnector.sharedInstance.setClientName(text!)
+                KulloConnector.sharedInstance.setClientName(text)
             case MoreCellType.Organization:
-                KulloConnector.sharedInstance.setClientOrganization(text!)
+                KulloConnector.sharedInstance.setClientOrganization(text)
             default: break
             }
         }

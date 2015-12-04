@@ -14,6 +14,8 @@
 		65D274181BFB1D9900405E29 /* MoreLicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */; };
 		65D2741C1BFB23A100405E29 /* licenses.html in Resources */ = {isa = PBXBuildFile; fileRef = 65D2741B1BFB23A100405E29 /* licenses.html */; };
 		65D4E8B51C046CE500996930 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D4E8B41C046CE500996930 /* UIViewController+Keyboard.swift */; };
+		65DA02901C1087D300D77DD6 /* GenerateKeysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */; };
+		65DA02921C109FBA00D77DD6 /* ChooseAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */; };
 		65DA3DD51BFCBA490058430E /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA3DD41BFCBA490058430E /* StorageManager.swift */; };
 		A0CC35119FCFAF9CFAC26A69 /* Pods_KulloiOSApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */; };
 		F2318CB51BCEB40200EEA8A5 /* KulloConnector_Listeners.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */; };
@@ -70,6 +72,8 @@
 		65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreLicensesViewController.swift; sourceTree = "<group>"; };
 		65D2741B1BFB23A100405E29 /* licenses.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = licenses.html; sourceTree = "<group>"; };
 		65D4E8B41C046CE500996930 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Keyboard.swift"; path = "thirdparty/UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateKeysViewController.swift; sourceTree = "<group>"; };
+		65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAddressViewController.swift; sourceTree = "<group>"; };
 		65DA3DD41BFCBA490058430E /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E9A02B38B2F8490132406AE5 /* Pods-KulloiOSApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloConnector_Listeners.swift; sourceTree = "<group>"; };
@@ -318,6 +322,8 @@
 			isa = PBXGroup;
 			children = (
 				F298C5EC1BBFDF9D00081487 /* LoginViewController.swift */,
+				65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */,
+				65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -464,11 +470,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65DA02901C1087D300D77DD6 /* GenerateKeysViewController.swift in Sources */,
 				F2640A701BD040970073BFE9 /* ColorUtils.swift in Sources */,
 				F298C60B1BC024FE00081487 /* StringUtils.swift in Sources */,
 				F2A989651BCFA0C100F42AD7 /* AlertUtils.swift in Sources */,
 				F2B3CD291BCAE4FD001A4DC0 /* KulloConnector_DelegateProtocols.swift in Sources */,
 				F298C5ED1BBFDF9D00081487 /* LoginViewController.swift in Sources */,
+				65DA02921C109FBA00D77DD6 /* ChooseAddressViewController.swift in Sources */,
 				F293FB141BC0A54B0054CB91 /* AvatarUtils.swift in Sources */,
 				F29D81841BDF72FB00C0687A /* MoreEditTextViewController.swift in Sources */,
 				F2F200901BC094280000E80E /* InboxTableViewCell.swift in Sources */,

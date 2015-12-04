@@ -12,6 +12,9 @@ class MoreActionTableViewCell: UITableViewCell {
             let footer = KulloConnector.sharedInstance.getClientFooter()
             cellTitle.text = NSLocalizedString("Footer", comment: "")
             cellContent.text = footer
+        case .MasterKey:
+            cellTitle.text = NSLocalizedString("MasterKey", comment: "")
+            cellContent.text = ""
         case .Logout:
             cellTitle.text = NSLocalizedString("Logout", comment: "")
             cellContent.text = ""

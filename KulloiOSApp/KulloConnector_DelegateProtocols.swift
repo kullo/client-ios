@@ -2,6 +2,15 @@
 
 import LibKullo
 
+protocol RegisterAccountDelegate: class {
+
+    func registerAccountChallengeNeeded(address: KAAddress, challenge: KAChallenge)
+    func registerAccountAddressNotAvailable(address: KAAddress, reason: KAAddressNotAvailableReason)
+    func registerAccountFinished(address: KAAddress, masterKey: KAMasterKey)
+    func registerAccountError(error: String)
+
+}
+
 protocol ClientCheckLoginDelegate: class {
     
     func checkLoginSuccess(address: KAAddress, masterKey: KAMasterKey)
@@ -38,17 +47,26 @@ protocol MessageAttachmentsSaveToDelegate: class {
         
 }
 
+protocol GenerateKeysDelegate: class {
+
+    func generateKeysProgress(progress: Int8)
+    func generateKeysFinished()
+
+}
+
 @objc protocol SessionEventsDelegate: class {
     
     optional func sessionEventConversationAdded(convId: Int64)
     optional func sessionEventConversationChanged(convId: Int64)
     optional func sessionEventConversationRemoved(convId: Int64)
-    optional func sessionEventMessageAdded(convId: Int64, msgId: Int64)
-    optional func sessionEventMessageRemoved(convId: Int64, msgId: Int64)
-    optional func sessionEventMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64)
     optional func sessionEventDraftStateChanged(convId: Int64)
     optional func sessionEventDraftTextChanged(convId: Int64)
     optional func sessionEventDraftAttachmentAdded(convId: Int64)
     optional func sessionEventDraftAttachmentRemoved(convId: Int64)
-        
+    optional func sessionEventMessageAdded(convId: Int64, msgId: Int64)
+    optional func sessionEventMessageDeliveryChanged(convId: Int64, msgId: Int64)
+    optional func sessionEventMessageStateChanged(convId: Int64, msgId: Int64)
+    optional func sessionEventMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64)
+    optional func sessionEventMessageRemoved(convId: Int64, msgId: Int64)
+
 }

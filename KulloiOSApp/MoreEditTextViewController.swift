@@ -7,29 +7,32 @@ class MoreEditTextViewController: UIViewController {
     
     // MARK: Properties
     
-    var cellType: MoreCellType = MoreCellType.Undefined
+    var cellType: MoreCellType?
     @IBOutlet var editTextView: UITextView!
 
     // MARK: View lifecycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        switch cellType {
-        case MoreCellType.Footer:
-            self.title = NSLocalizedString("Edit footer", comment: "")
-            self.editTextView.text = KulloConnector.sharedInstance.getClientFooter()
-            self.editTextView.becomeFirstResponder()
-            self.editTextView.editable = true
-        default:
-            self.title = NSLocalizedString("Edit text", comment: "")
-        }
-    }
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         setupKeyboardNotifcationListenerForScrollView(editTextView)
+
+        if let cellType = self.cellType {
+            switch cellType {
+            case .Footer:
+                title = NSLocalizedString("Edit footer", comment: "")
+                editTextView.text = KulloConnector.sharedInstance.getClientFooter()
+                editTextView.becomeFirstResponder()
+                editTextView.editable = true
+            case .MasterKey:
+                title = NSLocalizedString("MasterKey", comment: "")
+                editTextView.text = KulloConnector.sharedInstance.getClientMasterKeyPem()
+                editTextView.editable = false
+                editTextView.font = fontMasterKey
+            default:
+                title = NSLocalizedString("Edit text", comment: "")
+            }
+        }
     }
 
     override func viewWillDisappear(animated: Bool) {

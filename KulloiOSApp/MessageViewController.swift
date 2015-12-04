@@ -29,13 +29,13 @@ class MessageViewController: UIViewController {
     // MARK: refresh content
 
     func refreshContent() {
-        if let _ = messageId {
-            avatarImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId!, size: avatarImageView.frame.size)
+        if let messageId = messageId {
+            avatarImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId, size: avatarImageView.frame.size)
             avatarImageView.showAsCircle()
-            senderNameLabel.text = KulloConnector.sharedInstance.getSenderName(messageId!)
-            senderOrganizationLabel.text = KulloConnector.sharedInstance.getSenderOrganization(messageId!)
-            dateLabel.text = KulloConnector.sharedInstance.getMessageSentDate(messageId!).formatWithSymbolicNames()
-            messageTextView.attributedText = getMessageCombinedWithImprint(messageId!)
+            senderNameLabel.text = KulloConnector.sharedInstance.getSenderName(messageId)
+            senderOrganizationLabel.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
+            dateLabel.text = KulloConnector.sharedInstance.getMessageSentDate(messageId).formatWithSymbolicNames()
+            messageTextView.attributedText = getMessageCombinedWithImprint(messageId)
             checkForAttachmentsAndSetButtonVisibilty()
         } else {
             log.error("In MessageViewController without messageId.")
@@ -87,8 +87,8 @@ class MessageViewController: UIViewController {
             if let navController = segue.destinationViewController as? UINavigationController {
                 let attachmentsViewController = navController.viewControllers[0] as? AttachmentsViewController
                 
-                if let _ = attachmentsViewController {
-                    attachmentsViewController!.messageId = messageId
+                if let attachmentsViewController = attachmentsViewController {
+                    attachmentsViewController.messageId = messageId
                 }
             }
         }

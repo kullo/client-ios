@@ -15,16 +15,21 @@ class KulloConnector {
     private var session: KASession?
     private var storage: StorageManager?
 
+    private var generateKeysTask: KAAsyncTask?
+    private var registerAccountTask: KAAsyncTask?
     private var checkLoginTask: KAAsyncTask?
     private var createSessionTask: KAAsyncTask?
-    private var syncTask: KAAsyncTask?
     private var clientAddressExistsTask: KAAsyncTask?
     private var addAttachmentTask: KAAsyncTask?
     private var messageAttachmentsSaveToTask: KAAsyncTask?
 
+    private var generateKeysProgress: Int8 = 0
+    private var registration: KARegistration?
+
     // MARK: delegates
 
     //FIXME: make weak
+    private var generateKeysDelegates = [GenerateKeysDelegate]()
     private var syncDelegates = [SyncDelegate]()
     private var sessionEventsDelegates = [SessionEventsDelegate]()
 
@@ -53,7 +58,7 @@ class KulloConnector {
 
     func checkLogin(address: String, masterKeyBlocks: [String], delegate: ClientCheckLoginDelegate) {
         log.info("Logging in with address \(address)")
-        
+
         if let kaAddress = KAAddress.create(address),
             let kaMasterKey = KAMasterKey.createFromDataBlocks(masterKeyBlocks) {
 
@@ -63,24 +68,25 @@ class KulloConnector {
                 listener: ClientCheckLoginListener(delegate: delegate))
         }
     }
-    
-    // MARK: Login - input validation
+
     class func isValidKulloAddress(address: String) -> Bool {
         return (KAAddress.create(address) != nil)
     }
-    
+
     class func isValidMasterKeyBlock(block: String) -> Bool {
         return KAMasterKey.isValidBlock(block)
     }
-    
+
     // MARK: Logout
-    
+
     func logout() {
         log.info("Logging out user.");
-        
+
+        session?.syncer()?.asyncTask()?.cancel()
+        generateKeysTask?.cancel()
+        registerAccountTask?.cancel()
         checkLoginTask?.cancel()
         createSessionTask?.cancel()
-        syncTask?.cancel()
         clientAddressExistsTask?.cancel()
         addAttachmentTask?.cancel()
         messageAttachmentsSaveToTask?.cancel()
@@ -91,9 +97,9 @@ class KulloConnector {
 
         log.info("User logged out.");
     }
-    
+
     //MARK: Session creation
-    
+
     func createSession(userSettings: KAUserSettings, delegate: ClientCreateSessionDelegate) {
         if storage == nil || storage!.userAddress != userSettings.address()! {
             storage = StorageManager(address: userSettings.address()!)
@@ -117,6 +123,7 @@ class KulloConnector {
 
     func setSession(session: KASession) {
         self.session = session
+        self.session?.syncer()?.setListener(SyncerListener(kulloConnector: self))
     }
 
     //MARK: Update/Store/Load/Remove user settings
@@ -133,7 +140,59 @@ class KulloConnector {
             assertionFailure("session or storage not available")
         }
     }
-    
+
+    //MARK: Registration
+
+    func addGenerateKeysDelegate(delegate: GenerateKeysDelegate) {
+        generateKeysDelegates.append(delegate)
+    }
+
+    func removeGenerateKeysDelegate(delegate: GenerateKeysDelegate) {
+        generateKeysDelegates = generateKeysDelegates.filter { $0 !== delegate }
+    }
+
+    func getGenerateKeysProgress() -> Int8 {
+        return generateKeysProgress
+    }
+
+    func startGenerateKeysIfNecessary() {
+        let generateKeysNotRunning = generateKeysTask == nil || generateKeysTask!.isDone()
+        if registration == nil && generateKeysNotRunning {
+            generateKeysTask = client.generateKeysAsync(ClientGenerateKeysListener(kulloConnector: self))
+        }
+    }
+
+    func generateKeys_progress(progress: Int8) {
+        generateKeysProgress = progress
+        for delegate in generateKeysDelegates {
+            delegate.generateKeysProgress(progress)
+        }
+    }
+
+    func generateKeys_finished(registration: KARegistration) {
+        self.registration = registration
+        for delegate in generateKeysDelegates {
+            delegate.generateKeysFinished()
+        }
+    }
+
+    func registerAccount(address: KAAddress, delegate: RegisterAccountDelegate) {
+        if let registration = registration {
+            registerAccountTask = registration.registerAccountAsync(
+                address,
+                challenge: nil,
+                challengeAnswer: "",
+                listener: RegisterAccountListener(kulloConnector: self, delegate: delegate)
+            )
+        }
+    }
+
+    func deleteGeneratedKeys() {
+        generateKeysProgress = 0
+        generateKeysTask = nil
+        registration = nil
+    }
+
     //MARK: Session events
     
     func addSessionEventsDelegate(delegate: SessionEventsDelegate) {
@@ -148,29 +207,32 @@ class KulloConnector {
         if let events = session?.notify(event) {
             for event in events as! [KAEvent] {
                 switch event.event {
-                case KAEventType.ConversationAdded:
+                case .ConversationAdded:
                     informDelegatesConversationAdded(event.conversationId)
-                case KAEventType.ConversationChanged:
+                case .ConversationChanged:
                     informDelegatesConversationChanged(event.conversationId)
-                case KAEventType.ConversationRemoved:
+                case .ConversationRemoved:
                     informDelegatesConversationRemoved(event.conversationId)
-                case KAEventType.MessageAdded:
-                    informDelegatesMessageAdded(event.conversationId, msgId: event.messageId)
-                case KAEventType.MessageRemoved:
-                    informDelegatesMessageRemoved(event.conversationId, msgId: event.messageId)
-                case KAEventType.MessageAttachmentsDownloadedChanged:
-                    informDelegatesMessageAttachmentsDownloadedChanged(event.conversationId, msgId: event.messageId)
-                case KAEventType.DraftStateChanged:
+                case .DraftStateChanged:
                     informDelegatesDraftStateChanged(event.conversationId)
-                case KAEventType.DraftTextChanged:
+                case .DraftTextChanged:
                     informDelegatesDraftTextChanged(event.conversationId)
-                case KAEventType.DraftAttachmentAdded:
+                case .DraftAttachmentAdded:
                     informDelegatesDraftAttachmentAdded(event.conversationId)
-                case KAEventType.DraftAttachmentRemoved:
+                case .DraftAttachmentRemoved:
                     informDelegatesDraftAttachmentRemoved(event.conversationId)
-
-                default:
-                    log.warning("Unhandled event type: \(event.event)")
+                case .MessageAdded:
+                    informDelegatesMessageAdded(event.conversationId, msgId: event.messageId)
+                case .MessageDeliveryChanged:
+                    informDelegatesMessageDeliveryChanged(event.conversationId, msgId: event.messageId)
+                case .MessageStateChanged:
+                    informDelegatesMessageStateChanged(event.conversationId, msgId: event.messageId)
+                case .MessageAttachmentsDownloadedChanged:
+                    informDelegatesMessageAttachmentsDownloadedChanged(event.conversationId, msgId: event.messageId)
+                case .MessageRemoved:
+                    informDelegatesMessageRemoved(event.conversationId, msgId: event.messageId)
+                case .LatestSenderChanged:
+                    break //FIXME: implement
                 }
             }
         }
@@ -191,24 +253,6 @@ class KulloConnector {
     func informDelegatesConversationRemoved(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
             delegate.sessionEventConversationRemoved?(convId)
-        }
-    }
-    
-    func informDelegatesMessageAdded(convId: Int64, msgId: Int64) {
-        for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageAdded?(convId, msgId: msgId)
-        }
-    }
-    
-    func informDelegatesMessageRemoved(convId: Int64, msgId: Int64) {
-        for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageRemoved?(convId, msgId: msgId)
-        }
-    }
-    
-    func informDelegatesMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64) {
-        for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageAttachmentsDownloadedChanged?(convId, msgId: msgId)
         }
     }
     
@@ -236,6 +280,36 @@ class KulloConnector {
         }
     }
     
+    func informDelegatesMessageAdded(convId: Int64, msgId: Int64) {
+        for delegate in self.sessionEventsDelegates {
+            delegate.sessionEventMessageAdded?(convId, msgId: msgId)
+        }
+    }
+
+    func informDelegatesMessageDeliveryChanged(convId: Int64, msgId: Int64) {
+        for delegate in self.sessionEventsDelegates {
+            delegate.sessionEventMessageDeliveryChanged?(convId, msgId: msgId)
+        }
+    }
+
+    func informDelegatesMessageStateChanged(convId: Int64, msgId: Int64) {
+        for delegate in self.sessionEventsDelegates {
+            delegate.sessionEventMessageStateChanged?(convId, msgId: msgId)
+        }
+    }
+
+    func informDelegatesMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64) {
+        for delegate in self.sessionEventsDelegates {
+            delegate.sessionEventMessageAttachmentsDownloadedChanged?(convId, msgId: msgId)
+        }
+    }
+
+    func informDelegatesMessageRemoved(convId: Int64, msgId: Int64) {
+        for delegate in self.sessionEventsDelegates {
+            delegate.sessionEventMessageRemoved?(convId, msgId: msgId)
+        }
+    }
+
     // MARK: Synchronization
 
     func addSyncDelegate(delegate: SyncDelegate) {
@@ -247,22 +321,27 @@ class KulloConnector {
     }
 
     func sync(syncMode: KASyncMode) {
-        syncTask = session?.syncer()?.runAsync(syncMode, listener: SyncerRunListener(kulloConnector: self))
+        session?.syncer()?.requestSync(syncMode)
+    }
+
+    func isSyncRunning() -> Bool {
+        let isDone = session?.syncer()?.asyncTask()?.isDone() ?? true
+        return !isDone
     }
     
-    func syncerRunListener_draftAttachmentsTooBig(convId: Int64) {
+    func syncerListener_draftAttachmentsTooBig(convId: Int64) {
         for delegate in syncDelegates {
             delegate.syncErrorDraftAttachmentsTooBig(convId)
         }
     }
     
-    func syncerRunListener_finished() {
+    func syncerListener_finished() {
         for delegate in syncDelegates {
             delegate.syncFinished()
         }
     }
     
-    func syncerRunListener_error(error: KANetworkError) {
+    func syncerListener_error(error: KANetworkError) {
         let errorText = KulloConnector.getNetworkErrorText(error)
         
         for delegate in syncDelegates {
@@ -416,49 +495,39 @@ class KulloConnector {
             return getAvatarWithText("", size: size)
         }
     }
-    
+
     // MARK: current user
-    
+
+    func getClientAddress() -> String {
+        return session?.userSettings()?.address()?.toString() ?? ""
+    }
+
     func getClientName() -> String {
-        if let userSettings = session?.userSettings() {
-            return userSettings.name()
-        } else {
-            return ""
-        }
+        return session?.userSettings()?.name() ?? ""
     }
-    
+
     func getClientOrganization() -> String {
-        if let userSettings = session?.userSettings() {
-            return userSettings.organization()
-        } else {
-            return ""
-        }
+        return session?.userSettings()?.organization() ?? ""
     }
-    
+
     func getClientFooter() -> String {
-        if let userSettings = session?.userSettings() {
-            return userSettings.footer()
-        } else {
-            return ""
-        }
+        return session?.userSettings()?.footer() ?? ""
     }
-    
+
+    func getClientMasterKeyPem() -> String {
+        return session?.userSettings()?.masterKey()?.pem() ?? ""
+    }
+
     func setClientName(name: String) {
-        if let userSettings = session?.userSettings() {
-            userSettings.setName(name)
-        }
+        session?.userSettings()?.setName(name)
     }
-    
+
     func setClientOrganization(organization: String) {
-        if let userSettings = session?.userSettings() {
-            userSettings.setOrganization(organization)
-        }
+        session?.userSettings()?.setOrganization(organization)
     }
-    
+
     func setClientFooter(footer: String) {
-        if let userSettings = session?.userSettings() {
-            userSettings.setFooter(footer)
-        }
+        session?.userSettings()?.setFooter(footer)
     }
 
     func hasAvatar() -> Bool {
@@ -476,7 +545,7 @@ class KulloConnector {
         }
         return UIImage(named: defaultAvatar)
     }
-    
+
     func setClientAvatar(newAvatarImage: UIImage) {
         if let userSettings = session?.userSettings() {
             if let imageData = getCompressedImageFromData(newAvatarImage, quality: avatarBestQuality) {
@@ -485,7 +554,7 @@ class KulloConnector {
             }
         }
     }
-    
+
     func getCompressedImageFromData(image: UIImage, quality: CGFloat) -> NSData? {
         if let imageData = UIImageJPEGRepresentation(image, quality) {
             if imageData.length > avatarMaxSize {
@@ -503,10 +572,9 @@ class KulloConnector {
             userSettings.setAvatar(NSData())
         }
     }
-
     
     // MARK: drafts
-    
+
     func saveDraftForConversation(convId: Int64, message: String, prepareToSend: Bool) {
         if let drafts = session?.drafts() {
             if prepareToSend == true {
@@ -519,32 +587,21 @@ class KulloConnector {
             }
         }
     }
-    
+
     func clearDraftForConversation(convId: Int64) {
-        if let drafts = session?.drafts() {
-            drafts.clear(convId)
-        }
+        session?.drafts()?.clear(convId)
     }
-    
+
     func getDraftText(convId: Int64) -> String {
-        if let drafts = session?.drafts() {
-            return drafts.text(convId)
-        } else {
-            return ""
-        }
+        return session?.drafts()?.text(convId) ?? ""
     }
     
     func getDraftState(convId: Int64) -> KADraftState {
-        if let drafts = session?.drafts() {
-            return drafts.state(convId)
-        } else {
-            log.warning("No draft state found for convId: \(convId), sending Editing state back.")
-            return KADraftState.Editing
-        }
+        return session?.drafts()?.state(convId) ?? KADraftState.Editing
     }
-    
+
     // MARK: messages
-    
+
     func getLatestMessageTimestamp(convId: Int64) -> KADateTime {
         if let conversations = session?.conversations() {
             return conversations.latestMessageTimestamp(convId)
@@ -552,7 +609,7 @@ class KulloConnector {
             return KAConversations.emptyConversationTimestamp()
         }
     }
-    
+
     func getAllMessageIdsSorted(convId: Int64) -> [Int64] {
         if let messages = session?.messages() {
             var messageList = [Int64]()
@@ -569,7 +626,7 @@ class KulloConnector {
             return []
         }
     }
-    
+
     func getMessageSentDate(messageId: Int64) -> KADateTime {
         if let messages = session?.messages() {
             return messages.dateSent(messageId)
@@ -579,21 +636,11 @@ class KulloConnector {
     }
 
     func getMessageText(messageId: Int64) -> String {
-        if let messages = session?.messages() {
-            return messages.text(messageId)
-        } else {
-            log.warning("Could not get messages from session for messageId: \(messageId)")
-            return ""
-        }
+        return session?.messages()?.text(messageId) ?? ""
     }
 
     func getSenderName(messageId: Int64) -> String {
-        if let senders = session?.senders() {
-            return senders.name(messageId)
-        } else {
-            log.warning("No senders at session for messageId: \(messageId)")
-            return ""
-        }
+        return session?.senders()?.name(messageId) ?? ""
     }
 
     func getSenderNameOrAddress(messageId: Int64) -> String {
@@ -611,18 +658,13 @@ class KulloConnector {
     }
 
     func getSenderOrganization(messageId: Int64) -> String {
-        if let senders = session?.senders() {
-            return senders.organization(messageId)
-        } else {
-            log.warning("No senders at session for messageId: \(messageId)")
-            return ""
-        }
+        return session?.senders()?.organization(messageId) ?? ""
     }
-    
+
     func getSenderAvatar(messageId: Int64, size: CGSize) -> UIImage {
         if let senders = session?.senders() {
             let imageData = senders.avatar(messageId)
-            
+
             if let image = UIImage(data: imageData) {
                 return image
             } else {
@@ -630,79 +672,52 @@ class KulloConnector {
                 let initials = getInitialsForName(name)
                 return getAvatarWithText(initials, size: size)
             }
-            
+
         } else {
             log.warning("No senders at session for messageId: \(messageId)")
             return getAvatarWithText("XY", size: size)
         }
     }
-    
+
     func getSenderImprint(messageId: Int64) -> String {
-        if let messages = session?.messages() {
-            return messages.footer(messageId)
-        } else {
-            log.warning("Could not get messages from session for messageId: \(messageId)")
-            return ""
-        }
+        return session?.messages()?.footer(messageId) ?? ""
     }
-    
+
     // MARK: message attachments
-    
+
     func getMessageAttachmentsDownloaded(messageId: Int64)  -> Bool {
-        if let messageAttachments = session?.messageAttachments() {
-            return messageAttachments.allAttachmentsDownloaded(messageId)
-            
-        } else {
-            log.warning("No KAMessageAttachments object found at session.")
-            return false
-        }
-        
+        return session?.messageAttachments()?.allAttachmentsDownloaded(messageId) ?? false
     }
-    
+
     func getMessageAttachmentsIds(messageId: Int64) -> [Int64]  {
         if let messageAttachments = session?.messageAttachments() {
-            
+
             var messageAttachmentIds = [Int64]()
             for messageAttachmentId in messageAttachments.allForMessage(messageId) as! [NSNumber] {
                 messageAttachmentIds.append(messageAttachmentId.longLongValue)
             }
-            
+
             return messageAttachmentIds
         } else {
             log.warning("No message attachments found at session")
             return []
         }
     }
-    
+
     func getMessageAttachmentFilename(messageId: Int64, attachmentId: Int64) -> String {
-        if let messageAttachments = session?.messageAttachments() {
-            return messageAttachments.filename(messageId, attId: attachmentId)
-        } else {
-            log.warning("No message attachments found at session")
-            return ""
-        }
+        return session?.messageAttachments()?.filename(messageId, attId: attachmentId) ?? ""
     }
-    
+
     func getMessageAttachmentFilesize(messageId: Int64, attachmentId: Int64) -> Int64 {
-        if let messageAttachments = session?.messageAttachments() {
-            return messageAttachments.size(messageId, attId: attachmentId)
-        } else {
-            log.warning("No message attachments found at session")
-            return 0
-        }
+        return session?.messageAttachments()?.size(messageId, attId: attachmentId) ?? 0
     }
-    
+
     func getMessageAttachmentMimeType(messageId: Int64, attachmentId: Int64) -> String {
-        if let messageAttachments = session?.messageAttachments() {
-            return messageAttachments.mimeType(messageId, attId: attachmentId)
-        } else {
-            log.warning("No message attachments found at session")
-            return ""
-        }
+        return session?.messageAttachments()?.mimeType(messageId, attId: attachmentId) ?? ""
     }
-    
+
     func downloadAttachments(messageId: Int64) {
-        syncTask = session?.syncer()?.downloadAttachmentsForMessageAsync(messageId, listener: SyncerRunListener(kulloConnector: self))
+        session?.syncer()?.requestDownloadingAttachmentsForMessage(messageId)
     }
 
     func saveMessageAttachment(messageId: Int64, attachmentId: Int64, path: String, delegate: MessageAttachmentsSaveToDelegate) {

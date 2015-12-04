@@ -2,6 +2,65 @@
 
 import LibKullo
 
+class ClientGenerateKeysListener : KAClientGenerateKeysListener {
+
+    weak var kulloConnector: KulloConnector?
+
+    init(kulloConnector: KulloConnector) {
+        self.kulloConnector = kulloConnector
+    }
+
+    @objc func progress(progress: Int8) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.kulloConnector?.generateKeys_progress(progress)
+        }
+    }
+
+    @objc func finished(registration: KARegistration?) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.kulloConnector?.generateKeys_finished(registration!)
+        }
+    }
+
+}
+
+class RegisterAccountListener : KARegistrationRegisterAccountListener {
+
+    weak var kulloConnector: KulloConnector?
+    weak var delegate: RegisterAccountDelegate?
+
+    init(kulloConnector: KulloConnector, delegate: RegisterAccountDelegate) {
+        self.kulloConnector = kulloConnector
+        self.delegate = delegate
+    }
+
+    @objc func challengeNeeded(address: KAAddress?, challenge: KAChallenge?) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.registerAccountChallengeNeeded(address!, challenge: challenge!)
+        }
+    }
+
+    @objc func addressNotAvailable(address: KAAddress?, reason: KAAddressNotAvailableReason) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.registerAccountAddressNotAvailable(address!, reason: reason)
+        }
+    }
+
+    @objc func finished(address: KAAddress?, masterKey: KAMasterKey?) {
+        kulloConnector?.deleteGeneratedKeys()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.registerAccountFinished(address!, masterKey: masterKey!)
+        }
+    }
+
+    @objc func error(address: KAAddress?, error: KANetworkError) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.registerAccountError(KulloConnector.getNetworkErrorText(error))
+        }
+    }
+
+}
+
 class ClientCheckLoginListener : KAClientCheckLoginListener {
 
     weak var delegate: ClientCheckLoginDelegate?
@@ -64,7 +123,7 @@ class SessionListener : KASessionListener {
     }
 }
 
-class SyncerRunListener : KASyncerRunListener {
+class SyncerListener : KASyncerListener {
     
     weak var kulloConnector: KulloConnector?
 
@@ -74,19 +133,19 @@ class SyncerRunListener : KASyncerRunListener {
     
     @objc func draftAttachmentsTooBig(convId: Int64) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.kulloConnector?.syncerRunListener_draftAttachmentsTooBig(convId)
+            self.kulloConnector?.syncerListener_draftAttachmentsTooBig(convId)
         }
     }
     
     @objc func finished() {
         dispatch_async(dispatch_get_main_queue()) {
-            self.kulloConnector?.syncerRunListener_finished()
+            self.kulloConnector?.syncerListener_finished()
         }
     }
     
     @objc func error(error: KANetworkError) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.kulloConnector?.syncerRunListener_error(error)
+            self.kulloConnector?.syncerListener_error(error)
         }
     }
     

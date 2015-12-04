@@ -29,9 +29,9 @@ class MessagesViewController: UIViewController {
     // MARK: Databasis
 
     func updateDatabasisAndRefreshTable() {
-        if let _ = convId {
-            messageIds = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId!)
-            navigationItem.title = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId!)
+        if let convId = convId {
+            messageIds = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId)
+            navigationItem.title = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
             tableView.reloadData()
         } else {
             log.error("MessagesViewController without convId.");
