@@ -1,4 +1,4 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import SwiftKeychainWrapper
 import LibKullo
@@ -40,7 +40,11 @@ class StorageManager {
             if let footer = KeychainWrapper.stringForKey(getFooterKey()) {
                 userSettings.setFooter(footer)
             }
-            if let avatarMimeType = KeychainWrapper.stringForKey(getAvatarTypeKey()) {
+            if var avatarMimeType = KeychainWrapper.stringForKey(getAvatarTypeKey()) {
+                // fix wrong MIME type that has been set previously by this app
+                if avatarMimeType == "image/jpg" {
+                    avatarMimeType = "image/jpeg"
+                }
                 userSettings.setAvatarMimeType(avatarMimeType)
             }
             userSettings.setAvatar(loadAvatar() ?? NSData())
@@ -54,7 +58,7 @@ class StorageManager {
         KeychainWrapper.setString(address.toString(), forKey: StorageManager.KEY_ADDRESS)
 
         let blockList = masterKey.dataBlocks()
-        for (index, block) in (blockList as! [String]).enumerate() {
+        for (index, block) in blockList.enumerate() {
             KeychainWrapper.setString(block, forKey: getBlockKey(index))
         }
     }
@@ -80,11 +84,18 @@ class StorageManager {
         return "\(getUserDirectory())/sync.db"
     }
 
+    class func getTempPathForView(viewName: String, filename: String = "") -> String {
+        let dir = "\(NSTemporaryDirectory())/\(viewName)"
+        StorageManager.createDirectory(dir)
+        return "\(dir)/\(filename)"
+    }
+
     func deleteAllData() {
         StorageManager.removeFileOrDirectoryIfPossible(getUserDirectory())
 
         KeychainWrapper.removeObjectForKey(StorageManager.KEY_ADDRESS)
         for index in 0...15 {
+            KeychainWrapper.removeObjectForKey(getDeprecatedBlockKey(index))
             KeychainWrapper.removeObjectForKey(getBlockKey(index))
         }
         KeychainWrapper.removeObjectForKey(getNameKey())
@@ -96,17 +107,16 @@ class StorageManager {
 
     //MARK: private implementation
 
-    private static let KEY_ADDRESS = "kullo_address"
+    private static let CURRENT_STORAGE_VERSION = 1
     private let userAddressString: String
 
+    private static let KEY_ADDRESS = "kullo_address"
+    private static let KEY_STORAGE_VERSION = "kullo_storage_version"
+    private static let DEFAULTS_KEY_STORAGE_VERSION = "KulloStorageVersion"
+
     private func migrate() {
-        let CURRENT_STORAGE_VERSION = 1
-        let DEFAULTS_KEY_STORAGE_VERSION = "KulloStorageVersion"
-
-        let defaults = NSUserDefaults.standardUserDefaults()
-        var storageVersion = defaults.integerForKey(DEFAULTS_KEY_STORAGE_VERSION)
-
-        while storageVersion < CURRENT_STORAGE_VERSION {
+        var storageVersion = getStorageVersion()
+        while storageVersion < StorageManager.CURRENT_STORAGE_VERSION {
             switch storageVersion {
             case 0:
                 // add domain to user directory name
@@ -126,8 +136,10 @@ class StorageManager {
 
                 // add address to MasterKey block key
                 for index in 0...15 {
-                    if let block = KeychainWrapper.stringForKey("block_\(index)") {
+                    let deprecatedBlockKey = getDeprecatedBlockKey(index);
+                    if let block = KeychainWrapper.stringForKey(deprecatedBlockKey) {
                         KeychainWrapper.setString(block, forKey: getBlockKey(index))
+                        KeychainWrapper.removeObjectForKey(deprecatedBlockKey)
                     }
                 }
 
@@ -135,11 +147,33 @@ class StorageManager {
                 preconditionFailure("unsupported storage version: \(storageVersion)")
             }
             ++storageVersion
-            defaults.setInteger(storageVersion, forKey: DEFAULTS_KEY_STORAGE_VERSION)
-            defaults.synchronize()
+            setStorageVersion(storageVersion)
 
             log.info("Finished migration to storage version \(storageVersion)")
         }
+    }
+
+    private func getStorageVersion() -> Int {
+        if let storageVersion = KeychainWrapper.stringForKey(StorageManager.KEY_STORAGE_VERSION) {
+            if let storageVersion = Int(storageVersion) {
+                return storageVersion
+            }
+        }
+
+        // try to move storage version from deprecated location (UserDefaults) to KeyChain
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let storageVersion = defaults.integerForKey(StorageManager.DEFAULTS_KEY_STORAGE_VERSION)
+
+        if storageVersion > 0 {
+            setStorageVersion(storageVersion)
+            defaults.removeObjectForKey(StorageManager.DEFAULTS_KEY_STORAGE_VERSION)
+            defaults.synchronize()
+        }
+        return storageVersion
+    }
+
+    private func setStorageVersion(storageVersion: Int) {
+        KeychainWrapper.setString(String(storageVersion), forKey: StorageManager.KEY_STORAGE_VERSION)
     }
 
     private func moveDb(from: String, to: String) {
@@ -150,6 +184,10 @@ class StorageManager {
 
     private func getBlockKey(index: Int) -> String {
         return "masterkey_\(userAddressString)_block_\(index)"
+    }
+
+    private func getDeprecatedBlockKey(index: Int) -> String {
+        return "block_\(index)"
     }
 
     private func getNameKey() -> String {
@@ -176,6 +214,7 @@ class StorageManager {
     private func getUserDirectory() -> String {
         let userDir = "\(getDocumentsDirectory())/\(userAddress.toString())"
         StorageManager.createDirectory(userDir)
+        StorageManager.excludeDirectoryFromBackup(userDir)
         return userDir
     }
 
@@ -204,12 +243,13 @@ class StorageManager {
     private class func createDirectory(path: String) {
         let fileManager = NSFileManager.defaultManager()
         if (!fileManager.fileExistsAtPath(path)) {
-            do {
-                try fileManager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                preconditionFailure("Could not create directory \(path)")
-            }
+            try! fileManager.createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
         }
+    }
+
+    private class func excludeDirectoryFromBackup(path: String) {
+        let url = NSURL.init(fileURLWithPath: path, isDirectory: true)
+        try! url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
     }
 
     private class func moveFileOrDirectoryIfPossible(from: String, to: String) {

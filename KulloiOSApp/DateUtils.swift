@@ -1,24 +1,34 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import Foundation
 import LibKullo
 
 extension KADateTime {
 
+    func formatWithDateAndTime() -> String {
+        return NSDateFormatter.localizedStringFromDate(
+            toNSDate(),
+            dateStyle: .ShortStyle,
+            timeStyle: .ShortStyle)
+    }
+
     func formatWithSymbolicNames() -> String {
         let date = toNSDate()
         let calendar = NSCalendar.currentCalendar()
 
         if calendar.isDateInToday(date) {
+            // no date, only time
             return NSDateFormatter.localizedStringFromDate(
                 date,
                 dateStyle: .NoStyle,
                 timeStyle: .ShortStyle)
 
         } else if calendar.isDateInYesterday(date) {
+            // "yesterday"
             return NSLocalizedString("yesterday", comment: "")
 
         } else {
+            // only date, no time; if empty conversation: "new"
             let comparedWithToday = date.compare(
                 KAConversations.emptyConversationTimestamp().toNSDate())
             if comparedWithToday == .OrderedSame {

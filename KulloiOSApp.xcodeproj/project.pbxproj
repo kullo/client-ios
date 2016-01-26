@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		6509928C1C087E1C00103510 /* MoreVersionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6509928B1C087E1C00103510 /* MoreVersionsViewController.swift */; };
+		650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */; };
+		651327EB1C5293CE00AC93D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */; };
 		65165C371C05C84200BCC26F /* KulloAddressTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65165C361C05C84200BCC26F /* KulloAddressTextField.swift */; };
+		653844E91C2872BF0014BF83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 653844E81C2872BF0014BF83 /* GoogleService-Info.plist */; };
+		653844EC1C288FCA0014BF83 /* FeatureDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653844EB1C288FCA0014BF83 /* FeatureDetection.swift */; };
 		65B26D9F1BC8770C00EC09A1 /* LibKullo.framework in Embed LibKullo.framework */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65B26DA01BC8778C00EC09A1 /* LibKullo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; };
 		65D274181BFB1D9900405E29 /* MoreLicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */; };
@@ -41,8 +45,7 @@
 		F2BC632E1BD3D877008B03AF /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC632D1BD3D877008B03AF /* MessagesViewController.swift */; };
 		F2BC63301BD3DAEC008B03AF /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC632F1BD3DAEC008B03AF /* MessagesTableViewCell.swift */; };
 		F2E132EC1BE8FDA6002C3070 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E132EB1BE8FDA6002C3070 /* NewConversationViewController.swift */; };
-		F2EC08461BF7DAC200685E6E /* AttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EC08451BF7DAC200685E6E /* AttachmentsViewController.swift */; };
-		F2EC08481BF7DFEC00685E6E /* AttachmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EC08471BF7DFEC00685E6E /* AttachmentTableViewCell.swift */; };
+		F2EC08461BF7DAC200685E6E /* MessageAttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EC08451BF7DAC200685E6E /* MessageAttachmentsViewController.swift */; };
 		F2F200801BC07FA70000E80E /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F2007F1BC07FA70000E80E /* InboxViewController.swift */; };
 		F2F200831BC0895D0000E80E /* KulloConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F200821BC0895D0000E80E /* KulloConnector.swift */; };
 		F2F200881BC08D470000E80E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2F2008A1BC08D470000E80E /* Localizable.strings */; };
@@ -66,8 +69,13 @@
 /* Begin PBXFileReference section */
 		26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KulloiOSApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6509928B1C087E1C00103510 /* MoreVersionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreVersionsViewController.swift; sourceTree = "<group>"; };
+		650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentsViewController.swift; sourceTree = "<group>"; };
 		6510427C1BD8EAB700D56605 /* strip_invalid_archs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = strip_invalid_archs.sh; path = libkullo/strip_invalid_archs.sh; sourceTree = "<group>"; };
+		651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		65165C361C05C84200BCC26F /* KulloAddressTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloAddressTextField.swift; sourceTree = "<group>"; };
+		653844E81C2872BF0014BF83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		653844EA1C2875F30014BF83 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		653844EB1C288FCA0014BF83 /* FeatureDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetection.swift; sourceTree = "<group>"; };
 		65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LibKullo.framework; path = libkullo/LibKullo.framework; sourceTree = "<group>"; };
 		65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreLicensesViewController.swift; sourceTree = "<group>"; };
 		65D2741B1BFB23A100405E29 /* licenses.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = licenses.html; sourceTree = "<group>"; };
@@ -101,8 +109,7 @@
 		F2BC632D1BD3D877008B03AF /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		F2BC632F1BD3DAEC008B03AF /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
 		F2E132EB1BE8FDA6002C3070 /* NewConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
-		F2EC08451BF7DAC200685E6E /* AttachmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentsViewController.swift; sourceTree = "<group>"; };
-		F2EC08471BF7DFEC00685E6E /* AttachmentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentTableViewCell.swift; sourceTree = "<group>"; };
+		F2EC08451BF7DAC200685E6E /* MessageAttachmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageAttachmentsViewController.swift; sourceTree = "<group>"; };
 		F2F2007F1BC07FA70000E80E /* InboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		F2F200821BC0895D0000E80E /* KulloConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloConnector.swift; sourceTree = "<group>"; };
 		F2F200891BC08D470000E80E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -118,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				651327EB1C5293CE00AC93D1 /* AudioToolbox.framework in Frameworks */,
 				65B26DA01BC8778C00EC09A1 /* LibKullo.framework in Frameworks */,
 				A0CC35119FCFAF9CFAC26A69 /* Pods_KulloiOSApp.framework in Frameworks */,
 			);
@@ -126,6 +134,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		650C8F0C1C203841002C3CEE /* Attachments */ = {
+			isa = PBXGroup;
+			children = (
+				650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */,
+			);
+			name = Attachments;
+			sourceTree = "<group>";
+		};
 		65B26D951BC8681900EC09A1 /* LibKullo */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +172,7 @@
 		F160422554C811B63BCAF046 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */,
 				26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */,
 			);
 			name = Frameworks;
@@ -173,8 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				F27FE5E71BD3EE8F00F7D752 /* MessageViewController.swift */,
-				F2EC08451BF7DAC200685E6E /* AttachmentsViewController.swift */,
-				F2EC08471BF7DFEC00685E6E /* AttachmentTableViewCell.swift */,
+				F2EC08451BF7DAC200685E6E /* MessageAttachmentsViewController.swift */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -219,6 +235,7 @@
 				F293FB131BC0A54B0054CB91 /* AvatarUtils.swift */,
 				F2640A6F1BD040970073BFE9 /* ColorUtils.swift */,
 				F261529F1BDD7BFF009176F7 /* DateUtils.swift */,
+				653844EB1C288FCA0014BF83 /* FeatureDetection.swift */,
 				65165C361C05C84200BCC26F /* KulloAddressTextField.swift */,
 				F298C60A1BC024FE00081487 /* StringUtils.swift */,
 			);
@@ -283,6 +300,7 @@
 				F27FE5E61BD3EE6600F7D752 /* Message */,
 				F2E132ED1BE8FDB0002C3070 /* New conversation */,
 				F2699C9E1BE04759003678DD /* Compose */,
+				650C8F0C1C203841002C3CEE /* Attachments */,
 				F29D817C1BDEC6FC00C0687A /* More */,
 			);
 			name = ViewController;
@@ -301,6 +319,8 @@
 		F2F2007E1BC07CDD0000E80E /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				653844EA1C2875F30014BF83 /* Bridging-Header.h */,
+				653844E81C2872BF0014BF83 /* GoogleService-Info.plist */,
 				F298C5F61BBFDF9D00081487 /* Info.plist */,
 				F2640A711BD041EF0073BFE9 /* Constants.swift */,
 			);
@@ -365,6 +385,14 @@
 					F298C5E61BBFDF9D00081487 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = LXSY2GE3K4;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -397,6 +425,7 @@
 				F2F200881BC08D470000E80E /* Localizable.strings in Resources */,
 				F298C5F21BBFDF9D00081487 /* Assets.xcassets in Resources */,
 				F298C5F01BBFDF9D00081487 /* Main.storyboard in Resources */,
+				653844E91C2872BF0014BF83 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,22 +511,23 @@
 				F2F200901BC094280000E80E /* InboxTableViewCell.swift in Sources */,
 				F2BC63301BD3DAEC008B03AF /* MessagesTableViewCell.swift in Sources */,
 				F29D817E1BDEC93800C0687A /* MoreActionTableViewCell.swift in Sources */,
-				F2EC08481BF7DFEC00685E6E /* AttachmentTableViewCell.swift in Sources */,
 				65D4E8B51C046CE500996930 /* UIViewController+Keyboard.swift in Sources */,
 				6509928C1C087E1C00103510 /* MoreVersionsViewController.swift in Sources */,
 				F27FE5E81BD3EE8F00F7D752 /* MessageViewController.swift in Sources */,
 				F298C5EB1BBFDF9D00081487 /* AppDelegate.swift in Sources */,
 				65D274181BFB1D9900405E29 /* MoreLicensesViewController.swift in Sources */,
-				F2EC08461BF7DAC200685E6E /* AttachmentsViewController.swift in Sources */,
+				F2EC08461BF7DAC200685E6E /* MessageAttachmentsViewController.swift in Sources */,
 				F29D817B1BDEC6E300C0687A /* MoreViewController.swift in Sources */,
 				F2F200801BC07FA70000E80E /* InboxViewController.swift in Sources */,
 				F2E132EC1BE8FDA6002C3070 /* NewConversationViewController.swift in Sources */,
+				650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */,
 				F2640A721BD041EF0073BFE9 /* Constants.swift in Sources */,
 				F29D81801BDEC99400C0687A /* MoreImageTableViewCell.swift in Sources */,
 				F26152A01BDD7BFF009176F7 /* DateUtils.swift in Sources */,
 				65165C371C05C84200BCC26F /* KulloAddressTextField.swift in Sources */,
 				65DA3DD51BFCBA490058430E /* StorageManager.swift in Sources */,
 				F2F200831BC0895D0000E80E /* KulloConnector.swift in Sources */,
+				653844EC1C288FCA0014BF83 /* FeatureDetection.swift in Sources */,
 				F2699CA01BE0476A003678DD /* ComposeViewController.swift in Sources */,
 				F2BC632E1BD3D877008B03AF /* MessagesViewController.swift in Sources */,
 				F29D81861BDF762A00C0687A /* MoreEditInlineTableViewCell.swift in Sources */,
@@ -641,6 +671,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.kullo.Kullo-for-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "KulloiOSApp/Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -661,6 +692,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.kullo.Kullo-for-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "KulloiOSApp/Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

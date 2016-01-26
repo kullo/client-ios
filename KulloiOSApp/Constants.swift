@@ -1,4 +1,4 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
@@ -7,19 +7,20 @@ let testingPrefillMasterKey: [String]? = nil
 
 let kulloWebsiteAddress = "https://www.kullo.net"
 let feedbackAddress = "hi#kullo.net"
+let gcmSenderId = "637570619400"
 
 let fontMasterKey = UIFont(name: "Courier New", size: 11)
 
 // MARK: Avatar
 
-let fontAvatarInitials = "Helvetica"
-let fontSizeAvatarInitials: CGFloat = 26.0
+let fontAvatarInitials = UIFont(name: "Helvetica", size: 26)
 let colorAvatarInitials = UIColor.whiteColor()
 
-let avatarDimension: CGFloat = 200.0;
-let avatarMaxSize = 24*1024;
-let avatarBestQuality: CGFloat = 0.96;
-let avatarQualityDownsamplingSteps: CGFloat = 0.2;
+let avatarDimension: CGFloat = 200.0
+let avatarMaxSize = 24*1024
+let avatarBestQuality: CGFloat = 0.96
+let attachmentImageQuality: CGFloat = 0.96
+let jpegQualityDownsamplingSteps: CGFloat = 0.02
 
 // MARK: Color
 

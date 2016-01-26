@@ -4,9 +4,12 @@ platform :ios, '8.1'
 use_frameworks!
 
 target 'KulloiOSApp' do
-    pod 'HTAutocompleteTextField', '~> 1.3'
-    pod 'SwiftKeychainWrapper', '~> 1.0.11'
-    pod 'XCGLogger', '~> 3.0'
+    pod 'Google/CloudMessaging'
+    pod 'HTAutocompleteTextField'
+    pod 'SwiftKeychainWrapper'
+    pod 'SwiftMime', :git => 'https://github.com/tiwoc/SwiftMime.git', :branch => 'handle_unknowns'
+    pod 'TCMobileProvision'
+    pod 'XCGLogger'
 end
 
 # Remove irrelevant build architectures from Pods targets

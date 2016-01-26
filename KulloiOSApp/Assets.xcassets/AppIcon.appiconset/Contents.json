@@ -1,80 +1,85 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "homescreen_ipad@1x.png",
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "76x76"
+      "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "settings_iphone@2x.png",
+      "scale" : "2x"
     },
     {
-      "filename": "homescreen_ipad@2x.png",
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "76x76"
+      "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "settings_iphone@3x.png",
+      "scale" : "3x"
     },
     {
-      "filename": "homescreen_iphone@2x.png",
-      "idiom": "iphone",
-      "scale": "2x",
-      "size": "60x60"
+      "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "spotlight_iphone@2x.png",
+      "scale" : "2x"
     },
     {
-      "filename": "homescreen_iphone@3x.png",
-      "idiom": "iphone",
-      "scale": "3x",
-      "size": "60x60"
+      "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "spotlight_iphone@3x.png",
+      "scale" : "3x"
     },
     {
-      "filename": "settings_ipad@1x.png",
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "29x29"
+      "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "homescreen_iphone@2x.png",
+      "scale" : "2x"
     },
     {
-      "filename": "settings_ipad@2x.png",
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "29x29"
+      "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "homescreen_iphone@3x.png",
+      "scale" : "3x"
     },
     {
-      "filename": "settings_iphone@2x.png",
-      "idiom": "iphone",
-      "scale": "2x",
-      "size": "29x29"
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "settings_ipad@1x.png",
+      "scale" : "1x"
     },
     {
-      "filename": "settings_iphone@3x.png",
-      "idiom": "iphone",
-      "scale": "3x",
-      "size": "29x29"
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "settings_ipad@2x.png",
+      "scale" : "2x"
     },
     {
-      "filename": "spotlight_ipad@1x.png",
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "40x40"
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "spotlight_ipad@1x.png",
+      "scale" : "1x"
     },
     {
-      "filename": "spotlight_ipad@2x.png",
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "40x40"
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "spotlight_ipad@2x.png",
+      "scale" : "2x"
     },
     {
-      "filename": "spotlight_iphone@2x.png",
-      "idiom": "iphone",
-      "scale": "2x",
-      "size": "40x40"
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "homescreen_ipad@1x.png",
+      "scale" : "1x"
     },
     {
-      "filename": "spotlight_iphone@3x.png",
-      "idiom": "iphone",
-      "scale": "3x",
-      "size": "40x40"
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "homescreen_ipad@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "ipad",
+      "size" : "83.5x83.5",
+      "scale" : "2x"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
   }
 }

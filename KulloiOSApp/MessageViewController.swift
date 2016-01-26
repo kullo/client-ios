@@ -1,4 +1,4 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import UIKit
 import XCGLogger
@@ -23,7 +23,13 @@ class MessageViewController: UIViewController {
     // MARK: View lifecycle
 
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         refreshContent()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        KulloConnector.sharedInstance.setMessageUnread(messageId!, value: false)
     }
 
     // MARK: refresh content
@@ -34,7 +40,7 @@ class MessageViewController: UIViewController {
             avatarImageView.showAsCircle()
             senderNameLabel.text = KulloConnector.sharedInstance.getSenderName(messageId)
             senderOrganizationLabel.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
-            dateLabel.text = KulloConnector.sharedInstance.getMessageSentDate(messageId).formatWithSymbolicNames()
+            dateLabel.text = KulloConnector.sharedInstance.getMessageSentDate(messageId).formatWithDateAndTime()
             messageTextView.attributedText = getMessageCombinedWithImprint(messageId)
             checkForAttachmentsAndSetButtonVisibilty()
         } else {
@@ -64,7 +70,7 @@ class MessageViewController: UIViewController {
     
     func checkForAttachmentsAndSetButtonVisibilty() {
         if let attachmentsButton = toolbarItems?.first {
-            let attachmentIds = KulloConnector.sharedInstance.getMessageAttachmentsIds(messageId!)
+            let attachmentIds = KulloConnector.sharedInstance.getMessageAttachmentIds(messageId!)
 
             if attachmentIds.count > 0 {
                 attachmentsButton.enabled = true
@@ -85,7 +91,7 @@ class MessageViewController: UIViewController {
             }
         } else if segue.identifier == showAttachmentsSegueIdentifier {
             if let navController = segue.destinationViewController as? UINavigationController {
-                let attachmentsViewController = navController.viewControllers[0] as? AttachmentsViewController
+                let attachmentsViewController = navController.viewControllers[0] as? MessageAttachmentsViewController
                 
                 if let attachmentsViewController = attachmentsViewController {
                     attachmentsViewController.messageId = messageId

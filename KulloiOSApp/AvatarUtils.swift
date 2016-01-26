@@ -1,4 +1,4 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import UIKit
 import CoreImage
@@ -22,7 +22,7 @@ extension UIImage {
         let outWidth = rect.width
         let outHeight = rect.height
         
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0);
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
         
         switch images.count {
         case 0:
@@ -114,7 +114,7 @@ extension UIImage {
         // create square image context with integral size
         let rect = CGRectIntegral(CGRectMake(0.0, 0.0, size.width, size.height))
 
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0);
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
 
         // fill image with color
         let context = UIGraphicsGetCurrentContext()
@@ -128,17 +128,14 @@ extension UIImage {
     }
     
     func drawTextToImageCentered(drawText: NSString) -> UIImage{
-        
-        let textColor = colorAvatarInitials
-        let textFont = UIFont(name: fontAvatarInitials, size: fontSizeAvatarInitials)!
         let paraStyle = NSMutableParagraphStyle()
         paraStyle.alignment = NSTextAlignment.Center
         
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0);
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         
         let textFontAttributes = [
-            NSFontAttributeName: textFont,
-            NSForegroundColorAttributeName: textColor,
+            NSFontAttributeName: fontAvatarInitials!,
+            NSForegroundColorAttributeName: colorAvatarInitials,
             NSParagraphStyleAttributeName: paraStyle
         ]
         
@@ -161,9 +158,9 @@ extension UIImage {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
         drawAtPoint(CGPointMake(-rect.origin.x, -rect.origin.y))
         
-        let croppedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        return croppedImage;
+        let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return croppedImage
     }
     
     func squareImageWithSize(size: CGSize) -> UIImage {
@@ -190,7 +187,7 @@ extension UIImage {
         
         let cropSquare = CGRectMake(posX, posY, edge, edge)
         
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare);
+        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)
         return UIImage(CGImage: imageRef!, scale: scale, orientation: imageOrientation)
     }
     

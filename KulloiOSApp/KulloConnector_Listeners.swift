@@ -1,4 +1,4 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 
@@ -130,13 +130,25 @@ class SyncerListener : KASyncerListener {
     init(kulloConnector: KulloConnector) {
         self.kulloConnector = kulloConnector
     }
+
+    @objc func started() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.kulloConnector?.syncerListener_started()
+        }
+    }
     
     @objc func draftAttachmentsTooBig(convId: Int64) {
         dispatch_async(dispatch_get_main_queue()) {
             self.kulloConnector?.syncerListener_draftAttachmentsTooBig(convId)
         }
     }
-    
+
+    @objc func progressed(progress: KASyncProgress) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.kulloConnector?.syncerListener_progressed(progress)
+        }
+    }
+
     @objc func finished() {
         dispatch_async(dispatch_get_main_queue()) {
             self.kulloConnector?.syncerListener_finished()
@@ -197,4 +209,58 @@ class MessageAttachmentsSaveToListener : KAMessageAttachmentsSaveToListener {
             )
         }
     }
+
+}
+
+class DraftAttachmentsAddListener : KADraftAttachmentsAddListener {
+
+    weak var delegate: DraftAttachmentsAddDelegate?
+
+    init(delegate: DraftAttachmentsAddDelegate) {
+        self.delegate = delegate
+    }
+
+    @objc func finished(convId: Int64, attId: Int64, path: String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.draftAttachmentsAddFinished(convId, attId: attId, path: path)
+        }
+    }
+
+    @objc func error(convId: Int64, path: String, error: KALocalError) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.draftAttachmentsAddError(
+                convId,
+                path: path,
+                error: KulloConnector.getLocalErrorText(error)
+            )
+        }
+    }
+
+}
+
+class DraftAttachmentsSaveToListener : KADraftAttachmentsSaveToListener {
+
+    weak var delegate: DraftAttachmentsSaveToDelegate?
+
+    init(delegate: DraftAttachmentsSaveToDelegate) {
+        self.delegate = delegate
+    }
+
+    @objc func finished(msgId: Int64, attId: Int64, path: String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.draftAttachmentsSaveToFinished(msgId, attId: attId, path: path)
+        }
+    }
+
+    @objc func error(msgId: Int64, attId: Int64, path: String, error: KALocalError) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.draftAttachmentsSaveToError(
+                msgId,
+                attId: attId,
+                path: path,
+                error: KulloConnector.getLocalErrorText(error)
+            )
+        }
+    }
+
 }

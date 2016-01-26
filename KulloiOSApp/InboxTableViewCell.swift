@@ -1,4 +1,4 @@
-/* Copyright 2015 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
@@ -9,4 +9,5 @@ class ConversationTableViewCell: UITableViewCell {
     @IBOutlet var inboxTitleLabel: UILabel!
     @IBOutlet var inboxImageView: UIImageView!
     @IBOutlet var inboxDateLabel: UILabel!
+    @IBOutlet var inboxUnreadLabel: UILabel!
 }
