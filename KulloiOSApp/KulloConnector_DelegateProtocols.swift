@@ -9,10 +9,10 @@ protocol RegisterAccountDelegate: class {
     func registerAccountError(error: String)
 }
 
-protocol ClientCheckLoginDelegate: class {
-    func checkLoginSuccess(address: KAAddress, masterKey: KAMasterKey)
-    func checkLoginInvalid(address: KAAddress, masterKey: KAMasterKey)
-    func checkLoginError(error: String)
+protocol ClientCheckCredentialsDelegate: class {
+    func checkCredentialsSuccess(address: KAAddress, masterKey: KAMasterKey)
+    func checkCredentialsInvalid(address: KAAddress, masterKey: KAMasterKey)
+    func checkCredentialsError(error: String)
 }
 
 protocol ClientCreateSessionDelegate: class {

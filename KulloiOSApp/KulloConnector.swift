@@ -9,8 +9,6 @@ class KulloConnector {
 
     typealias VersionTuple = (component: String, version: String)
 
-    // MARK: Properties
-
     static let sharedInstance = KulloConnector()
 
     private let client: KAClient
@@ -19,7 +17,7 @@ class KulloConnector {
 
     private var generateKeysTask: KAAsyncTask?
     private var registerAccountTask: KAAsyncTask?
-    private var checkLoginTask: KAAsyncTask?
+    private var checkCredentialsTask: KAAsyncTask?
     private var registerPushTokenTask: KAAsyncTask?
     private var unregisterPushTokenTask: KAAsyncTask?
     private var createSessionTask: KAAsyncTask?
@@ -34,6 +32,7 @@ class KulloConnector {
     private var pushTokenRegistered = false
     private var shouldSyncWhenSessionHasBeenCreated = false
     private var syncProgress: KASyncProgress?
+    private var syncCompletionCallback: (() -> Void)?
 
     // MARK: delegates
 
@@ -65,16 +64,16 @@ class KulloConnector {
         return false
     }
 
-    func checkLogin(address: String, masterKeyBlocks: [String], delegate: ClientCheckLoginDelegate) {
+    func checkCredentials(address: String, masterKeyBlocks: [String], delegate: ClientCheckCredentialsDelegate) {
         log.info("Logging in with address \(address)")
 
         if let kaAddress = KAAddress.create(address),
             let kaMasterKey = KAMasterKey.createFromDataBlocks(masterKeyBlocks) {
 
-            checkLoginTask = client.checkLoginAsync(
+            checkCredentialsTask = client.checkCredentialsAsync(
                 kaAddress,
                 masterKey: kaMasterKey,
-                listener: ClientCheckLoginListener(delegate: delegate))
+                listener: ClientCheckCredentialsListener(delegate: delegate))
         }
     }
 
@@ -137,13 +136,14 @@ class KulloConnector {
 
     func closeSession() {
         UIApplication.sharedApplication().idleTimerDisabled = false
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
         // Make sure all async tasks are done.
         // We cancel all tasks before waiting so that they can finish in parallel.
-        session?.syncer()?.asyncTask()?.cancel()
+        session?.syncer()?.cancel()
         generateKeysTask?.cancel()
         registerAccountTask?.cancel()
-        checkLoginTask?.cancel()
+        checkCredentialsTask?.cancel()
         registerPushTokenTask?.cancel()
         unregisterPushTokenTask?.cancel()
         createSessionTask?.cancel()
@@ -152,10 +152,10 @@ class KulloConnector {
         messageAttachmentsSaveToTask?.cancel()
         draftAttachmentsSaveToTask?.cancel()
 
-        session?.syncer()?.asyncTask()?.waitUntilDone()
+        session?.syncer()?.waitUntilDone()
         generateKeysTask?.waitUntilDone()
         registerAccountTask?.waitUntilDone()
-        checkLoginTask?.waitUntilDone()
+        checkCredentialsTask?.waitUntilDone()
         registerPushTokenTask?.waitUntilDone()
         unregisterPushTokenTask?.waitUntilDone()
         createSessionTask?.waitUntilDone()
@@ -167,21 +167,24 @@ class KulloConnector {
         session = nil
     }
 
+    private func makeKAPushToken(pushToken: String) -> KAPushToken {
+        return KAPushToken(type: .GCM, token: pushToken, environment: .IOS)
+    }
+
     func registerPushToken(pushToken: String) {
         if self.pushToken != pushToken {
             self.pushToken = pushToken
             pushTokenRegistered = false
         }
-        if !pushTokenRegistered {
-            registerPushTokenTask = session?.registerPushToken(pushToken)
+        if !pushTokenRegistered, let session = session {
+            registerPushTokenTask = session.registerPushToken(makeKAPushToken(pushToken))
             pushTokenRegistered = true
         }
     }
 
     func unregisterPushToken() {
         if let pushToken = pushToken {
-            unregisterPushTokenTask = session?.unregisterPushToken(pushToken)
-            self.pushToken = nil
+            unregisterPushTokenTask = session?.unregisterPushToken(makeKAPushToken(pushToken))
             pushTokenRegistered = false
         }
     }
@@ -190,7 +193,6 @@ class KulloConnector {
 
     func saveCredentials(address: KAAddress, masterKey: KAMasterKey) {
         StorageManager(address: address).saveCredentials(address, masterKey: masterKey)
-        sync(.WithoutAttachments)
     }
 
     func storeCurrentUserSettings() {
@@ -384,18 +386,40 @@ class KulloConnector {
         syncDelegates = syncDelegates.filter { $0 !== delegate }
     }
 
-    func sync(syncMode: KASyncMode) {
+    // returns true iff a session is available and a sync has been requested
+    func sync(syncMode: KASyncMode) -> Bool {
         if let syncer = session?.syncer() {
             syncer.requestSync(syncMode)
             shouldSyncWhenSessionHasBeenCreated = false
         } else {
             shouldSyncWhenSessionHasBeenCreated = true
         }
+        return !shouldSyncWhenSessionHasBeenCreated
+    }
+
+    func sync(syncMode: KASyncMode, completionHandler: (UIBackgroundFetchResult) -> Void) {
+        syncCompletionCallback = {
+            log.debug("Sync completed (triggered by notification)")
+            completionHandler(.NewData)
+        }
+        if !sync(syncMode) {
+            syncCompletionCallback = nil
+            completionHandler(.Failed)
+        }
+    }
+
+    func syncIfNecessary() {
+        guard let lastFullSync = session?.syncer()?.lastFullSync() else {
+            sync(.WithoutAttachments)
+            return
+        }
+        if abs(lastFullSync.toNSDate().timeIntervalSinceNow) > secondsBetweenSyncs {
+            sync(.WithoutAttachments)
+        }
     }
 
     func isSyncRunning() -> Bool {
-        let isDone = session?.syncer()?.asyncTask()?.isDone() ?? true
-        return !isDone
+        return session?.syncer()?.isSyncing() ?? false
     }
 
     func getSyncProgress() -> Float {
@@ -425,18 +449,25 @@ class KulloConnector {
             delegate.syncDraftAttachmentsTooBig(convId)
         }
     }
-    
-    func syncerListener_finished() {
+
+    func syncComplete() {
+        if let callback = syncCompletionCallback {
+            callback()
+            syncCompletionCallback = nil
+        }
         UIApplication.sharedApplication().idleTimerDisabled = false
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
+
+    func syncerListener_finished() {
+        syncComplete()
         for delegate in syncDelegates {
             delegate.syncFinished()
         }
     }
     
     func syncerListener_error(error: KANetworkError) {
-        UIApplication.sharedApplication().idleTimerDisabled = false
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        syncComplete()
         let errorText = KulloConnector.getNetworkErrorText(error)
         for delegate in syncDelegates {
             delegate.syncError(errorText)

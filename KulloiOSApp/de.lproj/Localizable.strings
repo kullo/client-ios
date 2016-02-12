@@ -134,7 +134,7 @@
 "new" = "neu";
 
 /* No comment provided by engineer. */
-"notification_body_new_message" = "Du hast eine neue Kullo-Nachricht erhalten";
+"notification_body_new_message" = "Neue Kullo-Nachricht erhalten";
 
 /* No comment provided by engineer. */
 "notification_title_new_message" = "Kullo";

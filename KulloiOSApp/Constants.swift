@@ -9,6 +9,8 @@ let kulloWebsiteAddress = "https://www.kullo.net"
 let feedbackAddress = "hi#kullo.net"
 let gcmSenderId = "637570619400"
 
+let secondsBetweenSyncs = 5.0 * 60
+
 let fontMasterKey = UIFont(name: "Courier New", size: 11)
 
 // MARK: Avatar

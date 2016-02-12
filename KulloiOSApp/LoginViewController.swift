@@ -5,7 +5,7 @@ import LibKullo
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
-    // MARK: Properties
+    private static let splashSegue = "LoginSplashSegue"
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var addressLabel: UILabel!
@@ -76,7 +76,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         )
 
         if inputFieldsAreValidIfNotGiveUserFeedback() {
-            KulloConnector.sharedInstance.checkLogin(addressTextField.text!, masterKeyBlocks: getKeyBlocksAsStringArray(), delegate: self)
+            KulloConnector.sharedInstance.checkCredentials(
+                addressTextField.text!,
+                masterKeyBlocks: getKeyBlocksAsStringArray(),
+                delegate: self)
         }
     }
 
@@ -249,24 +252,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
 }
 
-extension LoginViewController : ClientCheckLoginDelegate {
+extension LoginViewController : ClientCheckCredentialsDelegate {
 
-    func checkLoginSuccess(address: KAAddress, masterKey: KAMasterKey) {
+    func checkCredentialsSuccess(address: KAAddress, masterKey: KAMasterKey) {
         KulloConnector.sharedInstance.saveCredentials(address, masterKey: masterKey)
         clearInputFields()
 
         alertDialog?.dismissViewControllerAnimated(true, completion: {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.performSegueWithIdentifier(LoginViewController.splashSegue, sender: self)
         })
     }
 
-    func checkLoginInvalid(address: KAAddress, masterKey: KAMasterKey) {
+    func checkCredentialsInvalid(address: KAAddress, masterKey: KAMasterKey) {
         alertDialog?.title = NSLocalizedString("Login failed", comment: "")
         alertDialog?.message = NSLocalizedString("Couldn't log in with the given Kullo address and MasterKey.", comment: "")
         alertDialog?.addAction(AlertHelper.getAlertOKAction())
     }
 
-    func checkLoginError(error: String) {
+    func checkCredentialsError(error: String) {
         alertDialog?.title = NSLocalizedString("Login failed", comment: "")
         alertDialog?.message = error
         alertDialog?.addAction(AlertHelper.getAlertOKAction())

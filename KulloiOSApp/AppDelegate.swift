@@ -75,6 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
+        KulloConnector.sharedInstance.syncIfNecessary()
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -99,14 +101,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        log.debug("Incoming notification (through GCM)")
-        handleNotification(userInfo)
+        log.debug("Incoming notification (through GCM): \(userInfo)")
+        GCMService.sharedInstance().appDidReceiveMessage(userInfo);
+        KulloConnector.sharedInstance.sync(.WithoutAttachments)
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        log.debug("Incoming notification (through APN)")
-        handleNotification(userInfo)
-        completionHandler(UIBackgroundFetchResult.NewData);
+        log.debug("Incoming notification (through APN): \(userInfo)")
+        GCMService.sharedInstance().appDidReceiveMessage(userInfo);
+        KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
     }
 
 
@@ -127,12 +130,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 log.info("Successfully connected to GCM")
             }
         }
-    }
-
-    func handleNotification(userInfo: [NSObject : AnyObject]) {
-        log.debug("Notification: \(userInfo)")
-        GCMService.sharedInstance().appDidReceiveMessage(userInfo);
-        KulloConnector.sharedInstance.sync(.WithoutAttachments)
     }
 
     func disconnectGcm() {

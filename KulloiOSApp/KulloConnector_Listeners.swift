@@ -61,27 +61,27 @@ class RegisterAccountListener : KARegistrationRegisterAccountListener {
 
 }
 
-class ClientCheckLoginListener : KAClientCheckLoginListener {
+class ClientCheckCredentialsListener : KAClientCheckCredentialsListener {
 
-    weak var delegate: ClientCheckLoginDelegate?
+    weak var delegate: ClientCheckCredentialsDelegate?
 
-    init(delegate: ClientCheckLoginDelegate) {
+    init(delegate: ClientCheckCredentialsDelegate) {
         self.delegate = delegate
     }
 
     @objc func finished(address: KAAddress?, masterKey: KAMasterKey?, valid: Bool) {
         dispatch_async(dispatch_get_main_queue()) {
             if valid {
-                self.delegate?.checkLoginSuccess(address!, masterKey: masterKey!)
+                self.delegate?.checkCredentialsSuccess(address!, masterKey: masterKey!)
             } else {
-                self.delegate?.checkLoginInvalid(address!, masterKey: masterKey!)
+                self.delegate?.checkCredentialsInvalid(address!, masterKey: masterKey!)
             }
         }
     }
 
     @objc func error(_address: KAAddress?, error: KANetworkError) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.checkLoginError(KulloConnector.getNetworkErrorText(error))
+            self.delegate?.checkCredentialsError(KulloConnector.getNetworkErrorText(error))
         }
     }
 

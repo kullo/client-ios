@@ -71,6 +71,9 @@
 /* Class = "UITextField"; placeholder = "Block H"; ObjectID = "LlT-iP-NlI"; */
 "LlT-iP-NlI.placeholder" = "Block H";
 
+/* Class = "UILabel"; text = "Loading"; ObjectID = "LtA-5a-xgr"; */
+"LtA-5a-xgr.text" = "Lade";
+
 /* Class = "UILabel"; text = "CellTitle"; ObjectID = "M2v-dj-ly3"; */
 "M2v-dj-ly3.text" = "CellTitle";
 

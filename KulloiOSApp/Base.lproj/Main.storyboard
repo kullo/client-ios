@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="iTK-es-jhE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="cas-JR-XHd">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -411,11 +411,81 @@
                         <outlet property="loginButton" destination="Jsp-q5-6TA" id="XU4-ik-IGp"/>
                         <outlet property="scrollView" destination="Cns-eg-FJg" id="CyN-QE-0DD"/>
                         <outlet property="view" destination="8bC-Xf-vdC" id="wPm-WV-l3m"/>
+                        <segue destination="WMG-zL-ngu" kind="unwind" identifier="LoginSplashSegue" unwindAction="goToSplash:" id="opH-NT-erB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="WMG-zL-ngu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1889" y="-1641"/>
+            <point key="canvasLocation" x="1467" y="-1639"/>
+        </scene>
+        <!--Splash Navigation Controller-->
+        <scene sceneID="z8p-9c-Bth">
+            <objects>
+                <navigationController id="cas-JR-XHd" userLabel="Splash Navigation Controller" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qkK-LI-hSV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="T0O-Vf-AEU" kind="relationship" relationship="rootViewController" id="a7X-WS-gb9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nab-2Y-UpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-220" y="437"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="XKp-3s-cRn">
+            <objects>
+                <viewController id="T0O-Vf-AEU" userLabel="Splash View Controller" customClass="SplashViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6JG-Pj-Jqh"/>
+                        <viewControllerLayoutGuide type="bottom" id="9bG-Jf-h5I"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MJb-7c-fGt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M34-tH-H36">
+                                <rect key="frame" x="130" y="255" width="61" height="59"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0zW-49-pcL">
+                                        <rect key="frame" x="20" y="8" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LtA-5a-xgr">
+                                        <rect key="frame" x="8" y="36" width="45" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="LtA-5a-xgr" firstAttribute="leading" secondItem="M34-tH-H36" secondAttribute="leadingMargin" id="4in-Sh-DZA"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="LtA-5a-xgr" secondAttribute="bottom" id="7b0-8g-BUN"/>
+                                    <constraint firstItem="LtA-5a-xgr" firstAttribute="top" secondItem="0zW-49-pcL" secondAttribute="bottom" constant="8" id="Bu8-rH-2Mu"/>
+                                    <constraint firstItem="0zW-49-pcL" firstAttribute="centerX" secondItem="M34-tH-H36" secondAttribute="centerX" id="DW7-JC-uet"/>
+                                    <constraint firstItem="0zW-49-pcL" firstAttribute="top" secondItem="M34-tH-H36" secondAttribute="topMargin" id="cVg-N4-gD3"/>
+                                    <constraint firstItem="LtA-5a-xgr" firstAttribute="trailing" secondItem="M34-tH-H36" secondAttribute="trailingMargin" id="iKv-Kf-xzS"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="M34-tH-H36" firstAttribute="centerY" secondItem="MJb-7c-fGt" secondAttribute="centerY" id="KKu-cR-sil"/>
+                            <constraint firstItem="M34-tH-H36" firstAttribute="centerX" secondItem="MJb-7c-fGt" secondAttribute="centerX" id="nw7-Al-pfJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="U3A-fv-W5w"/>
+                    <connections>
+                        <segue destination="iTK-es-jhE" kind="modal" identifier="SplashInboxSegue" animates="NO" modalTransitionStyle="crossDissolve" id="git-xV-u6d"/>
+                        <segue destination="0fG-WR-t6P" kind="modal" identifier="SplashWelcomeSegue" animates="NO" modalTransitionStyle="crossDissolve" id="axK-Su-y0L"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j7Z-6b-66j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="219" y="437"/>
         </scene>
         <!--Inbox Navigation Controller-->
         <scene sceneID="wcx-Nl-Vru">
@@ -580,7 +650,6 @@
                         <outlet property="progressView" destination="zih-xT-bWe" id="kJY-LM-HcT"/>
                         <outlet property="tableView" destination="uV2-Y8-Iay" id="Vuq-gt-Krq"/>
                         <outlet property="view" destination="xlF-gA-pAa" id="GD8-C2-PR1"/>
-                        <segue destination="0fG-WR-t6P" kind="modal" identifier="InboxLoginSegue" id="T8q-4o-06Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tu1-iC-tOV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1590,7 +1659,7 @@ Germany</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fjd-AE-p4P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1889" y="-945"/>
+            <point key="canvasLocation" x="1467" y="-945"/>
         </scene>
         <!--New conversation-->
         <scene sceneID="be7-JB-RtZ">
@@ -1792,10 +1861,10 @@ Germany</string>
             </objects>
             <point key="canvasLocation" x="2730" y="439"/>
         </scene>
-        <!--Registration Navigation Controller-->
+        <!--Welcome Navigation Controller-->
         <scene sceneID="jVI-bA-wnc">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0fG-WR-t6P" userLabel="Registration Navigation Controller" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0fG-WR-t6P" userLabel="Welcome Navigation Controller" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bkg-Mh-vcC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1808,7 +1877,7 @@ Germany</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MvO-dX-Ocf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1045" y="-945"/>
+            <point key="canvasLocation" x="654" y="-945"/>
         </scene>
         <!--Welcome-->
         <scene sceneID="7iL-c4-5Kc">
@@ -1880,7 +1949,7 @@ Germany</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xih-mv-MNz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1467" y="-945"/>
+            <point key="canvasLocation" x="1045" y="-945"/>
         </scene>
         <!--Address-->
         <scene sceneID="5GZ-2g-JdZ">
@@ -1943,13 +2012,13 @@ Germany</string>
                     <connections>
                         <outlet property="registerButton" destination="uan-ZT-9fR" id="2dF-59-uGG"/>
                         <outlet property="usernameField" destination="g7p-5P-Qol" id="wUh-cl-DkT"/>
-                        <segue destination="gwc-0h-jTf" kind="unwind" identifier="ChooseAddressToInboxSegue" unwindAction="goToInbox:" id="Uj4-k1-ZWh"/>
+                        <segue destination="gwc-0h-jTf" kind="unwind" identifier="ChooseAddressSplashSegue" unwindAction="goToSplash:" id="Uj4-k1-ZWh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FHQ-wJ-W9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="gwc-0h-jTf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2300" y="-945"/>
+            <point key="canvasLocation" x="1889" y="-945"/>
         </scene>
     </scenes>
     <resources>

@@ -8,7 +8,6 @@ class InboxViewController: UIViewController {
 
     // MARK: Properties
     private let conversationDetailSegueIdentifier = "ConversationDetailSegue"
-    private static let inboxLoginSegueIdentifier = "InboxLoginSegue"
     private static let newConversationSegueIdentifier = "NewConversationSegue"
 
     private static let pullToRefreshCellId = "InboxPullToRefreshTableViewCell"
@@ -51,12 +50,6 @@ class InboxViewController: UIViewController {
         if destinationConversationId != nil {
             performSegueWithIdentifier(conversationDetailSegueIdentifier, sender: self)
             return
-        }
-
-        if !KulloConnector.sharedInstance.hasSession() {
-            if !KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession(self) {
-                performSegueWithIdentifier(InboxViewController.inboxLoginSegueIdentifier, sender: self)
-            }
         }
     }
 
@@ -148,16 +141,6 @@ class InboxViewController: UIViewController {
         }
     }
 
-    @IBAction func goToInbox(sender: UIStoryboardSegue) {
-        // Do nothing, we are already at the inbox.
-        // Used for DismissSegues.
-    }
-
-    @IBAction func logout(sender: UIStoryboardSegue) {
-        KulloConnector.sharedInstance.logout()
-
-        // going to the login is handled automatically when this action has finished executing and this view is shown
-    }
 }
 
 // MARK: NewConversationDelegate
@@ -166,31 +149,6 @@ extension InboxViewController : NewConversationDelegate {
 
     func newConversationCreatedWithId(convId: Int64) {
         destinationConversationId = convId
-    }
-
-}
-
-// MARK: ClientCreateSessionDelegate
-
-extension InboxViewController : ClientCreateSessionDelegate {
-
-    func createSessionFinished(session: KASession) {
-        KulloConnector.sharedInstance.setSession(session)
-        updateDataAndRefreshTable()
-    }
-
-    func createSessionError(address: KAAddress, error: String) {
-        let alertDialog = UIAlertController(
-            title: NSLocalizedString("Couldn't load data", comment: ""),
-            message: error,
-            preferredStyle: .Alert)
-
-        alertDialog.addAction(AlertHelper.getAlertOKAction({
-            (action: UIAlertAction) in
-            self.performSegueWithIdentifier(InboxViewController.inboxLoginSegueIdentifier, sender: self)
-        }))
-
-        presentViewController(alertDialog, animated: true, completion: nil)
     }
 
 }
@@ -220,6 +178,7 @@ extension InboxViewController : SyncDelegate {
     }
 
     func syncError(error: String) {
+        refreshControl.endRefreshing()
         updateListAppearance()
 
         showInfoDialog(

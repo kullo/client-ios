@@ -5,7 +5,7 @@ import LibKullo
 
 class ChooseAddressViewController: UIViewController {
 
-    let toInboxSegueIdentifier = "ChooseAddressToInboxSegue"
+    private static let splashSegue = "ChooseAddressSplashSegue"
     let addressSuffix = "#kullo.net"
     var alertDialog: UIAlertController?
 
@@ -74,7 +74,7 @@ extension ChooseAddressViewController : RegisterAccountDelegate {
     func registerAccountFinished(address: KAAddress, masterKey: KAMasterKey) {
         KulloConnector.sharedInstance.saveCredentials(address, masterKey: masterKey)
         alertDialog?.dismissViewControllerAnimated(true, completion: {
-            self.performSegueWithIdentifier(self.toInboxSegueIdentifier, sender: self)
+            self.performSegueWithIdentifier(ChooseAddressViewController.splashSegue, sender: self)
         })
     }
 
