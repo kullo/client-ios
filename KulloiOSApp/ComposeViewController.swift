@@ -43,7 +43,6 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
 
         messageTextView.delegate = self
-        messageTextView.becomeFirstResponder()
         scrollViewTapRecognizer.delegate = self
     }
 
@@ -55,6 +54,12 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
         reloadRecipientData()
         reloadDraft()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        messageTextView.becomeFirstResponder()
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -241,7 +246,7 @@ extension ComposeViewController : UIImagePickerControllerDelegate, UINavigationC
             for other in otherFilenames {
                 if other == result {
                     isDuplicate = true
-                    dupeCounter++
+                    dupeCounter += 1
                     result = "\(filenameBasename)-\(dupeCounter).\(filenameExtension)"
                 }
             }

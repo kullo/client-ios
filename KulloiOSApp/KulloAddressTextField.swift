@@ -15,13 +15,14 @@ class KulloAddressTextField: HTAutocompleteTextField {
     override func setupAutocompleteTextField() {
         super.setupAutocompleteTextField()
 
+        keyboardType = .Twitter
         autocompleteDataSource = self
         ignoreCase = true
         needsClearButtonSpace = true
 
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: Selector("kulloAddrTextDidChange:"),
+            selector: #selector(kulloAddrTextDidChange),
             name: UITextFieldTextDidChangeNotification,
             object: nil
         )

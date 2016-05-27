@@ -40,7 +40,7 @@ class MessageViewController: UIViewController {
             avatarImageView.showAsCircle()
             senderNameLabel.text = KulloConnector.sharedInstance.getSenderName(messageId)
             senderOrganizationLabel.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
-            dateLabel.text = KulloConnector.sharedInstance.getMessageSentDate(messageId).formatWithDateAndTime()
+            dateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithDateAndTime()
             messageTextView.attributedText = getMessageCombinedWithImprint(messageId)
             checkForAttachmentsAndSetButtonVisibilty()
         } else {

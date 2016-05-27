@@ -22,6 +22,7 @@
 		65DA02901C1087D300D77DD6 /* GenerateKeysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */; };
 		65DA02921C109FBA00D77DD6 /* ChooseAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */; };
 		65DA3DD51BFCBA490058430E /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA3DD41BFCBA490058430E /* StorageManager.swift */; };
+		65DECBF21CAEB47F00775A55 /* PortraitNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */; };
 		A0CC35119FCFAF9CFAC26A69 /* Pods_KulloiOSApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */; };
 		F2318CB51BCEB40200EEA8A5 /* KulloConnector_Listeners.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */; };
 		F26152A01BDD7BFF009176F7 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F261529F1BDD7BFF009176F7 /* DateUtils.swift */; };
@@ -85,6 +86,7 @@
 		65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateKeysViewController.swift; sourceTree = "<group>"; };
 		65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAddressViewController.swift; sourceTree = "<group>"; };
 		65DA3DD41BFCBA490058430E /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortraitNavigationController.swift; sourceTree = "<group>"; };
 		E9A02B38B2F8490132406AE5 /* Pods-KulloiOSApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloConnector_Listeners.swift; sourceTree = "<group>"; };
 		F261529F1BDD7BFF009176F7 /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 				F2699C9E1BE04759003678DD /* Compose */,
 				650C8F0C1C203841002C3CEE /* Attachments */,
 				F29D817C1BDEC6FC00C0687A /* More */,
+				65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				F29D81841BDF72FB00C0687A /* MoreEditTextViewController.swift in Sources */,
 				F2F200901BC094280000E80E /* InboxTableViewCell.swift in Sources */,
 				F2BC63301BD3DAEC008B03AF /* MessagesTableViewCell.swift in Sources */,
+				65DECBF21CAEB47F00775A55 /* PortraitNavigationController.swift in Sources */,
 				F29D817E1BDEC93800C0687A /* MoreActionTableViewCell.swift in Sources */,
 				65D4E8B51C046CE500996930 /* UIViewController+Keyboard.swift in Sources */,
 				6509928C1C087E1C00103510 /* MoreVersionsViewController.swift in Sources */,

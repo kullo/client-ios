@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var apnDeviceToken: NSData?
 
+    //MARK: lifecycle
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // log app meta data, which also triggers lazy creation of logger
         log.logAppDetails()
@@ -90,6 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // restore default log listener because we had some crashes during static deinitialization
         KARegistry.setLogListener(nil)
     }
+
+    //MARK: push notifications
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         log.info("Registered for remote notifications, token \(deviceToken)")

@@ -22,7 +22,6 @@ class MoreEditTextViewController: UIViewController {
             case .Footer:
                 title = NSLocalizedString("Edit footer", comment: "")
                 editTextView.text = KulloConnector.sharedInstance.getClientFooter()
-                editTextView.becomeFirstResponder()
                 editTextView.editable = true
             case .MasterKey:
                 title = NSLocalizedString("MasterKey", comment: "")
@@ -32,6 +31,14 @@ class MoreEditTextViewController: UIViewController {
             default:
                 title = NSLocalizedString("Edit text", comment: "")
             }
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if editTextView.editable {
+            editTextView.becomeFirstResponder()
         }
     }
 

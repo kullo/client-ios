@@ -146,7 +146,7 @@ class StorageManager {
             default:
                 preconditionFailure("unsupported storage version: \(storageVersion)")
             }
-            ++storageVersion
+            storageVersion += 1
             setStorageVersion(storageVersion)
 
             log.info("Finished migration to storage version \(storageVersion)")

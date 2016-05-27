@@ -18,7 +18,7 @@ class MessagesViewController: UIViewController {
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refreshControlTriggered:", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlTriggered), forControlEvents: .ValueChanged)
         return refreshControl
     }()
 
@@ -136,13 +136,13 @@ extension MessagesViewController : UITableViewDataSource, UITableViewDelegate {
         let messageId = messageIds[indexPath.row]
 
         let messageText = KulloConnector.sharedInstance.getMessageText(messageId)
-        let messageTextWithoutNewLine = messageText.stringByReplacingOccurrencesOfString("\\n+", withString: " ", options:NSStringCompareOptions.RegularExpressionSearch, range:Range<String.Index>(start: messageText.startIndex, end: messageText.endIndex))
+        let messageTextWithoutNewLine = messageText.stringByReplacingOccurrencesOfString("\\n+", withString: " ", options:NSStringCompareOptions.RegularExpressionSearch, range: messageText.startIndex ..< messageText.endIndex)
 
         cell.messageImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId, size: cell.messageImageView.frame.size)
         cell.messageImageView.showAsCircle()
         cell.messageName.text = KulloConnector.sharedInstance.getSenderName(messageId)
         cell.messageOrganization.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
-        cell.messageDateLabel.text = KulloConnector.sharedInstance.getMessageSentDate(messageId).formatWithSymbolicNames()
+        cell.messageDateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithSymbolicNames()
         cell.messageUnreadLabel.hidden = !KulloConnector.sharedInstance.getMessageUnread(messageId)
         cell.messageTextLabel.text = messageTextWithoutNewLine
 

@@ -92,8 +92,8 @@
 /* Class = "UIBarButtonItem"; title = "Next"; ObjectID = "P3v-lZ-M2e"; */
 "P3v-lZ-M2e.title" = "Weiter";
 
-/* Class = "UITextView"; text = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nGermany\n\nManaging Directors/Vertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nCommercial register/Registergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nVAT identification number/USt-ID:\nDE294537976\n\nBerlin office:\nKullo GmbH\nc/o xit GmbH\nBülowstraße 66\n10783 Berlin\nGermany"; ObjectID = "PeU-cW-Z6C"; */
-"PeU-cW-Z6C.text" = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nDeutschland\n\nVertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nRegistergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nUSt-ID:\nDE294537976\n\nBüro Berlin:\nKullo GmbH\nc/o xit GmbH\nBülowstraße 66\n10783 Berlin\nDeutschland";
+/* Class = "UITextView"; text = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nGermany\n\nManaging Directors/Vertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nCommercial register/Registergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nVAT identification number/USt-ID:\nDE294537976"; ObjectID = "PeU-cW-Z6C"; */
+"PeU-cW-Z6C.text" = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nDeutschland\n\nVertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nRegistergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nUSt-ID:\nDE294537976";
 
 /* Class = "UITextField"; placeholder = "Enter address"; ObjectID = "QZn-LT-I1o"; */
 "QZn-LT-I1o.placeholder" = "Adresse eingeben";

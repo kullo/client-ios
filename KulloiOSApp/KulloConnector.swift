@@ -743,20 +743,16 @@ class KulloConnector {
             for msgId in messages.allForConversation(convId) {
                 messageList.append(msgId.longLongValue)
             }
-            let sortedMessageList = messageList.sort {
-                (lhs: Int64, rhs: Int64) -> Bool in
-                return lhs > rhs
-            }
-            return sortedMessageList
+            return messageList.reverse().sort { $0 > $1 }
         } else {
             log.warning("No messages found for convId: \(convId)")
             return []
         }
     }
 
-    func getMessageSentDate(messageId: Int64) -> KADateTime {
+    func getMessageReceivedDate(messageId: Int64) -> KADateTime {
         if let messages = session?.messages() {
-            return messages.dateSent(messageId)
+            return messages.dateReceived(messageId)
         } else {
             return KAConversations.emptyConversationTimestamp()
         }
