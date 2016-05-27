@@ -86,6 +86,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             stopGcm()
         }
         KulloConnector.sharedInstance.closeSession()
+
+        // restore default log listener because we had some crashes during static deinitialization
+        KARegistry.setLogListener(nil)
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {

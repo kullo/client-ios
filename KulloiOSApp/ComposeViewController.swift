@@ -226,6 +226,30 @@ extension ComposeViewController : DraftAttachmentsSaveToDelegate {
 
 extension ComposeViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    private func dedupeFilename(convId: Int64, filename: String) -> String {
+        let filenameNSString = NSString(string: filename)
+        let filenameBasename = filenameNSString.stringByDeletingPathExtension
+        let filenameExtension = filenameNSString.pathExtension
+
+        let otherFilenames = KulloConnector.sharedInstance.getDraftAttachmentFilenames(convId)
+        var result = filename
+
+        var isDuplicate: Bool
+        var dupeCounter = 0
+        repeat {
+            isDuplicate = false
+            for other in otherFilenames {
+                if other == result {
+                    isDuplicate = true
+                    dupeCounter++
+                    result = "\(filenameBasename)-\(dupeCounter).\(filenameExtension)"
+                }
+            }
+        } while isDuplicate
+
+        return result
+    }
+
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let mediaType = info[UIImagePickerControllerMediaType] as! NSString
         var path = ""
@@ -251,7 +275,7 @@ extension ComposeViewController : UIImagePickerControllerDelegate, UINavigationC
                 break
             }
             let filename = "\((url.lastPathComponent! as NSString).stringByDeletingPathExtension).\(imageExtension)"
-            path = StorageManager.getTempPathForView(viewName, filename: filename)
+            path = StorageManager.getTempPathForView(viewName, filename: dedupeFilename(convId, filename: filename))
             guard imageData.writeToFile(path, atomically: false) else {
                 errorMsg = NSLocalizedString("Error while saving attachment", comment: "")
                 break
@@ -259,7 +283,8 @@ extension ComposeViewController : UIImagePickerControllerDelegate, UINavigationC
 
         case kUTTypeMovie:
             let originalUrl = info[UIImagePickerControllerMediaURL] as! NSURL
-            path = StorageManager.getTempPathForView(viewName, filename: originalUrl.lastPathComponent!)
+            let filename = originalUrl.lastPathComponent!
+            path = StorageManager.getTempPathForView(viewName, filename: dedupeFilename(convId, filename: filename))
             do {
                 try NSFileManager.defaultManager().moveItemAtPath(originalUrl.path!, toPath: path)
             } catch {

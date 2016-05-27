@@ -28,9 +28,20 @@ class KulloAddressTextField: HTAutocompleteTextField {
     }
 
     func kulloAddrTextDidChange(notification: NSNotification) {
-        if let text = self.text, let rangeOfAtChar = text.rangeOfString("@") {
-            self.text = text.stringByReplacingCharactersInRange(rangeOfAtChar, withString: "#")
-            forceRefreshAutocompleteText()
+        if var text = self.text {
+
+            // trim whitespace
+            text = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+
+            // replace @ by #
+            if let rangeOfAtChar = text.rangeOfString("@") {
+                text = text.stringByReplacingCharactersInRange(rangeOfAtChar, withString: "#")
+            }
+
+            if text != self.text {
+                self.text = text
+                forceRefreshAutocompleteText()
+            }
         }
     }
 

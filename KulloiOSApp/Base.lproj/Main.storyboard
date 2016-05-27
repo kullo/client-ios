@@ -564,12 +564,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="89"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ObQ-DL-0k7">
-                                                    <rect key="frame" x="70" y="35" width="217" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DFQ-ZW-yqN">
                                                     <rect key="frame" x="8" y="18" width="54" height="54"/>
                                                     <constraints>
@@ -577,29 +571,35 @@
                                                         <constraint firstAttribute="width" secondItem="DFQ-ZW-yqN" secondAttribute="height" multiplier="1:1" id="TfH-PB-6tM"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/02/2015" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiA-Md-lC7">
-                                                    <rect key="frame" x="215" y="3" width="64" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12/02/2015" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiA-Md-lC7">
+                                                    <rect key="frame" x="223" y="37" width="64" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="●" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ofr-HR-Um3">
-                                                    <rect key="frame" x="199" y="3" width="8" height="15"/>
+                                                    <rect key="frame" x="279" y="18" width="8" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ObQ-DL-0k7">
+                                                    <rect key="frame" x="70" y="35" width="70" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="ObQ-DL-0k7" secondAttribute="trailing" constant="-8" id="ESP-35-xG9"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ObQ-DL-0k7" secondAttribute="trailing" constant="4" id="4qk-TZ-5nt"/>
                                                 <constraint firstItem="DFQ-ZW-yqN" firstAttribute="centerY" secondItem="bCZ-sc-CVZ" secondAttribute="centerY" id="F8L-Uv-CyN"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="centerY" secondItem="bCZ-sc-CVZ" secondAttribute="centerY" id="Jo1-6L-coo"/>
                                                 <constraint firstItem="ObQ-DL-0k7" firstAttribute="leading" secondItem="DFQ-ZW-yqN" secondAttribute="trailing" constant="8" id="OOY-tf-PK5"/>
-                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="leading" secondItem="ofr-HR-Um3" secondAttribute="trailing" constant="8" id="Py6-z0-qxv"/>
-                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="bottom" secondItem="DFQ-ZW-yqN" secondAttribute="top" id="Twg-fj-FKz"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="top" secondItem="ofr-HR-Um3" secondAttribute="bottom" constant="4" id="TjT-0w-eai"/>
                                                 <constraint firstItem="DFQ-ZW-yqN" firstAttribute="leading" secondItem="bCZ-sc-CVZ" secondAttribute="leadingMargin" id="UL0-wd-Isg"/>
-                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="trailing" secondItem="bCZ-sc-CVZ" secondAttribute="trailingMargin" id="UOn-W7-Znc"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="trailing" secondItem="bCZ-sc-CVZ" secondAttribute="trailing" id="UOn-W7-Znc"/>
                                                 <constraint firstItem="ObQ-DL-0k7" firstAttribute="centerY" secondItem="bCZ-sc-CVZ" secondAttribute="centerY" id="Yne-ml-xOp"/>
-                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="centerY" secondItem="ofr-HR-Um3" secondAttribute="centerY" id="vAm-IA-5Jc"/>
+                                                <constraint firstAttribute="trailing" secondItem="ofr-HR-Um3" secondAttribute="trailing" id="g7n-1Y-PX5"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -1248,13 +1248,7 @@ Germany</string>
                                                                 <constraint firstAttribute="width" secondItem="4Fx-e1-gcD" secondAttribute="height" multiplier="1:1" id="N0Q-aI-tWk"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11g-AS-teA" userLabel="Sender Name Label">
-                                                            <rect key="frame" x="70" y="15" width="209" height="20"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doe Inc." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfb-Tw-Obh" userLabel="Sender Organization Label">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doe Inc." textAlignment="natural" lineBreakMode="middleTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Jfb-Tw-Obh" userLabel="Sender Organization Label">
                                                             <rect key="frame" x="70" y="35" width="47" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1263,13 +1257,13 @@ Germany</string>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/02/2015" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8f-Sc-MCK" userLabel="Message Date Label">
                                                             <rect key="frame" x="215" y="35" width="64" height="15"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="●" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ch6-Rq-8Wt">
-                                                            <rect key="frame" x="199" y="35" width="8" height="15"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="middleTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="11g-AS-teA" userLabel="Sender Name Label">
+                                                            <rect key="frame" x="70" y="15" width="70" height="20"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -1277,32 +1271,41 @@ Germany</string>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="d8f-Sc-MCK" secondAttribute="trailing" id="6Yy-eC-sKN"/>
                                                         <constraint firstItem="4Fx-e1-gcD" firstAttribute="centerY" secondItem="RJT-nP-mSs" secondAttribute="centerY" id="8te-vA-hBi"/>
-                                                        <constraint firstItem="d8f-Sc-MCK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Jfb-Tw-Obh" secondAttribute="trailing" id="HZD-op-nhI"/>
+                                                        <constraint firstItem="d8f-Sc-MCK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Jfb-Tw-Obh" secondAttribute="trailing" constant="4" id="HZD-op-nhI"/>
+                                                        <constraint firstAttribute="height" constant="69" id="PVh-MW-oct"/>
                                                         <constraint firstItem="Jfb-Tw-Obh" firstAttribute="top" secondItem="4Fx-e1-gcD" secondAttribute="centerY" id="T8P-Gb-g6a"/>
-                                                        <constraint firstItem="d8f-Sc-MCK" firstAttribute="leading" secondItem="ch6-Rq-8Wt" secondAttribute="trailing" constant="8" id="W6G-wF-RYR"/>
                                                         <constraint firstItem="4Fx-e1-gcD" firstAttribute="centerY" secondItem="11g-AS-teA" secondAttribute="bottom" id="bWz-bY-eyd"/>
                                                         <constraint firstItem="11g-AS-teA" firstAttribute="leading" secondItem="4Fx-e1-gcD" secondAttribute="trailing" constant="8" id="nVf-Do-3QC"/>
-                                                        <constraint firstItem="d8f-Sc-MCK" firstAttribute="centerY" secondItem="ch6-Rq-8Wt" secondAttribute="centerY" id="ndV-Gv-hcw"/>
+                                                        <constraint firstItem="11g-AS-teA" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RJT-nP-mSs" secondAttribute="top" id="q8b-fe-Epn"/>
                                                         <constraint firstItem="d8f-Sc-MCK" firstAttribute="top" secondItem="4Fx-e1-gcD" secondAttribute="centerY" id="sn4-Vo-Ax1"/>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Jfb-Tw-Obh" secondAttribute="bottom" id="t6u-fO-pTw"/>
                                                         <constraint firstItem="4Fx-e1-gcD" firstAttribute="leading" secondItem="RJT-nP-mSs" secondAttribute="leadingMargin" id="tD3-7V-GbN"/>
                                                         <constraint firstItem="Jfb-Tw-Obh" firstAttribute="leading" secondItem="4Fx-e1-gcD" secondAttribute="trailing" constant="8" id="vOH-h4-sGo"/>
-                                                        <constraint firstAttribute="trailing" secondItem="11g-AS-teA" secondAttribute="trailing" id="wJB-eG-Zii"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b7C-q4-aQR">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b7C-q4-aQR">
                                                     <rect key="frame" x="20" y="77" width="267" height="34"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="●" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ch6-Rq-8Wt">
+                                                    <rect key="frame" x="279" y="24" width="8" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="ch6-Rq-8Wt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="11g-AS-teA" secondAttribute="trailing" constant="4" id="1tD-L5-VlI"/>
                                                 <constraint firstItem="b7C-q4-aQR" firstAttribute="trailing" secondItem="nOq-Ky-8BZ" secondAttribute="trailingMargin" id="9ui-K2-DYw"/>
                                                 <constraint firstItem="RJT-nP-mSs" firstAttribute="top" secondItem="nOq-Ky-8BZ" secondAttribute="topMargin" id="EaO-zK-LZ4"/>
                                                 <constraint firstItem="RJT-nP-mSs" firstAttribute="leading" secondItem="nOq-Ky-8BZ" secondAttribute="leadingMargin" id="Kzs-YJ-n1a"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="b7C-q4-aQR" secondAttribute="bottom" id="M7a-Gx-FRZ"/>
+                                                <constraint firstItem="d8f-Sc-MCK" firstAttribute="top" secondItem="ch6-Rq-8Wt" secondAttribute="bottom" constant="4" id="WJv-zj-e5T"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="RJT-nP-mSs" secondAttribute="trailing" id="a6z-Sz-382"/>
+                                                <constraint firstItem="ch6-Rq-8Wt" firstAttribute="trailing" secondItem="nOq-Ky-8BZ" secondAttribute="trailingMargin" id="eyT-XA-7vX"/>
                                                 <constraint firstItem="b7C-q4-aQR" firstAttribute="top" secondItem="RJT-nP-mSs" secondAttribute="bottom" id="sLW-h3-bCo"/>
                                                 <constraint firstItem="b7C-q4-aQR" firstAttribute="leading" secondItem="nOq-Ky-8BZ" secondAttribute="leadingMargin" constant="12" id="vIk-zk-TMj"/>
                                             </constraints>
@@ -1388,13 +1391,13 @@ Germany</string>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LfN-la-ZAW" userLabel="Sender View">
                                                         <rect key="frame" x="70" y="8" width="226" height="54"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wP-ij-x7g">
-                                                                <rect key="frame" x="0.0" y="3" width="226" height="24"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2wP-ij-x7g">
+                                                                <rect key="frame" x="0.0" y="7" width="226" height="20"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doe Inc." textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5qf-IK-PDp">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doe Inc." textAlignment="natural" lineBreakMode="middleTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5qf-IK-PDp">
                                                                 <rect key="frame" x="0.0" y="27" width="47" height="15"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1403,7 +1406,7 @@ Germany</string>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/02/2015" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="shY-cY-KjM" userLabel="Date Label">
                                                                 <rect key="frame" x="162" y="27" width="64" height="15"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
@@ -1411,11 +1414,13 @@ Germany</string>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="2wP-ij-x7g" secondAttribute="trailing" id="658-vd-Dmk"/>
                                                             <constraint firstItem="2wP-ij-x7g" firstAttribute="leading" secondItem="LfN-la-ZAW" secondAttribute="leading" id="HPW-eY-KVo"/>
-                                                            <constraint firstItem="shY-cY-KjM" firstAttribute="leadingMargin" relation="greaterThanOrEqual" secondItem="5qf-IK-PDp" secondAttribute="trailing" id="HUX-y0-JdE"/>
+                                                            <constraint firstItem="5qf-IK-PDp" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="shY-cY-KjM" secondAttribute="leading" constant="4" id="HUX-y0-JdE"/>
                                                             <constraint firstAttribute="trailing" secondItem="shY-cY-KjM" secondAttribute="trailing" id="IiW-VA-nET"/>
                                                             <constraint firstItem="5qf-IK-PDp" firstAttribute="leading" secondItem="LfN-la-ZAW" secondAttribute="leading" id="QAt-jz-mp0"/>
+                                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="5qf-IK-PDp" secondAttribute="bottom" id="TKi-ip-Fuj"/>
                                                             <constraint firstAttribute="centerY" secondItem="2wP-ij-x7g" secondAttribute="bottom" id="TbD-7X-1Ja"/>
                                                             <constraint firstItem="shY-cY-KjM" firstAttribute="top" secondItem="LfN-la-ZAW" secondAttribute="centerY" id="X4M-WK-UVe"/>
+                                                            <constraint firstItem="2wP-ij-x7g" firstAttribute="top" relation="greaterThanOrEqual" secondItem="LfN-la-ZAW" secondAttribute="top" id="YgX-WF-kq1"/>
                                                             <constraint firstItem="5qf-IK-PDp" firstAttribute="top" secondItem="LfN-la-ZAW" secondAttribute="centerY" id="nYa-Rp-buS"/>
                                                         </constraints>
                                                     </view>

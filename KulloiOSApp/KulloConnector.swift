@@ -881,6 +881,12 @@ class KulloConnector {
         }
     }
 
+    func getDraftAttachmentFilenames(convId: Int64) -> [String] {
+        return getDraftAttachmentIds(convId).map({
+            getDraftAttachmentFilename(convId, attachmentId: $0)
+        })
+    }
+
     func getDraftAttachmentFilename(convId: Int64, attachmentId: Int64) -> String {
         return session?.draftAttachments()?.filename(convId, attId: attachmentId) ?? ""
     }
