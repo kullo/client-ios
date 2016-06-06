@@ -114,7 +114,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        log.debug("Incoming notification (through APN): \(userInfo)")
+        let appState = application.applicationState
+        log.debug("Incoming notification (through APN): \(userInfo); app state: \(appState)")
         GCMService.sharedInstance().appDidReceiveMessage(userInfo);
         KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
     }
@@ -181,4 +182,16 @@ extension AppDelegate : GGLInstanceIDDelegate {
         refreshGcmToken()
     }
 
+}
+
+extension UIApplicationState : CustomStringConvertible {
+    
+    public var description: String {
+        switch self {
+        case .Active: return "active"
+        case .Inactive: return "inactive"
+        case .Background: return "background"
+        }
+    }
+    
 }

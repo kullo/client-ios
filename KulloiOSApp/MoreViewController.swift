@@ -51,8 +51,8 @@ class MoreViewController: UIViewController {
     // MARK: actions
 
     @IBAction func dismissAndSaveChanges() {
-        KulloConnector.sharedInstance.storeCurrentUserSettings()
-
+        // upload potential changes to UserSettings
+        KulloConnector.sharedInstance.sync(.WithoutAttachments)
         navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
 

@@ -23,35 +23,42 @@ class StorageManager {
         migrate()
     }
 
-    func loadUserSettings() -> KAUserSettings? {
+    func loadCredentials() -> Credentials? {
         var blockList = [String]()
         for index in 0...15 {
             blockList.append(KeychainWrapper.stringForKey(getBlockKey(index))!)
         }
-        if let masterKey = KAMasterKey.createFromDataBlocks(blockList) {
-            let userSettings = KAUserSettings.create(userAddress, masterKey: masterKey)!
-
-            if let name = KeychainWrapper.stringForKey(getNameKey()) {
-                userSettings.setName(name)
-            }
-            if let organization = KeychainWrapper.stringForKey(getOrganizationKey()) {
-                userSettings.setOrganization(organization)
-            }
-            if let footer = KeychainWrapper.stringForKey(getFooterKey()) {
-                userSettings.setFooter(footer)
-            }
-            if var avatarMimeType = KeychainWrapper.stringForKey(getAvatarTypeKey()) {
-                // fix wrong MIME type that has been set previously by this app
-                if avatarMimeType == "image/jpg" {
-                    avatarMimeType = "image/jpeg"
-                }
-                userSettings.setAvatarMimeType(avatarMimeType)
-            }
-            userSettings.setAvatar(loadAvatar() ?? NSData())
-            return userSettings
+        guard let masterKey = KAMasterKey.createFromDataBlocks(blockList) else {
+            return nil
         }
+        return Credentials(address: userAddress, masterKey: masterKey)
+    }
 
-        return nil
+    func migrateUserSettings(userSettings: KAUserSettings) {
+        if let name = KeychainWrapper.stringForKey(getNameKey()) {
+            userSettings.setName(name)
+            KeychainWrapper.removeObjectForKey(getNameKey())
+        }
+        if let organization = KeychainWrapper.stringForKey(getOrganizationKey()) {
+            userSettings.setOrganization(organization)
+            KeychainWrapper.removeObjectForKey(getOrganizationKey())
+        }
+        if let footer = KeychainWrapper.stringForKey(getFooterKey()) {
+            userSettings.setFooter(footer)
+            KeychainWrapper.removeObjectForKey(getFooterKey())
+        }
+        if var avatarMimeType = KeychainWrapper.stringForKey(getAvatarTypeKey()) {
+            // fix wrong MIME type that has been set previously by this app
+            if avatarMimeType == "image/jpg" {
+                avatarMimeType = "image/jpeg"
+            }
+            userSettings.setAvatarMimeType(avatarMimeType)
+            KeychainWrapper.removeObjectForKey(getAvatarTypeKey())
+        }
+        if let avatar = loadAvatar() {
+            userSettings.setAvatar(avatar)
+            saveAvatar(nil)
+        }
     }
 
     func saveCredentials(address: KAAddress, masterKey: KAMasterKey) {
@@ -61,23 +68,6 @@ class StorageManager {
         for (index, block) in blockList.enumerate() {
             KeychainWrapper.setString(block, forKey: getBlockKey(index))
         }
-    }
-
-    func saveEditableUserSettings(userSettings: KAUserSettings) {
-        var saveStates : [Bool] = []
-        saveStates.append(KeychainWrapper.setString(userSettings.name(), forKey: getNameKey()))
-        saveStates.append(KeychainWrapper.setString(userSettings.organization(), forKey: getOrganizationKey()))
-        saveStates.append(KeychainWrapper.setString(userSettings.footer(), forKey: getFooterKey()))
-        saveStates.append(KeychainWrapper.setString(userSettings.avatarMimeType(), forKey: getAvatarTypeKey()))
-
-        for (index, saveState) in saveStates.enumerate() {
-            if !saveState {
-                log.error("Storing of user settings failed for position: \(index)")
-            }
-        }
-
-        let avatar = userSettings.avatar()
-        saveAvatar(avatar.length > 0 ? avatar : nil)
     }
 
     func getDbPath() -> String {

@@ -5,6 +5,11 @@ import SwiftMime
 import UIKit
 import XCGLogger
 
+struct Credentials {
+    let address: KAAddress
+    let masterKey: KAMasterKey
+}
+
 class KulloConnector {
 
     typealias VersionTuple = (component: String, version: String)
@@ -32,7 +37,9 @@ class KulloConnector {
     private var pushTokenRegistered = false
     private var shouldSyncWhenSessionHasBeenCreated = false
     private var syncProgress: KASyncProgress?
-    private var syncCompletionCallback: (() -> Void)?
+
+    typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
+    private var fetchCompletionHandlers = [FetchCompletionHandler]()
 
     // MARK: delegates
 
@@ -52,10 +59,12 @@ class KulloConnector {
 
     func checkForStoredCredentialsAndCreateSession(delegate: ClientCreateSessionDelegate) -> Bool {
         if let address = StorageManager.getLastUserAddress() {
+            log.debug("Found last user: \(address.toString())")
             storage = StorageManager(address: address)
 
-            if let userSettings = storage!.loadUserSettings() {
-                createSession(userSettings, delegate: delegate)
+            if let credentials = storage!.loadCredentials() {
+                log.debug("Found valid credentials for last user.")
+                createSession(credentials, delegate: delegate)
                 return true
             }
         }
@@ -102,18 +111,14 @@ class KulloConnector {
 
     //MARK: Session
 
-    func createSession(userSettings: KAUserSettings, delegate: ClientCreateSessionDelegate) {
-        if storage == nil || storage!.userAddress != userSettings.address()! {
-            storage = StorageManager(address: userSettings.address()!)
-        }
-
-        if userSettings.name().isEmpty {
-            userSettings.setName(userSettings.address()!.localPart())
-            storage!.saveEditableUserSettings(userSettings)
+    func createSession(credentials: Credentials, delegate: ClientCreateSessionDelegate) {
+        if storage == nil || storage!.userAddress != credentials.address {
+            storage = StorageManager(address: credentials.address)
         }
 
         createSessionTask = client.createSessionAsync(
-            userSettings,
+            credentials.address,
+            masterKey: credentials.masterKey,
             dbFilePath: storage!.getDbPath(),
             sessionListener: SessionListener(kulloConnector: self),
             listener: ClientCreateSessionListener(delegate: delegate))
@@ -126,6 +131,19 @@ class KulloConnector {
     func setSession(session: KASession) {
         self.session = session
         self.session?.syncer()?.setListener(SyncerListener(kulloConnector: self))
+
+        guard let userSettings = self.session?.userSettings() else {
+            preconditionFailure("session must have userSettings")
+        }
+        guard let storage = storage else {
+            preconditionFailure("there must be a storage instance at this point")
+        }
+
+        storage.migrateUserSettings(userSettings)
+        if userSettings.name().isEmpty {
+            userSettings.setName((userSettings.address()?.localPart()) ?? "")
+        }
+
         if let pushToken = pushToken {
             registerPushToken(pushToken)
         }
@@ -193,15 +211,6 @@ class KulloConnector {
 
     func saveCredentials(address: KAAddress, masterKey: KAMasterKey) {
         StorageManager(address: address).saveCredentials(address, masterKey: masterKey)
-    }
-
-    func storeCurrentUserSettings() {
-        if let userSettings = session?.userSettings(), let storage = storage {
-            storage.saveEditableUserSettings(userSettings)
-
-        } else {
-            assertionFailure("session or storage not available")
-        }
     }
 
     //MARK: Registration
@@ -398,13 +407,14 @@ class KulloConnector {
     }
 
     func sync(syncMode: KASyncMode, completionHandler: (UIBackgroundFetchResult) -> Void) {
-        syncCompletionCallback = {
-            log.debug("Sync completed (triggered by notification)")
-            completionHandler(.NewData)
-        }
+        fetchCompletionHandlers.append(completionHandler)
         if !sync(syncMode) {
-            syncCompletionCallback = nil
-            completionHandler(.Failed)
+            log.debug("Could not sync right now since session is not available. Delay sync and fail for now. (triggered by notification)")
+            for handler in fetchCompletionHandlers {
+                log.debug("calling fetchCompletionHandler with .Failed")
+                handler(.Failed)
+            }
+            fetchCompletionHandlers.removeAll()
         }
     }
 
@@ -451,10 +461,11 @@ class KulloConnector {
     }
 
     func syncComplete() {
-        if let callback = syncCompletionCallback {
-            callback()
-            syncCompletionCallback = nil
+        for handler in fetchCompletionHandlers {
+            log.debug("calling fetchCompletionHandler with .NewData")
+            handler(.NewData)
         }
+        fetchCompletionHandlers.removeAll()
         UIApplication.sharedApplication().idleTimerDisabled = false
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }

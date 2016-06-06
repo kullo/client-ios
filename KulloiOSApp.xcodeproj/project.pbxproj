@@ -23,7 +23,7 @@
 		65DA02921C109FBA00D77DD6 /* ChooseAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */; };
 		65DA3DD51BFCBA490058430E /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA3DD41BFCBA490058430E /* StorageManager.swift */; };
 		65DECBF21CAEB47F00775A55 /* PortraitNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */; };
-		A0CC35119FCFAF9CFAC26A69 /* Pods_KulloiOSApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */; };
+		9BB3407A351821372541C5CA /* Pods_KulloiOSApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89623A29FF47374BF8BCFB76 /* Pods_KulloiOSApp.framework */; };
 		F2318CB51BCEB40200EEA8A5 /* KulloConnector_Listeners.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */; };
 		F26152A01BDD7BFF009176F7 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F261529F1BDD7BFF009176F7 /* DateUtils.swift */; };
 		F2640A701BD040970073BFE9 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2640A6F1BD040970073BFE9 /* ColorUtils.swift */; };
@@ -69,7 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KulloiOSApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		361CF84AEB1CD9B1A57283F9 /* Pods-KulloiOSApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.release.xcconfig"; sourceTree = "<group>"; };
 		6509928B1C087E1C00103510 /* MoreVersionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreVersionsViewController.swift; sourceTree = "<group>"; };
 		650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttachmentsViewController.swift; sourceTree = "<group>"; };
 		6510427C1BD8EAB700D56605 /* strip_invalid_archs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = strip_invalid_archs.sh; path = libkullo/strip_invalid_archs.sh; sourceTree = "<group>"; };
@@ -87,7 +87,8 @@
 		65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAddressViewController.swift; sourceTree = "<group>"; };
 		65DA3DD41BFCBA490058430E /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortraitNavigationController.swift; sourceTree = "<group>"; };
-		E9A02B38B2F8490132406AE5 /* Pods-KulloiOSApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.debug.xcconfig"; sourceTree = "<group>"; };
+		89623A29FF47374BF8BCFB76 /* Pods_KulloiOSApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KulloiOSApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A27348487D59AD45F917924A /* Pods-KulloiOSApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloConnector_Listeners.swift; sourceTree = "<group>"; };
 		F261529F1BDD7BFF009176F7 /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		F2640A6F1BD040970073BFE9 /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
@@ -121,7 +122,6 @@
 		F2F2008D1BC08D700000E80E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		F2F2008E1BC08D700000E80E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F2F2008F1BC094280000E80E /* InboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxTableViewCell.swift; sourceTree = "<group>"; };
-		FB78D70C0A25350D93FA57B3 /* Pods-KulloiOSApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,13 +131,22 @@
 			files = (
 				651327EB1C5293CE00AC93D1 /* AudioToolbox.framework in Frameworks */,
 				65B26DA01BC8778C00EC09A1 /* LibKullo.framework in Frameworks */,
-				A0CC35119FCFAF9CFAC26A69 /* Pods_KulloiOSApp.framework in Frameworks */,
+				9BB3407A351821372541C5CA /* Pods_KulloiOSApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1623F441CBD3D0500F75A2F8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A27348487D59AD45F917924A /* Pods-KulloiOSApp.debug.xcconfig */,
+				361CF84AEB1CD9B1A57283F9 /* Pods-KulloiOSApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		650C8F0C1C203841002C3CEE /* Attachments */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,20 +181,11 @@
 			name = Libs;
 			sourceTree = "<group>";
 		};
-		EABDBDD18CD2A51CC80DF8D4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E9A02B38B2F8490132406AE5 /* Pods-KulloiOSApp.debug.xcconfig */,
-				FB78D70C0A25350D93FA57B3 /* Pods-KulloiOSApp.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		F160422554C811B63BCAF046 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */,
-				26F6DE2B98AB3B10D00BDFB4 /* Pods_KulloiOSApp.framework */,
+				89623A29FF47374BF8BCFB76 /* Pods_KulloiOSApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -213,8 +213,8 @@
 				F298C5E91BBFDF9D00081487 /* KulloiOSApp */,
 				F298C5E81BBFDF9D00081487 /* Products */,
 				65D4E8B31C046CB600996930 /* Libs */,
-				EABDBDD18CD2A51CC80DF8D4 /* Pods */,
 				F160422554C811B63BCAF046 /* Frameworks */,
+				1623F441CBD3D0500F75A2F8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -369,14 +369,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F298C6041BBFDF9D00081487 /* Build configuration list for PBXNativeTarget "KulloiOSApp" */;
 			buildPhases = (
-				3551EA7BC2F72D3611296E6B /* Check Pods Manifest.lock */,
+				F5A85F789A9BFCCB0CD56D5E /* 📦 Check Pods Manifest.lock */,
 				F298C5E31BBFDF9D00081487 /* Sources */,
 				F298C5E41BBFDF9D00081487 /* Frameworks */,
 				F298C5E51BBFDF9D00081487 /* Resources */,
-				5836C1514A354F46BA7D7531 /* Embed Pods Frameworks */,
-				465DDC582CB39D05B6C00C68 /* Copy Pods Resources */,
 				65B26D9C1BC86BE200EC09A1 /* Embed LibKullo.framework */,
 				6510427B1BD8EA5700D56605 /* Strip invalid architectures from LibKullo.framework */,
+				A53FAC0C28361C7829E965EE /* 📦 Embed Pods Frameworks */,
+				C09DE3BC2313DE97D9A282DB /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -446,51 +446,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3551EA7BC2F72D3611296E6B /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		465DDC582CB39D05B6C00C68 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5836C1514A354F46BA7D7531 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6510427B1BD8EA5700D56605 /* Strip invalid architectures from LibKullo.framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -504,6 +459,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/libkullo/strip_invalid_archs.sh\"";
+			showEnvVarsInLog = 0;
+		};
+		A53FAC0C28361C7829E965EE /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C09DE3BC2313DE97D9A282DB /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5A85F789A9BFCCB0CD56D5E /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -673,7 +673,7 @@
 		};
 		F298C6051BBFDF9D00081487 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E9A02B38B2F8490132406AE5 /* Pods-KulloiOSApp.debug.xcconfig */;
+			baseConfigurationReference = A27348487D59AD45F917924A /* Pods-KulloiOSApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -694,7 +694,7 @@
 		};
 		F298C6061BBFDF9D00081487 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB78D70C0A25350D93FA57B3 /* Pods-KulloiOSApp.release.xcconfig */;
+			baseConfigurationReference = 361CF84AEB1CD9B1A57283F9 /* Pods-KulloiOSApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

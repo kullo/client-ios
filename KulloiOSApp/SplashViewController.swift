@@ -10,9 +10,13 @@ class SplashViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        log.debug("SplashViewController.viewDidAppear()")
 
         if !KulloConnector.sharedInstance.hasSession() {
+            log.debug("No session available")
             if !KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession(self) {
+                log.debug("Could not start creating a session")
                 performSegueWithIdentifier(SplashViewController.welcomeSegue, sender: self)
             }
         }

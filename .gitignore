@@ -1,3 +1,9 @@
 xcuserdata
 *.swp
 /Pods
+
+# Finder
+.DS_Store
+
+# Text file backups (e.g. from joe)
+*~
