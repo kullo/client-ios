@@ -87,23 +87,26 @@ class ClientCheckCredentialsListener : KAClientCheckCredentialsListener {
 
 }
 
+typealias CreateSessionCompletionHandler = (address: KAAddress, error: String?) -> ()
+
 class ClientCreateSessionListener : KAClientCreateSessionListener {
 
-    weak var delegate: ClientCreateSessionDelegate?
+    var completion: CreateSessionCompletionHandler?
 
-    init(delegate: ClientCreateSessionDelegate) {
-        self.delegate = delegate
+    init(completion: CreateSessionCompletionHandler) {
+        self.completion = completion
     }
 
     @objc func finished(session: KASession?) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.createSessionFinished(session!)
+            KulloConnector.sharedInstance.setSession(session!)
+            self.completion?(address: session!.userSettings()!.address()!, error: nil)
         }
     }
 
     @objc func error(address: KAAddress?, error: KALocalError) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.createSessionError(address!, error: KulloConnector.getLocalErrorText(error))
+            self.completion?(address: address!, error: KulloConnector.getLocalErrorText(error))
         }
     }
 }

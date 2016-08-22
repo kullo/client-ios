@@ -15,11 +15,6 @@ protocol ClientCheckCredentialsDelegate: class {
     func checkCredentialsError(error: String)
 }
 
-protocol ClientCreateSessionDelegate: class {
-    func createSessionFinished(session: KASession)
-    func createSessionError(address: KAAddress, error: String)
-}
-
 protocol SyncDelegate: class {
     func syncStarted()
     func syncProgressed()
@@ -53,17 +48,34 @@ protocol GenerateKeysDelegate: class {
     func generateKeysFinished()
 }
 
-@objc protocol SessionEventsDelegate: class {
-    optional func sessionEventConversationAdded(convId: Int64)
-    optional func sessionEventConversationChanged(convId: Int64)
-    optional func sessionEventConversationRemoved(convId: Int64)
-    optional func sessionEventDraftStateChanged(convId: Int64)
-    optional func sessionEventDraftTextChanged(convId: Int64)
-    optional func sessionEventDraftAttachmentAdded(convId: Int64)
-    optional func sessionEventDraftAttachmentRemoved(convId: Int64)
-    optional func sessionEventMessageAdded(convId: Int64, msgId: Int64)
-    optional func sessionEventMessageDeliveryChanged(convId: Int64, msgId: Int64)
-    optional func sessionEventMessageStateChanged(convId: Int64, msgId: Int64)
-    optional func sessionEventMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64)
-    optional func sessionEventMessageRemoved(convId: Int64, msgId: Int64)
+protocol SessionEventsDelegate: class {
+    func sessionEventSessionCreated()
+    func sessionEventConversationAdded(convId: Int64)
+    func sessionEventConversationChanged(convId: Int64)
+    func sessionEventConversationRemoved(convId: Int64)
+    func sessionEventDraftStateChanged(convId: Int64)
+    func sessionEventDraftTextChanged(convId: Int64)
+    func sessionEventDraftAttachmentAdded(convId: Int64)
+    func sessionEventDraftAttachmentRemoved(convId: Int64)
+    func sessionEventMessageAdded(convId: Int64, msgId: Int64)
+    func sessionEventMessageDeliveryChanged(convId: Int64, msgId: Int64)
+    func sessionEventMessageStateChanged(convId: Int64, msgId: Int64)
+    func sessionEventMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64)
+    func sessionEventMessageRemoved(convId: Int64, msgId: Int64)
+}
+
+extension SessionEventsDelegate {
+    func sessionEventSessionCreated() {}
+    func sessionEventConversationAdded(convId: Int64) {}
+    func sessionEventConversationChanged(convId: Int64) {}
+    func sessionEventConversationRemoved(convId: Int64) {}
+    func sessionEventDraftStateChanged(convId: Int64) {}
+    func sessionEventDraftTextChanged(convId: Int64) {}
+    func sessionEventDraftAttachmentAdded(convId: Int64) {}
+    func sessionEventDraftAttachmentRemoved(convId: Int64) {}
+    func sessionEventMessageAdded(convId: Int64, msgId: Int64) {}
+    func sessionEventMessageDeliveryChanged(convId: Int64, msgId: Int64) {}
+    func sessionEventMessageStateChanged(convId: Int64, msgId: Int64) {}
+    func sessionEventMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64) {}
+    func sessionEventMessageRemoved(convId: Int64, msgId: Int64) {}
 }

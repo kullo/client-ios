@@ -11,11 +11,28 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        log.debug("SplashViewController.viewDidAppear()")
+        if KulloConnector.sharedInstance.hasSession() {
+            self.performSegueWithIdentifier(SplashViewController.inboxSegue, sender: self)
 
-        if !KulloConnector.sharedInstance.hasSession() {
+        } else {
             log.debug("No session available")
-            if !KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession(self) {
+            let credentialsAvailable = KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession({
+                address, error in
+                if error != nil {
+                    let alertDialog = UIAlertController(
+                        title: NSLocalizedString("Couldn't load data", comment: ""),
+                        message: error,
+                        preferredStyle: .Alert)
+                    alertDialog.addAction(AlertHelper.getAlertOKAction())
+
+                    self.presentViewController(alertDialog, animated: true, completion: {
+                        self.performSegueWithIdentifier(SplashViewController.welcomeSegue, sender: self)
+                    })
+                } else {
+                    self.performSegueWithIdentifier(SplashViewController.inboxSegue, sender: self)
+                }
+            })
+            if !credentialsAvailable {
                 log.debug("Could not start creating a session")
                 performSegueWithIdentifier(SplashViewController.welcomeSegue, sender: self)
             }
@@ -31,29 +48,6 @@ class SplashViewController: UIViewController {
         KulloConnector.sharedInstance.logout()
 
         // going to the login is handled automatically when this action has finished executing and this view is shown
-    }
-
-}
-
-// MARK: ClientCreateSessionDelegate
-
-extension SplashViewController : ClientCreateSessionDelegate {
-
-    func createSessionFinished(session: KASession) {
-        KulloConnector.sharedInstance.setSession(session)
-        performSegueWithIdentifier(SplashViewController.inboxSegue, sender: self)
-    }
-
-    func createSessionError(address: KAAddress, error: String) {
-        let alertDialog = UIAlertController(
-            title: NSLocalizedString("Couldn't load data", comment: ""),
-            message: error,
-            preferredStyle: .Alert)
-        alertDialog.addAction(AlertHelper.getAlertOKAction())
-
-        presentViewController(alertDialog, animated: true, completion: {
-            self.performSegueWithIdentifier(SplashViewController.welcomeSegue, sender: self)
-        })
     }
 
 }

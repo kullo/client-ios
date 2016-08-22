@@ -29,7 +29,8 @@ let log: XCGLogger = {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var apnDeviceToken: NSData?
+    private var apnDeviceToken: NSData?
+    private let badgeManager = BadgeManager()
 
     //MARK: lifecycle
 
@@ -42,11 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KARegistry.setTaskRunner(KIOperationTaskRunner())
         KHRegistry.setHttpClientFactory(KIUrlSessionHttpClientFactory())
 
-        // register for push notifications
+        // register for push notifications and badge updates
+        application.registerUserNotificationSettings(
+            UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        )
+        badgeManager.register()
         if !FeatureDetection.isRunningOnSimulator() {
-            application.registerUserNotificationSettings(
-                UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-            )
             application.registerForRemoteNotifications()
         }
 
@@ -110,16 +112,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         log.debug("Incoming notification (through GCM): \(userInfo)")
         GCMService.sharedInstance().appDidReceiveMessage(userInfo);
-        KulloConnector.sharedInstance.sync(.WithoutAttachments)
+        startSync(nil)
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         let appState = application.applicationState
         log.debug("Incoming notification (through APN): \(userInfo); app state: \(appState)")
         GCMService.sharedInstance().appDidReceiveMessage(userInfo);
-        KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
+        startSync(completionHandler)
     }
 
+    func startSync(completionHandler: ((UIBackgroundFetchResult) -> Void)?) {
+        if KulloConnector.sharedInstance.hasSession() {
+            KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
+        } else {
+            KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession { address, error in
+                if error != nil {
+                    log.error("Couldn't create session for \(address.toString()), will sync later: \(error)")
+                }
+                // call sync() even when an error occurred, so that a sync can be enqueued
+                KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
+            }
+        }
+    }
 
     func startGcm() {
         let instanceIdConfig = GGLInstanceIDConfig.defaultConfig()
@@ -175,6 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
 
 extension AppDelegate : GGLInstanceIDDelegate {
 

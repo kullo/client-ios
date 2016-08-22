@@ -57,14 +57,14 @@ class KulloConnector {
 
     // MARK: Login
 
-    func checkForStoredCredentialsAndCreateSession(delegate: ClientCreateSessionDelegate) -> Bool {
+    func checkForStoredCredentialsAndCreateSession(completion: CreateSessionCompletionHandler) -> Bool {
         if let address = StorageManager.getLastUserAddress() {
             log.debug("Found last user: \(address.toString())")
             storage = StorageManager(address: address)
 
             if let credentials = storage!.loadCredentials() {
                 log.debug("Found valid credentials for last user.")
-                createSession(credentials, delegate: delegate)
+                createSession(credentials, completion: completion)
                 return true
             }
         }
@@ -111,7 +111,7 @@ class KulloConnector {
 
     //MARK: Session
 
-    func createSession(credentials: Credentials, delegate: ClientCreateSessionDelegate) {
+    func createSession(credentials: Credentials, completion: CreateSessionCompletionHandler) {
         if storage == nil || storage!.userAddress != credentials.address {
             storage = StorageManager(address: credentials.address)
         }
@@ -121,7 +121,7 @@ class KulloConnector {
             masterKey: credentials.masterKey,
             dbFilePath: storage!.getDbPath(),
             sessionListener: SessionListener(kulloConnector: self),
-            listener: ClientCreateSessionListener(delegate: delegate))
+            listener: ClientCreateSessionListener(completion: completion))
     }
 
     func hasSession() -> Bool {
@@ -143,6 +143,8 @@ class KulloConnector {
         if userSettings.name().isEmpty {
             userSettings.setName((userSettings.address()?.localPart()) ?? "")
         }
+
+        informDelegatesSessionCreated()
 
         if let pushToken = pushToken {
             registerPushToken(pushToken)
@@ -312,76 +314,82 @@ class KulloConnector {
             }
         }
     }
-    
+
+    func informDelegatesSessionCreated() {
+        for delegate in sessionEventsDelegates {
+            delegate.sessionEventSessionCreated()
+        }
+    }
+
     func informDelegatesConversationAdded(convId: Int64) {
         for delegate in sessionEventsDelegates {
-            delegate.sessionEventConversationAdded?(convId)
+            delegate.sessionEventConversationAdded(convId)
         }
     }
     
     func informDelegatesConversationChanged(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventConversationChanged?(convId)
+            delegate.sessionEventConversationChanged(convId)
         }
     }
     
     func informDelegatesConversationRemoved(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventConversationRemoved?(convId)
+            delegate.sessionEventConversationRemoved(convId)
         }
     }
     
     func informDelegatesDraftStateChanged(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventDraftStateChanged?(convId)
+            delegate.sessionEventDraftStateChanged(convId)
         }
     }
 
     func informDelegatesDraftTextChanged(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventDraftTextChanged?(convId)
+            delegate.sessionEventDraftTextChanged(convId)
         }
     }
 
     func informDelegatesDraftAttachmentAdded(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventDraftAttachmentAdded?(convId)
+            delegate.sessionEventDraftAttachmentAdded(convId)
         }
     }
 
     func informDelegatesDraftAttachmentRemoved(convId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventDraftAttachmentRemoved?(convId)
+            delegate.sessionEventDraftAttachmentRemoved(convId)
         }
     }
     
     func informDelegatesMessageAdded(convId: Int64, msgId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageAdded?(convId, msgId: msgId)
+            delegate.sessionEventMessageAdded(convId, msgId: msgId)
         }
     }
 
     func informDelegatesMessageDeliveryChanged(convId: Int64, msgId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageDeliveryChanged?(convId, msgId: msgId)
+            delegate.sessionEventMessageDeliveryChanged(convId, msgId: msgId)
         }
     }
 
     func informDelegatesMessageStateChanged(convId: Int64, msgId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageStateChanged?(convId, msgId: msgId)
+            delegate.sessionEventMessageStateChanged(convId, msgId: msgId)
         }
     }
 
     func informDelegatesMessageAttachmentsDownloadedChanged(convId: Int64, msgId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageAttachmentsDownloadedChanged?(convId, msgId: msgId)
+            delegate.sessionEventMessageAttachmentsDownloadedChanged(convId, msgId: msgId)
         }
     }
 
     func informDelegatesMessageRemoved(convId: Int64, msgId: Int64) {
         for delegate in self.sessionEventsDelegates {
-            delegate.sessionEventMessageRemoved?(convId, msgId: msgId)
+            delegate.sessionEventMessageRemoved(convId, msgId: msgId)
         }
     }
 
@@ -406,8 +414,10 @@ class KulloConnector {
         return !shouldSyncWhenSessionHasBeenCreated
     }
 
-    func sync(syncMode: KASyncMode, completionHandler: (UIBackgroundFetchResult) -> Void) {
-        fetchCompletionHandlers.append(completionHandler)
+    func sync(syncMode: KASyncMode, completionHandler: ((UIBackgroundFetchResult) -> Void)?) {
+        if let completionHandler = completionHandler {
+            fetchCompletionHandlers.append(completionHandler)
+        }
         if !sync(syncMode) {
             log.debug("Could not sync right now since session is not available. Delay sync and fail for now. (triggered by notification)")
             for handler in fetchCompletionHandlers {
@@ -538,6 +548,16 @@ class KulloConnector {
         }
 
         return avatars
+    }
+
+    func getTotalUnread() -> Int32 {
+        var count: Int32 = 0
+        if let convIds = session?.conversations()?.all() {
+            for convId in convIds {
+                count += getConversationUnread(convId.longLongValue)
+            }
+        }
+        return count
     }
 
     func getConversationUnread(convId: Int64) -> Int32 {

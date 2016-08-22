@@ -13,6 +13,7 @@
 		65165C371C05C84200BCC26F /* KulloAddressTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65165C361C05C84200BCC26F /* KulloAddressTextField.swift */; };
 		653844E91C2872BF0014BF83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 653844E81C2872BF0014BF83 /* GoogleService-Info.plist */; };
 		653844EC1C288FCA0014BF83 /* FeatureDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653844EB1C288FCA0014BF83 /* FeatureDetection.swift */; };
+		658606CB1D58C8E4009EE12B /* BadgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658606CA1D58C8E4009EE12B /* BadgeManager.swift */; };
 		659B0A0A1C68A97300FEB30B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659B0A091C68A97300FEB30B /* SplashViewController.swift */; };
 		65B26D9F1BC8770C00EC09A1 /* LibKullo.framework in Embed LibKullo.framework */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65B26DA01BC8778C00EC09A1 /* LibKullo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; };
@@ -78,6 +79,7 @@
 		653844E81C2872BF0014BF83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		653844EA1C2875F30014BF83 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		653844EB1C288FCA0014BF83 /* FeatureDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetection.swift; sourceTree = "<group>"; };
+		658606CA1D58C8E4009EE12B /* BadgeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeManager.swift; sourceTree = "<group>"; };
 		659B0A091C68A97300FEB30B /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LibKullo.framework; path = libkullo/LibKullo.framework; sourceTree = "<group>"; };
 		65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreLicensesViewController.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				F2A989641BCFA0C100F42AD7 /* AlertUtils.swift */,
 				F293FB131BC0A54B0054CB91 /* AvatarUtils.swift */,
+				658606CA1D58C8E4009EE12B /* BadgeManager.swift */,
 				F2640A6F1BD040970073BFE9 /* ColorUtils.swift */,
 				F261529F1BDD7BFF009176F7 /* DateUtils.swift */,
 				653844EB1C288FCA0014BF83 /* FeatureDetection.swift */,
@@ -369,14 +372,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F298C6041BBFDF9D00081487 /* Build configuration list for PBXNativeTarget "KulloiOSApp" */;
 			buildPhases = (
-				F5A85F789A9BFCCB0CD56D5E /* 📦 Check Pods Manifest.lock */,
+				F5A85F789A9BFCCB0CD56D5E /* [CP] Check Pods Manifest.lock */,
 				F298C5E31BBFDF9D00081487 /* Sources */,
 				F298C5E41BBFDF9D00081487 /* Frameworks */,
 				F298C5E51BBFDF9D00081487 /* Resources */,
 				65B26D9C1BC86BE200EC09A1 /* Embed LibKullo.framework */,
 				6510427B1BD8EA5700D56605 /* Strip invalid architectures from LibKullo.framework */,
-				A53FAC0C28361C7829E965EE /* 📦 Embed Pods Frameworks */,
-				C09DE3BC2313DE97D9A282DB /* 📦 Copy Pods Resources */,
+				A53FAC0C28361C7829E965EE /* [CP] Embed Pods Frameworks */,
+				C09DE3BC2313DE97D9A282DB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -461,14 +464,14 @@
 			shellScript = "\"${SRCROOT}/libkullo/strip_invalid_archs.sh\"";
 			showEnvVarsInLog = 0;
 		};
-		A53FAC0C28361C7829E965EE /* 📦 Embed Pods Frameworks */ = {
+		A53FAC0C28361C7829E965EE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,14 +479,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C09DE3BC2313DE97D9A282DB /* 📦 Copy Pods Resources */ = {
+		C09DE3BC2313DE97D9A282DB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,14 +494,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F5A85F789A9BFCCB0CD56D5E /* 📦 Check Pods Manifest.lock */ = {
+		F5A85F789A9BFCCB0CD56D5E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -548,6 +551,7 @@
 				F2BC632E1BD3D877008B03AF /* MessagesViewController.swift in Sources */,
 				F29D81861BDF762A00C0687A /* MoreEditInlineTableViewCell.swift in Sources */,
 				F2318CB51BCEB40200EEA8A5 /* KulloConnector_Listeners.swift in Sources */,
+				658606CB1D58C8E4009EE12B /* BadgeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
