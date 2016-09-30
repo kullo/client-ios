@@ -5,12 +5,14 @@ import LibKullo
 
 class StorageManager {
 
+    private let keychain = KeychainWrapper.defaultKeychainWrapper()
+
     //MARK: public interface
 
     let userAddress: KAAddress
 
     class func getLastUserAddress() -> KAAddress? {
-        if let addrString = KeychainWrapper.stringForKey(KEY_ADDRESS) {
+        if let addrString = KeychainWrapper.defaultKeychainWrapper().stringForKey(KEY_ADDRESS) {
             return KAAddress.create(addrString)
         }
         return nil
@@ -26,7 +28,7 @@ class StorageManager {
     func loadCredentials() -> Credentials? {
         var blockList = [String]()
         for index in 0...15 {
-            blockList.append(KeychainWrapper.stringForKey(getBlockKey(index))!)
+            blockList.append(keychain.stringForKey(getBlockKey(index))!)
         }
         guard let masterKey = KAMasterKey.createFromDataBlocks(blockList) else {
             return nil
@@ -35,25 +37,25 @@ class StorageManager {
     }
 
     func migrateUserSettings(userSettings: KAUserSettings) {
-        if let name = KeychainWrapper.stringForKey(getNameKey()) {
+        if let name = keychain.stringForKey(getNameKey()) {
             userSettings.setName(name)
-            KeychainWrapper.removeObjectForKey(getNameKey())
+            keychain.removeObjectForKey(getNameKey())
         }
-        if let organization = KeychainWrapper.stringForKey(getOrganizationKey()) {
+        if let organization = keychain.stringForKey(getOrganizationKey()) {
             userSettings.setOrganization(organization)
-            KeychainWrapper.removeObjectForKey(getOrganizationKey())
+            keychain.removeObjectForKey(getOrganizationKey())
         }
-        if let footer = KeychainWrapper.stringForKey(getFooterKey()) {
+        if let footer = keychain.stringForKey(getFooterKey()) {
             userSettings.setFooter(footer)
-            KeychainWrapper.removeObjectForKey(getFooterKey())
+            keychain.removeObjectForKey(getFooterKey())
         }
-        if var avatarMimeType = KeychainWrapper.stringForKey(getAvatarTypeKey()) {
+        if var avatarMimeType = keychain.stringForKey(getAvatarTypeKey()) {
             // fix wrong MIME type that has been set previously by this app
             if avatarMimeType == "image/jpg" {
                 avatarMimeType = "image/jpeg"
             }
             userSettings.setAvatarMimeType(avatarMimeType)
-            KeychainWrapper.removeObjectForKey(getAvatarTypeKey())
+            keychain.removeObjectForKey(getAvatarTypeKey())
         }
         if let avatar = loadAvatar() {
             userSettings.setAvatar(avatar)
@@ -62,11 +64,11 @@ class StorageManager {
     }
 
     func saveCredentials(address: KAAddress, masterKey: KAMasterKey) {
-        KeychainWrapper.setString(address.toString(), forKey: StorageManager.KEY_ADDRESS)
+        keychain.setString(address.toString(), forKey: StorageManager.KEY_ADDRESS)
 
         let blockList = masterKey.dataBlocks()
         for (index, block) in blockList.enumerate() {
-            KeychainWrapper.setString(block, forKey: getBlockKey(index))
+            keychain.setString(block, forKey: getBlockKey(index))
         }
     }
 
@@ -83,15 +85,15 @@ class StorageManager {
     func deleteAllData() {
         StorageManager.removeFileOrDirectoryIfPossible(getUserDirectory())
 
-        KeychainWrapper.removeObjectForKey(StorageManager.KEY_ADDRESS)
+        keychain.removeObjectForKey(StorageManager.KEY_ADDRESS)
         for index in 0...15 {
-            KeychainWrapper.removeObjectForKey(getDeprecatedBlockKey(index))
-            KeychainWrapper.removeObjectForKey(getBlockKey(index))
+            keychain.removeObjectForKey(getDeprecatedBlockKey(index))
+            keychain.removeObjectForKey(getBlockKey(index))
         }
-        KeychainWrapper.removeObjectForKey(getNameKey())
-        KeychainWrapper.removeObjectForKey(getOrganizationKey())
-        KeychainWrapper.removeObjectForKey(getFooterKey())
-        KeychainWrapper.removeObjectForKey(getAvatarTypeKey())
+        keychain.removeObjectForKey(getNameKey())
+        keychain.removeObjectForKey(getOrganizationKey())
+        keychain.removeObjectForKey(getFooterKey())
+        keychain.removeObjectForKey(getAvatarTypeKey())
     }
 
 
@@ -127,9 +129,9 @@ class StorageManager {
                 // add address to MasterKey block key
                 for index in 0...15 {
                     let deprecatedBlockKey = getDeprecatedBlockKey(index);
-                    if let block = KeychainWrapper.stringForKey(deprecatedBlockKey) {
-                        KeychainWrapper.setString(block, forKey: getBlockKey(index))
-                        KeychainWrapper.removeObjectForKey(deprecatedBlockKey)
+                    if let block = keychain.stringForKey(deprecatedBlockKey) {
+                        keychain.setString(block, forKey: getBlockKey(index))
+                        keychain.removeObjectForKey(deprecatedBlockKey)
                     }
                 }
 
@@ -144,7 +146,7 @@ class StorageManager {
     }
 
     private func getStorageVersion() -> Int {
-        if let storageVersion = KeychainWrapper.stringForKey(StorageManager.KEY_STORAGE_VERSION) {
+        if let storageVersion = keychain.stringForKey(StorageManager.KEY_STORAGE_VERSION) {
             if let storageVersion = Int(storageVersion) {
                 return storageVersion
             }
@@ -163,7 +165,7 @@ class StorageManager {
     }
 
     private func setStorageVersion(storageVersion: Int) {
-        KeychainWrapper.setString(String(storageVersion), forKey: StorageManager.KEY_STORAGE_VERSION)
+        keychain.setString(String(storageVersion), forKey: StorageManager.KEY_STORAGE_VERSION)
     }
 
     private func moveDb(from: String, to: String) {
@@ -264,7 +266,7 @@ class StorageManager {
         }
     }
 
-    private class func removeFileOrDirectoryIfPossible(path: String) {
+    class func removeFileOrDirectoryIfPossible(path: String) {
         do {
             try NSFileManager.defaultManager().removeItemAtPath(path)
         } catch {

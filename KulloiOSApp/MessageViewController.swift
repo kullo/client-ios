@@ -36,8 +36,12 @@ class MessageViewController: UIViewController {
 
     func refreshContent() {
         if let messageId = messageId {
+
+            // let avatar size calculation happen
+            avatarImageView.layoutIfNeeded()
             avatarImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId, size: avatarImageView.frame.size)
             avatarImageView.showAsCircle()
+
             senderNameLabel.text = KulloConnector.sharedInstance.getSenderName(messageId)
             senderOrganizationLabel.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
             dateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithDateAndTime()

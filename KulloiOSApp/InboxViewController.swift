@@ -209,11 +209,15 @@ extension InboxViewController : UITableViewDataSource, UITableViewDelegate {
         }
 
         let cell = tableView.dequeueReusableCellWithIdentifier(InboxViewController.conversationCellId, forIndexPath: indexPath) as! ConversationTableViewCell
+
         let convId = conversationIds[indexPath.row]
 
-        cell.inboxTitleLabel.text = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
-        cell.inboxImageView.image = KulloConnector.sharedInstance.getConversationImage(convId, size: CGSizeMake(cell.inboxImageView.frame.size.width, cell.inboxImageView.frame.size.height))
+        // let avatar size calculation happen
+        cell.inboxImageView.layoutIfNeeded()
+        cell.inboxImageView.image = KulloConnector.sharedInstance.getConversationImage(convId, size: cell.inboxImageView.frame.size)
         cell.inboxImageView.showAsCircle()
+
+        cell.inboxTitleLabel.text = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
         cell.inboxDateLabel.text = KulloConnector.sharedInstance.getLatestMessageTimestamp(convId).formatWithSymbolicNames()
         cell.inboxUnreadLabel.hidden = KulloConnector.sharedInstance.getConversationUnread(convId) == 0
 
@@ -225,21 +229,28 @@ extension InboxViewController : UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if shouldShowPullToRefreshHint {
-            return false
-        }
-
-        let convId = conversationIds[indexPath.row]
-        let messageIds = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId)
-        return messageIds.count == 0
+        return !shouldShowPullToRefreshHint
     }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == .Delete) {
             let convId = conversationIds[indexPath.row]
-            KulloConnector.sharedInstance.removeConversation(convId)
-            conversationIds = KulloConnector.sharedInstance.getAllConversationIdsSorted()
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            let doDelete = {
+                self.conversationIds.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                KulloConnector.sharedInstance.removeConversation(convId)
+            }
+
+            if KulloConnector.sharedInstance.getAllMessageIdsSorted(convId).count == 0 {
+                doDelete()
+            } else {
+                showConfirmationDialog(
+                    NSLocalizedString("delete_conv_title", comment: ""),
+                    message: NSLocalizedString("delete_conv_message", comment: ""),
+                    confirmationButtonText: NSLocalizedString("delete_conv_action", comment: "")) { _ in
+                    doDelete()
+                }
+            }
         }
     }
 

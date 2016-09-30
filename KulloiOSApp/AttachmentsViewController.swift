@@ -86,9 +86,17 @@ class AttachmentsViewController: UITableViewController {
     }
 
     private func getIconForFilename(filename: String) -> UIImage {
-        // set a well-formed URL which doesn't need to exist
-        documentInteractionController.URL = NSURL(fileURLWithPath: "~/\(filename)")
-        return documentInteractionController.icons.first!.resizeImage(CGSizeMake(32, 32))
+        // create empty file for DocumentInteractionController to check out
+        let cachesPath = NSSearchPathForDirectoriesInDomains(
+            .CachesDirectory, .UserDomainMask, true).first!
+        let tempFilename = "\(cachesPath)/\(filename)"
+        NSData().writeToFile(tempFilename, atomically: false)
+
+        documentInteractionController.URL = NSURL(fileURLWithPath: tempFilename)
+        let icon = documentInteractionController.icons.first
+        StorageManager.removeFileOrDirectoryIfPossible(tempFilename)
+
+        return icon?.resizeImage(CGSizeMake(32, 32)) ?? UIImage()
     }
 
     private func fileExistsInTempDirectory(filename: String) -> Bool {

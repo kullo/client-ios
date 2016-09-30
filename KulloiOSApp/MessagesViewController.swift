@@ -15,6 +15,7 @@ class MessagesViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var progressView: UIProgressView!
+    var headerView: MessagesHeaderView!
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -27,7 +28,17 @@ class MessagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        headerView = tableView.tableHeaderView as! MessagesHeaderView
         tableView.addSubview(refreshControl)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
+        let headerHeight = headerView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+        headerView.frame.size.height = headerHeight
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -60,6 +71,13 @@ class MessagesViewController: UIViewController {
             log.error("MessagesViewController without convId.")
             return
         }
+
+        let participants = KulloConnector.sharedInstance.getParticipantAdresses(convId)
+            .map({$0.toString()})
+            .sort()
+            .joinWithSeparator(", ")
+        let prefix = NSLocalizedString("conversation_with", comment: "")
+        headerView.label.text = "\(prefix) \(participants)"
 
         messageIds = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId)
         navigationItem.title = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
@@ -138,8 +156,11 @@ extension MessagesViewController : UITableViewDataSource, UITableViewDelegate {
         let messageText = KulloConnector.sharedInstance.getMessageText(messageId)
         let messageTextWithoutNewLine = messageText.stringByReplacingOccurrencesOfString("\\n+", withString: " ", options:NSStringCompareOptions.RegularExpressionSearch, range: messageText.startIndex ..< messageText.endIndex)
 
+        // let avatar size calculation happen
+        cell.messageImageView.layoutIfNeeded()
         cell.messageImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId, size: cell.messageImageView.frame.size)
         cell.messageImageView.showAsCircle()
+
         cell.messageName.text = KulloConnector.sharedInstance.getSenderName(messageId)
         cell.messageOrganization.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
         cell.messageDateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithSymbolicNames()

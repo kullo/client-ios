@@ -29,6 +29,9 @@
 /* Class = "UITextField"; placeholder = "Block B"; ObjectID = "8RR-Km-JnN"; */
 "8RR-Km-JnN.placeholder" = "Block B";
 
+/* Class = "UILabel"; text = "This is a conversation with first.last#kullo.net, first.last#kullo.net, first.last#kullo.net, first.last#kullo.net"; ObjectID = "8iv-WD-Uia"; */
+"8iv-WD-Uia.text" = "This is a conversation with first.last#kullo.net, first.last#kullo.net, first.last#kullo.net, first.last#kullo.net";
+
 /* Class = "UITextField"; placeholder = "Block G"; ObjectID = "AJV-dQ-m2t"; */
 "AJV-dQ-m2t.placeholder" = "Block G";
 

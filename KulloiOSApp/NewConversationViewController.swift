@@ -67,11 +67,20 @@ class NewConversationViewController: UIViewController  {
             if addressString != "" {
 
                 if let kulloAddress = KAAddress.create(addressString) {
-                    alertDialog = showWaitingDialog(
-                        NSLocalizedString("Adding recipient", comment: ""),
-                        message: NSLocalizedString("Checking if address exists...", comment: "")
-                    )
-                    KulloConnector.sharedInstance.checkIfAddressExists(kulloAddress, delegate: self)
+                    if kulloAddress.toString() == KulloConnector.sharedInstance.getClientAddress() {
+                        showInfoDialog(
+                            NSLocalizedString("add_self_title", comment: ""),
+                            message: NSLocalizedString("add_self_message", comment: "")
+                        )
+                        log.info("Tried to add local user to conversation")
+
+                    } else {
+                        alertDialog = showWaitingDialog(
+                            NSLocalizedString("Adding recipient", comment: ""),
+                            message: NSLocalizedString("Checking if address exists...", comment: "")
+                        )
+                        KulloConnector.sharedInstance.checkIfAddressExists(kulloAddress, delegate: self)
+                    }
 
                 } else {
                     showInfoDialog(

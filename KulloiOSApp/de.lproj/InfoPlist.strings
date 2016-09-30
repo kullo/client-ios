@@ -1,0 +1,9 @@
+/*
+  InfoPlist.strings
+  KulloiOSApp
+
+  Created by Daniel on 15.09.16.
+  Copyright © 2016 Kullo GmbH. All rights reserved.
+*/
+
+"NSPhotoLibraryUsageDescription" = "Wir benötigen Zugriff auf die Fotogalerie um dir zu ermöglichen, Bilder an Nachrichten anzuhängen.";

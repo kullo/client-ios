@@ -52,7 +52,7 @@ class KulloConnector {
 
     private init() {
         client = KAClient.create()!
-        log.info("\(client.versions())")
+        log.info("\(self.client.versions())")
     }
 
     // MARK: Login
@@ -593,7 +593,7 @@ class KulloConnector {
     }
     
     func removeConversation(convId: Int64) {
-        session?.conversations()?.remove(convId)
+        session?.conversations()?.triggerRemoval(convId)
     }
     
     // MARK: participant senders
@@ -615,19 +615,6 @@ class KulloConnector {
             // fall back to address for addresses that didn't send messages
             return kulloAddress.toString()
         }
-    }
-
-    func getInitialsForName(name: String) -> String {
-        var returnString = ""
-        let parts = name.characters.split{$0 == " "}.map(String.init)
-
-        if parts.count == 1 {
-            returnString = String(name.characters.first!)
-        } else if parts.count >= 2 {
-            returnString = String(parts[0].characters.first!) + String(parts[parts.count - 1].characters.first!)
-        }
-
-        return returnString.uppercaseString
     }
 
     func getLatestMessageForKulloAddress(kulloAddress: KAAddress) -> Int64? {
@@ -835,7 +822,7 @@ class KulloConnector {
                 return image
             } else {
                 let name = getSenderNameOrAddress(messageId)
-                let initials = getInitialsForName(name)
+                let initials = InitialsUtil.getInitialsForName(name)
                 return getAvatarWithText(initials, size: size)
             }
 

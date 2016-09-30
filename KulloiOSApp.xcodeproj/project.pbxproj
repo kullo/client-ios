@@ -11,9 +11,14 @@
 		650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */; };
 		651327EB1C5293CE00AC93D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */; };
 		65165C371C05C84200BCC26F /* KulloAddressTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65165C361C05C84200BCC26F /* KulloAddressTextField.swift */; };
+		6530AD751D871B0100E33CE9 /* MessagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530AD741D871B0100E33CE9 /* MessagesHeaderView.swift */; };
 		653844E91C2872BF0014BF83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 653844E81C2872BF0014BF83 /* GoogleService-Info.plist */; };
 		653844EC1C288FCA0014BF83 /* FeatureDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653844EB1C288FCA0014BF83 /* FeatureDetection.swift */; };
 		658606CB1D58C8E4009EE12B /* BadgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658606CA1D58C8E4009EE12B /* BadgeManager.swift */; };
+		658CCC461D6B555500E67CB6 /* InitialsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658CCC361D6B54AD00E67CB6 /* InitialsTest.swift */; };
+		658CCC481D6B566600E67CB6 /* InitialsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658CCC471D6B566600E67CB6 /* InitialsUtil.swift */; };
+		658CCC491D6B566600E67CB6 /* InitialsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658CCC471D6B566600E67CB6 /* InitialsUtil.swift */; };
+		659916FA1D8A704F0047C838 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 659916F81D8A704F0047C838 /* InfoPlist.strings */; };
 		659B0A0A1C68A97300FEB30B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659B0A091C68A97300FEB30B /* SplashViewController.swift */; };
 		65B26D9F1BC8770C00EC09A1 /* LibKullo.framework in Embed LibKullo.framework */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65B26DA01BC8778C00EC09A1 /* LibKullo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; };
@@ -55,6 +60,16 @@
 		F2F200901BC094280000E80E /* InboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F2008F1BC094280000E80E /* InboxTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		658CCC411D6B54DB00E67CB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F298C5DF1BBFDF9D00081487 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F298C5E61BBFDF9D00081487;
+			remoteInfo = KulloiOSApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		65B26D9C1BC86BE200EC09A1 /* Embed LibKullo.framework */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -76,10 +91,16 @@
 		6510427C1BD8EAB700D56605 /* strip_invalid_archs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = strip_invalid_archs.sh; path = libkullo/strip_invalid_archs.sh; sourceTree = "<group>"; };
 		651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		65165C361C05C84200BCC26F /* KulloAddressTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloAddressTextField.swift; sourceTree = "<group>"; };
+		6530AD741D871B0100E33CE9 /* MessagesHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesHeaderView.swift; sourceTree = "<group>"; };
 		653844E81C2872BF0014BF83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		653844EA1C2875F30014BF83 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		653844EB1C288FCA0014BF83 /* FeatureDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetection.swift; sourceTree = "<group>"; };
 		658606CA1D58C8E4009EE12B /* BadgeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeManager.swift; sourceTree = "<group>"; };
+		658CCC361D6B54AD00E67CB6 /* InitialsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InitialsTest.swift; path = Tests/InitialsTest.swift; sourceTree = SOURCE_ROOT; };
+		658CCC3C1D6B54DB00E67CB6 /* KulloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KulloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		658CCC401D6B54DB00E67CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		658CCC471D6B566600E67CB6 /* InitialsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialsUtil.swift; sourceTree = "<group>"; };
+		659916F91D8A704F0047C838 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		659B0A091C68A97300FEB30B /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LibKullo.framework; path = libkullo/LibKullo.framework; sourceTree = "<group>"; };
 		65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreLicensesViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +110,8 @@
 		65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseAddressViewController.swift; sourceTree = "<group>"; };
 		65DA3DD41BFCBA490058430E /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortraitNavigationController.swift; sourceTree = "<group>"; };
+		65FAC2DB1D8A8E4400D62D9F /* KulloiOSApp-Debug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "KulloiOSApp-Debug.entitlements"; sourceTree = "<group>"; };
+		65FAC2DC1D8A8E4400D62D9F /* KulloiOSApp-Release.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "KulloiOSApp-Release.entitlements"; sourceTree = "<group>"; };
 		89623A29FF47374BF8BCFB76 /* Pods_KulloiOSApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KulloiOSApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A27348487D59AD45F917924A /* Pods-KulloiOSApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KulloiOSApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KulloiOSApp/Pods-KulloiOSApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloConnector_Listeners.swift; sourceTree = "<group>"; };
@@ -127,6 +150,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		658CCC391D6B54DB00E67CB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F298C5E41BBFDF9D00081487 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,6 +185,16 @@
 				650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */,
 			);
 			name = Attachments;
+			sourceTree = "<group>";
+		};
+		658CCC3D1D6B54DB00E67CB6 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				658CCC361D6B54AD00E67CB6 /* InitialsTest.swift */,
+				658CCC401D6B54DB00E67CB6 /* Info.plist */,
+			);
+			name = Tests;
+			path = KulloTests;
 			sourceTree = "<group>";
 		};
 		659B0A081C68A95400FEB30B /* Splash */ = {
@@ -213,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				F298C5E91BBFDF9D00081487 /* KulloiOSApp */,
+				658CCC3D1D6B54DB00E67CB6 /* Tests */,
 				F298C5E81BBFDF9D00081487 /* Products */,
 				65D4E8B31C046CB600996930 /* Libs */,
 				F160422554C811B63BCAF046 /* Frameworks */,
@@ -224,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				F298C5E71BBFDF9D00081487 /* KulloiOSApp.app */,
+				658CCC3C1D6B54DB00E67CB6 /* KulloTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -251,6 +293,7 @@
 				F2640A6F1BD040970073BFE9 /* ColorUtils.swift */,
 				F261529F1BDD7BFF009176F7 /* DateUtils.swift */,
 				653844EB1C288FCA0014BF83 /* FeatureDetection.swift */,
+				658CCC471D6B566600E67CB6 /* InitialsUtil.swift */,
 				65165C361C05C84200BCC26F /* KulloAddressTextField.swift */,
 				F298C60A1BC024FE00081487 /* StringUtils.swift */,
 			);
@@ -285,6 +328,7 @@
 			children = (
 				F2BC632D1BD3D877008B03AF /* MessagesViewController.swift */,
 				F2BC632F1BD3DAEC008B03AF /* MessagesTableViewCell.swift */,
+				6530AD741D871B0100E33CE9 /* MessagesHeaderView.swift */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -339,7 +383,10 @@
 				653844EA1C2875F30014BF83 /* Bridging-Header.h */,
 				653844E81C2872BF0014BF83 /* GoogleService-Info.plist */,
 				F298C5F61BBFDF9D00081487 /* Info.plist */,
+				659916F81D8A704F0047C838 /* InfoPlist.strings */,
 				F2640A711BD041EF0073BFE9 /* Constants.swift */,
+				65FAC2DB1D8A8E4400D62D9F /* KulloiOSApp-Debug.entitlements */,
+				65FAC2DC1D8A8E4400D62D9F /* KulloiOSApp-Release.entitlements */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -368,6 +415,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		658CCC3B1D6B54DB00E67CB6 /* KulloTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 658CCC431D6B54DB00E67CB6 /* Build configuration list for PBXNativeTarget "KulloTests" */;
+			buildPhases = (
+				658CCC381D6B54DB00E67CB6 /* Sources */,
+				658CCC391D6B54DB00E67CB6 /* Frameworks */,
+				658CCC3A1D6B54DB00E67CB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				658CCC421D6B54DB00E67CB6 /* PBXTargetDependency */,
+			);
+			name = KulloTests;
+			productName = KulloTests;
+			productReference = 658CCC3C1D6B54DB00E67CB6 /* KulloTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F298C5E61BBFDF9D00081487 /* KulloiOSApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F298C6041BBFDF9D00081487 /* Build configuration list for PBXNativeTarget "KulloiOSApp" */;
@@ -396,14 +461,24 @@
 		F298C5DF1BBFDF9D00081487 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Kullo GmbH";
 				TargetAttributes = {
+					658CCC3B1D6B54DB00E67CB6 = {
+						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
+						TestTargetID = F298C5E61BBFDF9D00081487;
+					};
 					F298C5E61BBFDF9D00081487 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = LXSY2GE3K4;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -428,16 +503,25 @@
 			projectRoot = "";
 			targets = (
 				F298C5E61BBFDF9D00081487 /* KulloiOSApp */,
+				658CCC3B1D6B54DB00E67CB6 /* KulloTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		658CCC3A1D6B54DB00E67CB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F298C5E51BBFDF9D00081487 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F298C5F51BBFDF9D00081487 /* LaunchScreen.storyboard in Resources */,
+				659916FA1D8A704F0047C838 /* InfoPlist.strings in Resources */,
 				65D2741C1BFB23A100405E29 /* licenses.html in Resources */,
 				F2F200881BC08D470000E80E /* Localizable.strings in Resources */,
 				F298C5F21BBFDF9D00081487 /* Assets.xcassets in Resources */,
@@ -512,6 +596,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		658CCC381D6B54DB00E67CB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				658CCC491D6B566600E67CB6 /* InitialsUtil.swift in Sources */,
+				658CCC461D6B555500E67CB6 /* InitialsTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F298C5E31BBFDF9D00081487 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -523,6 +616,7 @@
 				F2A989651BCFA0C100F42AD7 /* AlertUtils.swift in Sources */,
 				F2B3CD291BCAE4FD001A4DC0 /* KulloConnector_DelegateProtocols.swift in Sources */,
 				F298C5ED1BBFDF9D00081487 /* LoginViewController.swift in Sources */,
+				658CCC481D6B566600E67CB6 /* InitialsUtil.swift in Sources */,
 				65DA02921C109FBA00D77DD6 /* ChooseAddressViewController.swift in Sources */,
 				F293FB141BC0A54B0054CB91 /* AvatarUtils.swift in Sources */,
 				F29D81841BDF72FB00C0687A /* MoreEditTextViewController.swift in Sources */,
@@ -542,6 +636,7 @@
 				650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */,
 				F2640A721BD041EF0073BFE9 /* Constants.swift in Sources */,
 				F29D81801BDEC99400C0687A /* MoreImageTableViewCell.swift in Sources */,
+				6530AD751D871B0100E33CE9 /* MessagesHeaderView.swift in Sources */,
 				F26152A01BDD7BFF009176F7 /* DateUtils.swift in Sources */,
 				65165C371C05C84200BCC26F /* KulloAddressTextField.swift in Sources */,
 				65DA3DD51BFCBA490058430E /* StorageManager.swift in Sources */,
@@ -557,7 +652,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		658CCC421D6B54DB00E67CB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F298C5E61BBFDF9D00081487 /* KulloiOSApp */;
+			targetProxy = 658CCC411D6B54DB00E67CB6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		659916F81D8A704F0047C838 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				659916F91D8A704F0047C838 /* de */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		F298C5EE1BBFDF9D00081487 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -588,10 +699,41 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		658CCC441D6B54DB00E67CB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = KulloTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.kullo.KulloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KulloiOSApp.app/KulloiOSApp";
+			};
+			name = Debug;
+		};
+		658CCC451D6B54DB00E67CB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = KulloTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.kullo.KulloTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KulloiOSApp.app/KulloiOSApp";
+			};
+			name = Release;
+		};
 		F298C6021BBFDF9D00081487 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -601,8 +743,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -638,6 +782,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -647,8 +792,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -667,6 +814,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7";
@@ -677,7 +825,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A27348487D59AD45F917924A /* Pods-KulloiOSApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "KulloiOSApp/KulloiOSApp-Debug.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -690,6 +840,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KulloiOSApp/Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -698,7 +849,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 361CF84AEB1CD9B1A57283F9 /* Pods-KulloiOSApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "KulloiOSApp/KulloiOSApp-Release.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -711,6 +864,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KulloiOSApp/Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -718,6 +872,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		658CCC431D6B54DB00E67CB6 /* Build configuration list for PBXNativeTarget "KulloTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				658CCC441D6B54DB00E67CB6 /* Debug */,
+				658CCC451D6B54DB00E67CB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F298C5E21BBFDF9D00081487 /* Build configuration list for PBXProject "KulloiOSApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

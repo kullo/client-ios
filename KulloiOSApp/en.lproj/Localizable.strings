@@ -2,6 +2,12 @@
 "About Kullo" = "About Kullo";
 
 /* No comment provided by engineer. */
+"add_self_message" = "You are automatically a member of all conversations that you create. Therefore, your own address cannot be added to the new conversation.";
+
+/* No comment provided by engineer. */
+"add_self_title" = "Your own address";
+
+/* No comment provided by engineer. */
 "Adding recipient" = "Adding recipient";
 
 /* No comment provided by engineer. */
@@ -32,6 +38,9 @@
 "Choose from library" = "Choose from library";
 
 /* No comment provided by engineer. */
+"conversation_with" = "Conversation with";
+
+/* No comment provided by engineer. */
 "Couldn't load data" = "Couldn't load data";
 
 /* No comment provided by engineer. */
@@ -39,6 +48,15 @@
 
 /* No comment provided by engineer. */
 "Delete avatar" = "Delete avatar";
+
+/* No comment provided by engineer. */
+"delete_conv_action" = "Delete conversation and messages";
+
+/* No comment provided by engineer. */
+"delete_conv_message" = "This conversation contains messages, which are deleted along with the conversation.";
+
+/* No comment provided by engineer. */
+"delete_conv_title" = "Delete messages?";
 
 /* No comment provided by engineer. */
 "Downloading attachments" = "Downloading attachments";

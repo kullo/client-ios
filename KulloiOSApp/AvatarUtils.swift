@@ -105,7 +105,7 @@ extension UIImage {
         // clean up
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
         
     }
     
@@ -118,13 +118,13 @@ extension UIImage {
 
         // fill image with color
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, rect)
+        CGContextSetFillColorWithColor(context!, color.CGColor)
+        CGContextFillRect(context!, rect)
 
         // clean up
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
     }
     
     func drawTextToImageCentered(drawText: NSString) -> UIImage{
@@ -150,7 +150,7 @@ extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage
+        return newImage!
     }
     
     func crop(rect: CGRect) -> UIImage {
@@ -160,7 +160,7 @@ extension UIImage {
         
         let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return croppedImage
+        return croppedImage!
     }
     
     func squareImageWithSize(size: CGSize) -> UIImage {
@@ -187,12 +187,12 @@ extension UIImage {
         
         let cropSquare = CGRectMake(posX, posY, edge, edge)
         
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)
+        let imageRef = CGImageCreateWithImageInRect(self.CGImage!, cropSquare)
         return UIImage(CGImage: imageRef!, scale: scale, orientation: imageOrientation)
     }
     
     func resizeImage(targetSize: CGSize) -> UIImage {
-        if size == targetSize {
+        if size == targetSize || size.height <= 0 || size.width <= 0 {
             return self
         }
         
@@ -213,7 +213,7 @@ extension UIImage {
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         drawInRect(rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage = UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
         UIGraphicsEndImageContext()
         
         return newImage

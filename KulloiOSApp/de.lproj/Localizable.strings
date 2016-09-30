@@ -2,6 +2,12 @@
 "About Kullo" = "Über Kullo";
 
 /* No comment provided by engineer. */
+"add_self_message" = "Du bist automatisch Teilnehmer von neuen Konversationen, die du anlegst. Du kannst dich deshalb nicht selbst hinzufügen.";
+
+/* No comment provided by engineer. */
+"add_self_title" = "Eigene Adresse";
+
+/* No comment provided by engineer. */
 "Adding recipient" = "Empfänger hinzufügen";
 
 /* No comment provided by engineer. */
@@ -32,6 +38,9 @@
 "Choose from library" = "Wähle aus der Bibliothek";
 
 /* No comment provided by engineer. */
+"conversation_with" = "Konversation mit";
+
+/* No comment provided by engineer. */
 "Couldn't load data" = "Daten konnten nicht geladen werden";
 
 /* No comment provided by engineer. */
@@ -39,6 +48,15 @@
 
 /* No comment provided by engineer. */
 "Delete avatar" = "Avatar löschen";
+
+/* No comment provided by engineer. */
+"delete_conv_action" = "Konversation und Nachrichten löschen";
+
+/* No comment provided by engineer. */
+"delete_conv_message" = "Diese Konversation enthält Nachrichten, die zusammen mit der Konversation gelöscht werden.";
+
+/* No comment provided by engineer. */
+"delete_conv_title" = "Nachrichten löschen?";
 
 /* No comment provided by engineer. */
 "Downloading attachments" = "Lade Anhänge herunter";

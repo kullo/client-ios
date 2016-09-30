@@ -7,7 +7,7 @@ target 'KulloiOSApp' do
     pod 'Google/CloudMessaging'
     pod 'HTAutocompleteTextField'
     pod 'SwiftKeychainWrapper'
-    pod 'SwiftMime', :git => 'https://github.com/tiwoc/SwiftMime.git', :branch => 'handle_unknowns'
+    pod 'SwiftMime', :git => 'https://github.com/tiwoc/SwiftMime.git', :branch => 'master'
     pod 'TCMobileProvision'
     pod 'XCGLogger'
 end
