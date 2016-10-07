@@ -42,6 +42,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // let conversationImageView calculate its size
+        conversationImageView.layoutIfNeeded()
+
         messageTextView.delegate = self
         scrollViewTapRecognizer.delegate = self
     }

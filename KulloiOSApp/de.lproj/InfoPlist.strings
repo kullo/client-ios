@@ -6,4 +6,6 @@
   Copyright © 2016 Kullo GmbH. All rights reserved.
 */
 
-"NSPhotoLibraryUsageDescription" = "Wir benötigen Zugriff auf die Fotogalerie um dir zu ermöglichen, Bilder an Nachrichten anzuhängen.";
+"NSCameraUsageDescription" = "Wir benötigen Zugriff auf die Kamera um dir zu ermöglichen, ein Bild für deinen Avatar aufzunehmen.";
+
+"NSPhotoLibraryUsageDescription" = "Wir benötigen Zugriff auf die Fotogalerie um dir zu ermöglichen, Bilder an Nachrichten anzuhängen und einen Avatar auszuwählen.";

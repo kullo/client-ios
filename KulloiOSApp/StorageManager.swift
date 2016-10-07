@@ -12,7 +12,13 @@ class StorageManager {
     let userAddress: KAAddress
 
     class func getLastUserAddress() -> KAAddress? {
-        if let addrString = KeychainWrapper.defaultKeychainWrapper().stringForKey(KEY_ADDRESS) {
+        let keychain = KeychainWrapper.defaultKeychainWrapper()
+        if let addrString = keychain.stringForKey(KEY_ADDRESS, withAccessibility: .AfterFirstUnlock) {
+            return KAAddress.create(addrString)
+        }
+
+        // try old accessibility setting because we're potentially running before migrate() has run
+        if let addrString = keychain.stringForKey(KEY_ADDRESS) {
             return KAAddress.create(addrString)
         }
         return nil
@@ -28,7 +34,7 @@ class StorageManager {
     func loadCredentials() -> Credentials? {
         var blockList = [String]()
         for index in 0...15 {
-            blockList.append(keychain.stringForKey(getBlockKey(index))!)
+            blockList.append(keychain.stringForKey(getBlockKey(index), withAccessibility: .AfterFirstUnlock)!)
         }
         guard let masterKey = KAMasterKey.createFromDataBlocks(blockList) else {
             return nil
@@ -37,6 +43,7 @@ class StorageManager {
     }
 
     func migrateUserSettings(userSettings: KAUserSettings) {
+        // If these keys exist, the have been written with default accessibility, so don't pass .AfterFirstUnlock
         if let name = keychain.stringForKey(getNameKey()) {
             userSettings.setName(name)
             keychain.removeObjectForKey(getNameKey())
@@ -64,11 +71,11 @@ class StorageManager {
     }
 
     func saveCredentials(address: KAAddress, masterKey: KAMasterKey) {
-        keychain.setString(address.toString(), forKey: StorageManager.KEY_ADDRESS)
+        keychain.setString(address.toString(), forKey: StorageManager.KEY_ADDRESS, withAccessibility: .AfterFirstUnlock)
 
         let blockList = masterKey.dataBlocks()
         for (index, block) in blockList.enumerate() {
-            keychain.setString(block, forKey: getBlockKey(index))
+            keychain.setString(block, forKey: getBlockKey(index), withAccessibility: .AfterFirstUnlock)
         }
     }
 
@@ -84,22 +91,13 @@ class StorageManager {
 
     func deleteAllData() {
         StorageManager.removeFileOrDirectoryIfPossible(getUserDirectory())
-
-        keychain.removeObjectForKey(StorageManager.KEY_ADDRESS)
-        for index in 0...15 {
-            keychain.removeObjectForKey(getDeprecatedBlockKey(index))
-            keychain.removeObjectForKey(getBlockKey(index))
-        }
-        keychain.removeObjectForKey(getNameKey())
-        keychain.removeObjectForKey(getOrganizationKey())
-        keychain.removeObjectForKey(getFooterKey())
-        keychain.removeObjectForKey(getAvatarTypeKey())
+        keychain.removeAllKeys()
     }
 
 
     //MARK: private implementation
 
-    private static let CURRENT_STORAGE_VERSION = 1
+    private static let CURRENT_STORAGE_VERSION = 2
     private let userAddressString: String
 
     private static let KEY_ADDRESS = "kullo_address"
@@ -135,6 +133,23 @@ class StorageManager {
                     }
                 }
 
+            case 1:
+                // convert address from default accessibility to AfterFirstUnlock
+                if let addrString = keychain.stringForKey(StorageManager.KEY_ADDRESS) {
+                    keychain.removeObjectForKey(StorageManager.KEY_ADDRESS)
+                    keychain.setString(addrString, forKey: StorageManager.KEY_ADDRESS, withAccessibility: .AfterFirstUnlock)
+                }
+
+                // convert MasterKey blocks from default accessibility to AfterFirstUnlock
+                for index in 0...15 {
+                    let blockKey = getBlockKey(index);
+                    if let block = keychain.stringForKey(blockKey) {
+                        keychain.removeObjectForKey(blockKey)
+                        keychain.setString(block, forKey: getBlockKey(index), withAccessibility: .AfterFirstUnlock)
+                    }
+                }
+                break
+
             default:
                 preconditionFailure("unsupported storage version: \(storageVersion)")
             }
@@ -146,8 +161,15 @@ class StorageManager {
     }
 
     private func getStorageVersion() -> Int {
+        if let storageVersion = keychain.integerForKey(StorageManager.KEY_STORAGE_VERSION, withAccessibility: .AfterFirstUnlock) {
+            return storageVersion
+        }
+
+        // try to move storage version from deprecated encoding (string) and accessibility level
         if let storageVersion = keychain.stringForKey(StorageManager.KEY_STORAGE_VERSION) {
             if let storageVersion = Int(storageVersion) {
+                keychain.removeObjectForKey(StorageManager.KEY_STORAGE_VERSION)
+                setStorageVersion(storageVersion)
                 return storageVersion
             }
         }
@@ -165,7 +187,7 @@ class StorageManager {
     }
 
     private func setStorageVersion(storageVersion: Int) {
-        keychain.setString(String(storageVersion), forKey: StorageManager.KEY_STORAGE_VERSION)
+        keychain.setInteger(storageVersion, forKey: StorageManager.KEY_STORAGE_VERSION, withAccessibility: .AfterFirstUnlock)
     }
 
     private func moveDb(from: String, to: String) {
