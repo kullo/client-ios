@@ -1,6 +1,6 @@
 PODS:
-  - DTFoundation/Core (1.7.10)
-  - DTFoundation/DTASN1 (1.7.10):
+  - DTFoundation/Core (1.7.11)
+  - DTFoundation/DTASN1 (1.7.11):
     - DTFoundation/Core
   - GGLInstanceID (1.2.1)
   - Google/CloudMessaging (2.0.4):
@@ -16,57 +16,49 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.0)
     - GoogleIPhoneUtilities (~> 1.0)
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleInterchangeUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
   - GoogleIPhoneUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
     - GoogleUtilities (~> 1.0)
-  - GoogleNetworkingUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.1.1)
-  - GoogleUtilities (1.3.1):
-    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleNetworkingUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleUtilities (1.3.2):
+    - GoogleSymbolUtilities (~> 1.1)
   - HTAutocompleteTextField (1.3.2)
-  - SwiftKeychainWrapper (2.0.0)
-  - SwiftMime (0.2.0)
+  - SwiftKeychainWrapper (3.0.1)
+  - SwiftyMimeTypes (0.1.0)
   - TCMobileProvision (1.0.0):
     - DTFoundation/DTASN1 (~> 1.6)
-  - XCGLogger (3.5.1)
+  - XCGLogger (4.0.0):
+    - XCGLogger/Core (= 4.0.0)
+  - XCGLogger/Core (4.0.0)
 
 DEPENDENCIES:
   - Google/CloudMessaging
   - HTAutocompleteTextField
   - SwiftKeychainWrapper
-  - SwiftMime (from `https://github.com/tiwoc/SwiftMime.git`, branch `master`)
+  - SwiftyMimeTypes
   - TCMobileProvision
   - XCGLogger
 
-EXTERNAL SOURCES:
-  SwiftMime:
-    :branch: master
-    :git: https://github.com/tiwoc/SwiftMime.git
-
-CHECKOUT OPTIONS:
-  SwiftMime:
-    :commit: 903f023fb8c2c5b3487e9b82c2a2926de0e53629
-    :git: https://github.com/tiwoc/SwiftMime.git
-
 SPEC CHECKSUMS:
-  DTFoundation: 3b6b1b817d2a7fb02e7eaf2596c922a68145bd43
+  DTFoundation: 0ef29c70a9814e15518694862bd739347abe2a50
   GGLInstanceID: 4a317044f744281b82cd03015f379899f277cad3
   Google: d0932824c5b97c96be489aa6f4e8cd6c294d637d
   GoogleCloudMessaging: f37ea14dd0f41d4d889c10b5559dd35bbfd9ac26
-  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleIPhoneUtilities: 63f25e93a3ddcb66884d182aab3a660d98f1479b
-  GoogleNetworkingUtilities: 3e83269048cfb498dc7ec83ab36813360965c74f
-  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
-  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
+  GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   HTAutocompleteTextField: ce809f04875e843e20f214ab973bb496ba7a93b1
-  SwiftKeychainWrapper: 3575838215fa36c816899c301a7afe370bd94814
-  SwiftMime: 67754d8a462bcdf90009878903013359e71d6715
+  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  SwiftyMimeTypes: 3319e15f65533b994ef33918377e7b7213fbb08e
   TCMobileProvision: 2a8962b38821a20fad53b9d7851bbc9ae8c52995
-  XCGLogger: 94829865eea6fcc1f9a49e23bdc9f120a6848f30
+  XCGLogger: 38063ea89b4c8b23232d18efd2e12eb0005f3ea4
 
-PODFILE CHECKSUM: 2e5117ce46a5cebd48e265d44786b949eb3f68f2
+PODFILE CHECKSUM: 6541d697446652251592ae6cec3cea7896fd5ba1
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

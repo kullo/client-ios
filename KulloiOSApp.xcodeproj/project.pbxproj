@@ -22,6 +22,8 @@
 		659B0A0A1C68A97300FEB30B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659B0A091C68A97300FEB30B /* SplashViewController.swift */; };
 		65B26D9F1BC8770C00EC09A1 /* LibKullo.framework in Embed LibKullo.framework */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65B26DA01BC8778C00EC09A1 /* LibKullo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */; };
+		65B9EAE71DF59B730091B539 /* ErrorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B9EAE61DF59B730091B539 /* ErrorUtils.swift */; };
+		65B9EAE91DF59C930091B539 /* VersionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B9EAE81DF59C930091B539 /* VersionUtil.swift */; };
 		65D274181BFB1D9900405E29 /* MoreLicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */; };
 		65D2741C1BFB23A100405E29 /* licenses.html in Resources */ = {isa = PBXBuildFile; fileRef = 65D2741B1BFB23A100405E29 /* licenses.html */; };
 		65D4E8B51C046CE500996930 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D4E8B41C046CE500996930 /* UIViewController+Keyboard.swift */; };
@@ -103,6 +105,8 @@
 		659916F91D8A704F0047C838 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		659B0A091C68A97300FEB30B /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		65B26D9D1BC876FE00EC09A1 /* LibKullo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LibKullo.framework; path = libkullo/LibKullo.framework; sourceTree = "<group>"; };
+		65B9EAE61DF59B730091B539 /* ErrorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorUtils.swift; sourceTree = "<group>"; };
+		65B9EAE81DF59C930091B539 /* VersionUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUtil.swift; sourceTree = "<group>"; };
 		65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreLicensesViewController.swift; sourceTree = "<group>"; };
 		65D2741B1BFB23A100405E29 /* licenses.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = licenses.html; sourceTree = "<group>"; };
 		65D4E8B41C046CE500996930 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Keyboard.swift"; path = "thirdparty/UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
@@ -184,7 +188,7 @@
 			children = (
 				650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */,
 			);
-			name = Attachments;
+			path = Attachments;
 			sourceTree = "<group>";
 		};
 		658CCC3D1D6B54DB00E67CB6 /* Tests */ = {
@@ -202,7 +206,7 @@
 			children = (
 				659B0A091C68A97300FEB30B /* SplashViewController.swift */,
 			);
-			name = Splash;
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		65B26D951BC8681900EC09A1 /* LibKullo */ = {
@@ -237,7 +241,7 @@
 			children = (
 				F2699C9F1BE0476A003678DD /* ComposeViewController.swift */,
 			);
-			name = Compose;
+			path = Compose;
 			sourceTree = "<group>";
 		};
 		F27FE5E61BD3EE6600F7D752 /* Message */ = {
@@ -246,7 +250,7 @@
 				F27FE5E71BD3EE8F00F7D752 /* MessageViewController.swift */,
 				F2EC08451BF7DAC200685E6E /* MessageAttachmentsViewController.swift */,
 			);
-			name = Message;
+			path = Message;
 			sourceTree = "<group>";
 		};
 		F298C5DE1BBFDF9D00081487 = {
@@ -275,7 +279,7 @@
 			children = (
 				F298C5EA1BBFDF9D00081487 /* AppDelegate.swift */,
 				F2F2007E1BC07CDD0000E80E /* Settings */,
-				F2F2007C1BC07CB70000E80E /* ViewController */,
+				F2F2007C1BC07CB70000E80E /* Screens */,
 				F2F2007B1BC07CA40000E80E /* Storyboards */,
 				F2F200811BC0893D0000E80E /* API */,
 				F298C60C1BC0254B00081487 /* Utilities */,
@@ -292,12 +296,14 @@
 				658606CA1D58C8E4009EE12B /* BadgeManager.swift */,
 				F2640A6F1BD040970073BFE9 /* ColorUtils.swift */,
 				F261529F1BDD7BFF009176F7 /* DateUtils.swift */,
+				65B9EAE61DF59B730091B539 /* ErrorUtils.swift */,
 				653844EB1C288FCA0014BF83 /* FeatureDetection.swift */,
 				658CCC471D6B566600E67CB6 /* InitialsUtil.swift */,
 				65165C361C05C84200BCC26F /* KulloAddressTextField.swift */,
 				F298C60A1BC024FE00081487 /* StringUtils.swift */,
+				65B9EAE81DF59C930091B539 /* VersionUtil.swift */,
 			);
-			name = Utilities;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		F29D817C1BDEC6FC00C0687A /* More */ = {
@@ -311,7 +317,7 @@
 				6509928B1C087E1C00103510 /* MoreVersionsViewController.swift */,
 				65D274171BFB1D9900405E29 /* MoreLicensesViewController.swift */,
 			);
-			name = More;
+			path = More;
 			sourceTree = "<group>";
 		};
 		F2BC632B1BD3D829008B03AF /* Inbox */ = {
@@ -320,7 +326,7 @@
 				F2F2007F1BC07FA70000E80E /* InboxViewController.swift */,
 				F2F2008F1BC094280000E80E /* InboxTableViewCell.swift */,
 			);
-			name = Inbox;
+			path = Inbox;
 			sourceTree = "<group>";
 		};
 		F2BC632C1BD3D840008B03AF /* Messages */ = {
@@ -330,7 +336,7 @@
 				F2BC632F1BD3DAEC008B03AF /* MessagesTableViewCell.swift */,
 				6530AD741D871B0100E33CE9 /* MessagesHeaderView.swift */,
 			);
-			name = Messages;
+			path = Messages;
 			sourceTree = "<group>";
 		};
 		F2E132ED1BE8FDB0002C3070 /* New conversation */ = {
@@ -338,7 +344,7 @@
 			children = (
 				F2E132EB1BE8FDA6002C3070 /* NewConversationViewController.swift */,
 			);
-			name = "New conversation";
+			path = "New conversation";
 			sourceTree = "<group>";
 		};
 		F2F2007B1BC07CA40000E80E /* Storyboards */ = {
@@ -350,7 +356,7 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
-		F2F2007C1BC07CB70000E80E /* ViewController */ = {
+		F2F2007C1BC07CB70000E80E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				659B0A081C68A95400FEB30B /* Splash */,
@@ -364,7 +370,7 @@
 				F29D817C1BDEC6FC00C0687A /* More */,
 				65DECBF11CAEB47F00775A55 /* PortraitNavigationController.swift */,
 			);
-			name = ViewController;
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		F2F2007D1BC07CD20000E80E /* Resources */ = {
@@ -399,7 +405,7 @@
 				F2318CB41BCEB40200EEA8A5 /* KulloConnector_Listeners.swift */,
 				65DA3DD41BFCBA490058430E /* StorageManager.swift */,
 			);
-			name = API;
+			path = API;
 			sourceTree = "<group>";
 		};
 		F2F200911BC094390000E80E /* Login */ = {
@@ -409,7 +415,7 @@
 				65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */,
 				65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */,
 			);
-			name = Login;
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,18 +468,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Kullo GmbH";
 				TargetAttributes = {
 					658CCC3B1D6B54DB00E67CB6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 						TestTargetID = F298C5E61BBFDF9D00081487;
 					};
 					F298C5E61BBFDF9D00081487 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = LXSY2GE3K4;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -590,7 +596,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -625,6 +631,7 @@
 				65DECBF21CAEB47F00775A55 /* PortraitNavigationController.swift in Sources */,
 				F29D817E1BDEC93800C0687A /* MoreActionTableViewCell.swift in Sources */,
 				65D4E8B51C046CE500996930 /* UIViewController+Keyboard.swift in Sources */,
+				65B9EAE91DF59C930091B539 /* VersionUtil.swift in Sources */,
 				6509928C1C087E1C00103510 /* MoreVersionsViewController.swift in Sources */,
 				F27FE5E81BD3EE8F00F7D752 /* MessageViewController.swift in Sources */,
 				F298C5EB1BBFDF9D00081487 /* AppDelegate.swift in Sources */,
@@ -634,6 +641,7 @@
 				F2F200801BC07FA70000E80E /* InboxViewController.swift in Sources */,
 				F2E132EC1BE8FDA6002C3070 /* NewConversationViewController.swift in Sources */,
 				650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */,
+				65B9EAE71DF59B730091B539 /* ErrorUtils.swift in Sources */,
 				F2640A721BD041EF0073BFE9 /* Constants.swift in Sources */,
 				F29D81801BDEC99400C0687A /* MoreImageTableViewCell.swift in Sources */,
 				6530AD751D871B0100E33CE9 /* MessagesHeaderView.swift in Sources */,
@@ -705,11 +713,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = KulloTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kullo.KulloTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KulloiOSApp.app/KulloiOSApp";
 			};
 			name = Debug;
@@ -720,11 +726,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = KulloTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kullo.KulloTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KulloiOSApp.app/KulloiOSApp";
 			};
 			name = Release;
@@ -773,7 +777,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
@@ -815,7 +820,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7";
 			};
@@ -828,8 +834,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "KulloiOSApp/KulloiOSApp-Debug.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libkullo",
@@ -838,10 +842,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.kullo.Kullo-for-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KulloiOSApp/Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -852,8 +853,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "KulloiOSApp/KulloiOSApp-Release.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libkullo",
@@ -862,10 +861,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.kullo.Kullo-for-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KulloiOSApp/Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

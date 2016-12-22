@@ -7,16 +7,16 @@ import XCGLogger
 let log: XCGLogger = {
     // manually setup logger which uses NSLog instead of print so that messages show up on production build
     let log = XCGLogger(identifier: "kulloLogger", includeDefaultDestinations: false)
-    let nslogDestination = XCGNSLogDestination(owner: log)
-    nslogDestination.outputLogLevel = .Debug
-    nslogDestination.showLogIdentifier = false
-    nslogDestination.showFunctionName = true
-    nslogDestination.showThreadName = true
-    nslogDestination.showLogLevel = true
-    nslogDestination.showFileName = true
-    nslogDestination.showLineNumber = true
-    nslogDestination.showDate = true
-    log.addLogDestination(nslogDestination)
+    let systemDestination = AppleSystemLogDestination(owner: log)
+    systemDestination.outputLevel = .debug
+    systemDestination.showLogIdentifier = false
+    systemDestination.showFunctionName = true
+    systemDestination.showThreadName = true
+    systemDestination.showLevel = true
+    systemDestination.showFileName = true
+    systemDestination.showLineNumber = true
+    systemDestination.showDate = true
+    log.add(destination: systemDestination)
     return log
 }()
 
@@ -29,12 +29,12 @@ let log: XCGLogger = {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private var apnDeviceToken: NSData?
-    private let badgeManager = BadgeManager()
+    fileprivate var apnDeviceToken: Data?
+    fileprivate let badgeManager = BadgeManager()
 
     //MARK: lifecycle
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // log app meta data, which also triggers lazy creation of logger
         log.logAppDetails()
 
@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // register for push notifications and badge updates
         application.registerUserNotificationSettings(
-            UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
         )
         badgeManager.register()
         if !FeatureDetection.isRunningOnSimulator() {
@@ -55,12 +55,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 
@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
         if !FeatureDetection.isRunningOnSimulator() {
@@ -77,13 +77,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
         KulloConnector.sharedInstance.syncIfNecessary()
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
         if !FeatureDetection.isRunningOnSimulator() {
@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     //MARK: push notifications
 
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         log.info("Registered for remote notifications, token \(deviceToken)")
         apnDeviceToken = deviceToken
 
@@ -105,48 +105,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         refreshGcmToken()
     }
 
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         log.error("Couldn't register for remote notifications: \(error)")
     }
 
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         log.debug("Incoming notification (through GCM): \(userInfo)")
         GCMService.sharedInstance().appDidReceiveMessage(userInfo);
         startSync(nil)
     }
 
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let appState = application.applicationState
         log.debug("Incoming notification (through APN): \(userInfo); app state: \(appState)")
         GCMService.sharedInstance().appDidReceiveMessage(userInfo);
         startSync(completionHandler)
     }
 
-    func startSync(completionHandler: ((UIBackgroundFetchResult) -> Void)?) {
+    func startSync(_ completionHandler: ((UIBackgroundFetchResult) -> Void)?) {
         if KulloConnector.sharedInstance.hasSession() {
-            KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
+            KulloConnector.sharedInstance.sync(.withoutAttachments, completionHandler: completionHandler)
         } else {
             KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession { address, error in
                 if error != nil {
                     log.error("Couldn't create session for \(address.toString()), will sync later: \(error)")
                 }
                 // call sync() even when an error occurred, so that a sync can be enqueued
-                KulloConnector.sharedInstance.sync(.WithoutAttachments, completionHandler: completionHandler)
+                KulloConnector.sharedInstance.sync(.withoutAttachments, completionHandler: completionHandler)
             }
         }
     }
 
     func startGcm() {
-        let instanceIdConfig = GGLInstanceIDConfig.defaultConfig()
-        instanceIdConfig.delegate = self
-        GGLInstanceID.sharedInstance().startWithConfig(instanceIdConfig)
+        let instanceIdConfig = GGLInstanceIDConfig.default()
+        instanceIdConfig?.delegate = self
+        GGLInstanceID.sharedInstance().start(with: instanceIdConfig)
 
-        GCMService.sharedInstance().startWithConfig(GCMConfig.defaultConfig())
+        GCMService.sharedInstance().start(with: GCMConfig.default())
     }
 
     func connectGcm() {
         log.debug("GCM: connect")
-        GCMService.sharedInstance().connectWithHandler { (error: NSError!) -> Void in
+        GCMService.sharedInstance().connect { error in
             if let err = error {
                 log.error("Couldn't connect to GCM: \(err)")
             } else {
@@ -171,19 +171,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        GGLInstanceID.sharedInstance().tokenWithAuthorizedEntity(
-            gcmSenderId,
+        GGLInstanceID.sharedInstance().token(
+            withAuthorizedEntity: gcmSenderId,
             scope: kGGLInstanceIDScopeGCM,
             options: [
                 kGGLInstanceIDRegisterAPNSOption: deviceToken,
                 kGGLInstanceIDAPNSServerTypeSandboxOption: FeatureDetection.isRunningInPushSandbox()
             ],
-            handler: { (registrationToken: String!, error: NSError!) in
+            handler: { registrationToken, error in
                 if let err = error {
                     log.error("Couldn't get registration token from GCM: \(err)")
                 } else {
                     log.debug("GCM token: \(registrationToken)")
-                    KulloConnector.sharedInstance.registerPushToken(registrationToken)
+                    KulloConnector.sharedInstance.registerPushToken(registrationToken!)
                 }
             }
         )
@@ -192,7 +192,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 
-extension AppDelegate : GGLInstanceIDDelegate {
+extension AppDelegate: GGLInstanceIDDelegate {
 
     func onTokenRefresh() {
         refreshGcmToken()
@@ -200,13 +200,13 @@ extension AppDelegate : GGLInstanceIDDelegate {
 
 }
 
-extension UIApplicationState : CustomStringConvertible {
+extension UIApplicationState: CustomStringConvertible {
     
     public var description: String {
         switch self {
-        case .Active: return "active"
-        case .Inactive: return "inactive"
-        case .Background: return "background"
+        case .active: return "active"
+        case .inactive: return "inactive"
+        case .background: return "background"
         }
     }
     

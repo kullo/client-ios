@@ -2,6 +2,9 @@
 "About Kullo" = "About Kullo";
 
 /* No comment provided by engineer. */
+"accept_terms" = "I accept the [Terms and Conditions]";
+
+/* No comment provided by engineer. */
 "add_self_message" = "You are automatically a member of all conversations that you create. Therefore, your own address cannot be added to the new conversation.";
 
 /* No comment provided by engineer. */
@@ -53,7 +56,10 @@
 "delete_conv_action" = "Delete conversation and messages";
 
 /* No comment provided by engineer. */
-"delete_conv_message" = "This conversation contains messages, which are deleted along with the conversation.";
+"delete_conv_message_multiplemsgs" = "This conversation contains %d messages, which will be deleted along with the conversation.";
+
+/* No comment provided by engineer. */
+"delete_conv_message_onemsg" = "This conversation contains one message, which will be deleted along with the conversation.";
 
 /* No comment provided by engineer. */
 "delete_conv_title" = "Delete messages?";
@@ -99,6 +105,9 @@
 
 /* No comment provided by engineer. */
 "Libraries" = "Libraries";
+
+/* No comment provided by engineer. */
+"local_error_file_too_big" = "The selected file is too big";
 
 /* No comment provided by engineer. */
 "local_error_filesystem" = "Error while reading or writing to local files";
@@ -162,6 +171,9 @@
 
 /* No comment provided by engineer. */
 "Opening file" = "Opening file";
+
+/* No comment provided by engineer. */
+"Optimizing inbox" = "Optimizing inbox";
 
 /* No comment provided by engineer. */
 "Organization" = "Organization";

@@ -2,6 +2,9 @@
 "About Kullo" = "Über Kullo";
 
 /* No comment provided by engineer. */
+"accept_terms" = "Ich akzeptiere die [Allgemeinen Geschäftsbedingungen]";
+
+/* No comment provided by engineer. */
 "add_self_message" = "Du bist automatisch Teilnehmer von neuen Konversationen, die du anlegst. Du kannst dich deshalb nicht selbst hinzufügen.";
 
 /* No comment provided by engineer. */
@@ -53,7 +56,10 @@
 "delete_conv_action" = "Konversation und Nachrichten löschen";
 
 /* No comment provided by engineer. */
-"delete_conv_message" = "Diese Konversation enthält Nachrichten, die zusammen mit der Konversation gelöscht werden.";
+"delete_conv_message_multiplemsgs" = "Diese Konversation enthält %d Nachrichten, die zusammen mit der Konversation gelöscht werden.";
+
+/* No comment provided by engineer. */
+"delete_conv_message_onemsg" = "Diese Konversation enthält eine Nachricht, die zusammen mit der Konversation gelöscht wird.";
 
 /* No comment provided by engineer. */
 "delete_conv_title" = "Nachrichten löschen?";
@@ -99,6 +105,9 @@
 
 /* No comment provided by engineer. */
 "Libraries" = "Bibliotheken";
+
+/* No comment provided by engineer. */
+"local_error_file_too_big" = "Die ausgewählte Datei ist zu groß";
 
 /* No comment provided by engineer. */
 "local_error_filesystem" = "Fehler beim Lesen oder Schreiben von lokalen Dateien";
@@ -162,6 +171,9 @@
 
 /* No comment provided by engineer. */
 "Opening file" = "Öffne Datei";
+
+/* No comment provided by engineer. */
+"Optimizing inbox" = "Optimiere Postfach";
 
 /* No comment provided by engineer. */
 "Organization" = "Organisation";
