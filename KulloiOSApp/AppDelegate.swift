@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 import UIKit
@@ -123,17 +123,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func startSync(_ completionHandler: ((UIBackgroundFetchResult) -> Void)?) {
-        if KulloConnector.sharedInstance.hasSession() {
-            KulloConnector.sharedInstance.sync(.withoutAttachments, completionHandler: completionHandler)
-        } else {
-            KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession { address, error in
-                if error != nil {
-                    log.error("Couldn't create session for \(address.toString()), will sync later: \(error)")
-                }
-                // call sync() even when an error occurred, so that a sync can be enqueued
-                KulloConnector.sharedInstance.sync(.withoutAttachments, completionHandler: completionHandler)
-            }
+        let task = UIApplication.shared.beginBackgroundTask()
+        guard task != UIBackgroundTaskInvalid else {
+            log.error("Running in the background is not possible")
+            return
         }
+
+        KulloConnector.sharedInstance.waitForSession(onSuccess: {
+            KulloConnector.sharedInstance.sync(.withoutAttachments) {
+                completionHandler?($0)
+                UIApplication.shared.endBackgroundTask(task)
+            }
+
+        }, onCredentialsMissing: {
+            log.warning("Could not start creating a session due to missing credentials")
+            UIApplication.shared.endBackgroundTask(task)
+
+        }, onError: { error in
+            log.error("Couldn't create session: \(error)")
+            UIApplication.shared.endBackgroundTask(task)
+        })
     }
 
     func startGcm() {

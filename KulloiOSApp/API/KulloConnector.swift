@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 import SwiftyMimeTypes
@@ -16,6 +16,8 @@ class KulloConnector {
 
     static let sharedInstance = KulloConnector()
 
+    private(set) var accountInfo: KAAccountInfo?
+
     private let client: KAClient
     private var session: KASession?
     private var storage: StorageManager?
@@ -25,18 +27,27 @@ class KulloConnector {
     private var checkCredentialsTask: KAAsyncTask?
     private var registerPushTokenTask: KAAsyncTask?
     private var unregisterPushTokenTask: KAAsyncTask?
+    private var accountInfoTask: KAAsyncTask?
     private var createSessionTask: KAAsyncTask?
     private var clientAddressExistsTask: KAAsyncTask?
     private var addAttachmentTask: KAAsyncTask?
     private var messageAttachmentsSaveToTask: KAAsyncTask?
     private var draftAttachmentsSaveToTask: KAAsyncTask?
 
+    private enum SessionState { case none, creating, created }
+    private var sessionState = SessionState.none {
+        didSet {
+            log.debug("sessionState: \(oldValue) -> \(self.sessionState)")
+        }
+    }
+
     private var generateKeysProgress: Int8 = 0
     private var registration: KARegistration?
     private var pushToken: String?
     private var pushTokenRegistered = false
-    private var shouldSyncWhenSessionHasBeenCreated = false
     private var syncProgress: KASyncProgress?
+    private var sessionCreationSuccessHandlers = [() -> Void]()
+    private var sessionCreationErrorHandlers = [(String) -> Void]()
 
     typealias FetchCompletionHandler = (UIBackgroundFetchResult) -> Void
     private var fetchCompletionHandlers = [FetchCompletionHandler]()
@@ -57,21 +68,50 @@ class KulloConnector {
 
     // MARK: Login
 
-    @discardableResult
-    func checkForStoredCredentialsAndCreateSession(_ completion: @escaping CreateSessionCompletionHandler) -> Bool {
-        if let address = StorageManager.getLastUserAddress() {
-            log.debug("Found last user: \(address.toString())")
-            storage = StorageManager(address: address)
+    func waitForSession(
+        onSuccess: @escaping () -> Void,
+        onCredentialsMissing: @escaping () -> Void,
+        onError: @escaping (_ error: String) -> Void) {
 
-            if let credentials = storage!.loadCredentials() {
-                log.debug("Found valid credentials for last user.")
-                createSession(credentials, completion: completion)
-                return true
+        log.debug("State: \(self.sessionState)")
+        switch sessionState {
+        case .created:
+            onSuccess()
+
+        case .creating:
+            sessionCreationSuccessHandlers.append(onSuccess)
+            sessionCreationErrorHandlers.append(onError)
+
+        case .none:
+            guard let address = StorageManager.getLastUserAddress() else {
+                log.debug("Couldn't find last user address")
+                onCredentialsMissing()
+                return
+            }
+
+            storage = StorageManager(address: address)
+            guard let credentials = storage?.loadCredentials() else {
+                log.debug("Couldn't find credentials for \(address.toString())")
+                onCredentialsMissing()
+                return
+            }
+
+            sessionCreationSuccessHandlers.append(onSuccess)
+            sessionCreationErrorHandlers.append(onError)
+            createSession(credentials: credentials) { _, error in
+                if let error = error {
+                    for errorHandler in self.sessionCreationErrorHandlers {
+                        errorHandler(error)
+                    }
+                } else {
+                    for successHandler in self.sessionCreationSuccessHandlers {
+                        successHandler()
+                    }
+                }
+                self.sessionCreationErrorHandlers.removeAll()
+                self.sessionCreationSuccessHandlers.removeAll()
             }
         }
-
-        log.info("No stored user settings found")
-        return false
     }
 
     func checkCredentials(_ address: String, masterKeyBlocks: [String], delegate: ClientCheckCredentialsDelegate) {
@@ -112,24 +152,32 @@ class KulloConnector {
 
     //MARK: Session
 
-    func createSession(_ credentials: Credentials, completion: @escaping CreateSessionCompletionHandler) {
+    private func createSession(
+        credentials: Credentials,
+        completion: @escaping CreateSessionCompletionHandler) {
+
+        precondition(sessionState == .none)
+
         if storage == nil || storage!.userAddress != credentials.address {
             storage = StorageManager(address: credentials.address)
         }
 
+        sessionState = .creating
         createSessionTask = client.createSessionAsync(
             credentials.address,
             masterKey: credentials.masterKey,
             dbFilePath: storage!.getDbPath(),
             sessionListener: SessionListener(kulloConnector: self),
-            listener: ClientCreateSessionListener(kulloConnector: self, completion: completion))
-    }
-
-    func hasSession() -> Bool {
-        return session != nil
+            listener: ClientCreateSessionListener(kulloConnector: self, completion: {
+                address, error in
+                self.sessionState = .created
+                completion(address, error)
+            }))
     }
 
     func setSession(_ session: KASession) {
+        precondition(sessionState == .creating)
+
         self.session = session
         self.session?.syncer()?.setListener(SyncerListener(kulloConnector: self))
 
@@ -150,9 +198,6 @@ class KulloConnector {
         if let pushToken = pushToken {
             registerPushToken(pushToken)
         }
-        if shouldSyncWhenSessionHasBeenCreated {
-            sync(.withoutAttachments)
-        }
     }
 
     func closeSession() {
@@ -167,6 +212,7 @@ class KulloConnector {
         checkCredentialsTask?.cancel()
         registerPushTokenTask?.cancel()
         unregisterPushTokenTask?.cancel()
+        accountInfoTask?.cancel()
         createSessionTask?.cancel()
         clientAddressExistsTask?.cancel()
         addAttachmentTask?.cancel()
@@ -179,12 +225,14 @@ class KulloConnector {
         checkCredentialsTask?.waitUntilDone()
         registerPushTokenTask?.waitUntilDone()
         unregisterPushTokenTask?.waitUntilDone()
+        accountInfoTask?.waitUntilDone()
         createSessionTask?.waitUntilDone()
         clientAddressExistsTask?.waitUntilDone()
         addAttachmentTask?.waitUntilDone()
         messageAttachmentsSaveToTask?.waitUntilDone()
         draftAttachmentsSaveToTask?.waitUntilDone()
 
+        sessionState = .none
         session = nil
     }
 
@@ -208,6 +256,18 @@ class KulloConnector {
             unregisterPushTokenTask = session?.unregisterPushToken(makeKAPushToken(pushToken))
             pushTokenRegistered = false
         }
+    }
+
+    func getAccountInfo(completion: @escaping () -> Void) {
+        accountInfoTask = session?.accountInfoAsync(
+            SessionAccountInfoListener(completion: { [weak self] accountInfo in
+                DispatchQueue.main.async {
+                    guard let strongSelf = self else { return }
+
+                    strongSelf.accountInfo = accountInfo
+                    completion()
+                }
+            }))
     }
 
     //MARK: Update/Store/Load/Remove user settings
@@ -331,30 +391,11 @@ class KulloConnector {
         syncDelegates = syncDelegates.filter { $0 !== delegate }
     }
 
-    // returns true iff a session is available and a sync has been requested
-    @discardableResult
-    func sync(_ syncMode: KASyncMode) -> Bool {
-        if let syncer = session?.syncer() {
-            syncer.requestSync(syncMode)
-            shouldSyncWhenSessionHasBeenCreated = false
-        } else {
-            shouldSyncWhenSessionHasBeenCreated = true
-        }
-        return !shouldSyncWhenSessionHasBeenCreated
-    }
-
-    func sync(_ syncMode: KASyncMode, completionHandler: ((UIBackgroundFetchResult) -> Void)?) {
+    func sync(_ syncMode: KASyncMode, completionHandler: ((UIBackgroundFetchResult) -> Void)? = nil) {
         if let completionHandler = completionHandler {
             fetchCompletionHandlers.append(completionHandler)
         }
-        if !sync(syncMode) {
-            log.debug("Could not sync right now since session is not available. Delay sync and fail for now. (triggered by notification)")
-            for handler in fetchCompletionHandlers {
-                log.debug("calling fetchCompletionHandler with .Failed")
-                handler(.failed)
-            }
-            fetchCompletionHandlers.removeAll()
-        }
+        session?.syncer()?.requestSync(syncMode)
     }
 
     func syncIfNecessary() {
@@ -372,11 +413,30 @@ class KulloConnector {
     }
 
     func getSyncProgress() -> Float {
-        guard let syncProgress = syncProgress else {
-            return 0
+        guard let syncProgress = syncProgress,
+            syncProgress.incomingMessagesTotal > 0 else {
+                return 0
         }
         return Float(syncProgress.incomingMessagesProcessed)
             / Float(syncProgress.incomingMessagesTotal)
+    }
+
+    func getAttachmentDownloadProgress() -> Float {
+        guard let syncProgress = syncProgress,
+            syncProgress.incomingAttachmentsTotalBytes > 0 else {
+                return 0
+        }
+        return Float(syncProgress.incomingAttachmentsDownloadedBytes)
+            / Float(syncProgress.incomingAttachmentsTotalBytes)
+    }
+
+    func getSendingProgress() -> Float {
+        guard let syncProgress = syncProgress,
+            syncProgress.outgoingMessagesTotalBytes > 0 else {
+            return 0
+        }
+        return Float(syncProgress.outgoingMessagesUploadedBytes)
+            / Float(syncProgress.outgoingMessagesTotalBytes)
     }
 
     func syncerListener_started() {
@@ -403,7 +463,7 @@ class KulloConnector {
 
     func syncComplete() {
         for handler in fetchCompletionHandlers {
-            log.debug("calling fetchCompletionHandler with .NewData")
+            log.debug("calling fetchCompletionHandler with .newData")
             handler(.newData)
         }
         fetchCompletionHandlers.removeAll()
@@ -652,9 +712,9 @@ class KulloConnector {
 
     func saveDraftForConversation(_ convId: Int64, message: String, prepareToSend: Bool) {
         if let drafts = session?.drafts() {
-            if prepareToSend == true {
+            if prepareToSend {
                 // User is done writing. This trims the message before sending
-                let trimmedMessage = message.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                let trimmedMessage = message.trimmingCharacters(in: .whitespacesAndNewlines)
                 drafts.setText(convId, text: trimmedMessage)
                 drafts.prepare(toSend: convId)
             } else {
@@ -712,6 +772,11 @@ class KulloConnector {
 
     func setMessageUnread(_ messageId: Int64, value: Bool) {
         session?.messages()?.setRead(messageId, value: !value)
+    }
+
+    func hasAttachments(_ messageId: Int64) -> Bool {
+        let attIds = session?.messageAttachments()?.all(forMessage: messageId) ?? []
+        return !attIds.isEmpty
     }
 
     func getMessageText(_ messageId: Int64) -> String {

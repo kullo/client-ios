@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
@@ -12,5 +12,6 @@ class MessagesTableViewCell: UITableViewCell {
 
     @IBOutlet var messageDateLabel: UILabel!
     @IBOutlet var messageUnreadLabel: UILabel!
+    @IBOutlet var hasAttachmentsIcon: UIImageView!
     @IBOutlet var messageTextLabel: UILabel!
 }

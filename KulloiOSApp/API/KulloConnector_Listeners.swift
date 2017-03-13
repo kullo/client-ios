@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 
@@ -91,7 +91,7 @@ typealias CreateSessionCompletionHandler = (_ address: KAAddress, _ error: Strin
 
 class ClientCreateSessionListener: KAClientCreateSessionListener {
     weak var kulloConnector: KulloConnector?
-    var completion: CreateSessionCompletionHandler?
+    var completion: CreateSessionCompletionHandler
 
     init(kulloConnector: KulloConnector, completion: @escaping CreateSessionCompletionHandler) {
         self.kulloConnector = kulloConnector
@@ -107,13 +107,13 @@ class ClientCreateSessionListener: KAClientCreateSessionListener {
     @objc func finished(_ session: KASession?) {
         DispatchQueue.main.async {
             self.kulloConnector?.setSession(session!)
-            self.completion?(session!.userSettings()!.address()!, nil)
+            self.completion(session!.userSettings()!.address()!, nil)
         }
     }
 
     @objc func error(_ address: KAAddress?, error: KALocalError) {
         DispatchQueue.main.async {
-            self.completion?(address!, error.message)
+            self.completion(address!, error.message)
         }
     }
 }
@@ -130,6 +130,22 @@ class SessionListener: KASessionListener {
         DispatchQueue.main.async {
             self.kulloConnector?.sessionListener_internalEvent(event)
         }
+    }
+}
+
+class SessionAccountInfoListener: KASessionAccountInfoListener {
+    private let completion: (KAAccountInfo) -> Void
+
+    init(completion: @escaping (KAAccountInfo) -> Void) {
+        self.completion = completion
+    }
+
+    @objc func finished(_ accountInfo: KAAccountInfo) {
+        completion(accountInfo)
+    }
+
+    @objc func error(_ error: KANetworkError) {
+        log.error("Error retrieving account info: \(error)")
     }
 }
 

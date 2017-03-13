@@ -1,36 +1,60 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 import CoreGraphics
+import LibKullo
 import XCGLogger
 
-class MoreViewController: UIViewController {
+class MoreViewController: UITableViewController {
 
     fileprivate static let moreLogoutSegueIdentifier = "MoreLogoutSegue"
 
-    @IBOutlet var tableView: UITableView!
-
-    enum Section: Int {
+    fileprivate enum SectionType {
         case avatar, settings, account, about, feedback
+
+        var headerHeight: CGFloat {
+            switch self {
+            case .avatar: return CGFloat.leastNonzeroMagnitude
+            default: return 10
+            }
+        }
     }
-    let numberOfSections = 5
 
-    let numberOfAvatarRows = 1
-    let numberOfSettingsRows = 3
-    let numberOfAccountRows = 3
-    let numberOfAboutRows = 4
-    let numberOfFeedbackRows = 1
-
-    enum SettingsRow: Int {
+    // must be non-private because it is used in the cells
+    enum RowType {
+        case avatar
         case name, organization, footer
-    }
-
-    enum AccountRow: Int {
-        case address, masterKey, logout
-    }
-
-    enum AboutRow: Int {
+        case address, plan, masterKey, logout
         case version, about, website, licenses
+        case feedback
+
+        var height: CGFloat {
+            return self == .avatar ? 220 : 44
+        }
+    }
+
+    fileprivate struct Section {
+        var type: SectionType
+        var rows: [RowType]
+    }
+
+    fileprivate let sections = [
+        Section(type: .avatar, rows: [.avatar]),
+        Section(type: .settings, rows: [.name, .organization, .footer]),
+        Section(type: .account, rows: [.address, .plan, .masterKey, .logout]),
+        Section(type: .about, rows: [.version, .about, .website, .licenses]),
+        Section(type: .feedback, rows: [.feedback]),
+    ]
+
+    private func indexPathForRowType(type: RowType) -> IndexPath? {
+        for (sectionIndex, section) in sections.enumerated() {
+            for (rowIndex, row) in section.rows.enumerated() {
+                if row == type {
+                    return IndexPath(row: rowIndex, section: sectionIndex)
+                }
+            }
+        }
+        return nil
     }
 
     // MARK: lifecycle
@@ -38,14 +62,11 @@ class MoreViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        setupKeyboardNotifcationListenerForScrollView(tableView)
         tableView.reloadData()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        removeKeyboardNotificationListeners()
+        KulloConnector.sharedInstance.getAccountInfo { [weak self] in
+            guard let indexPath = self?.indexPathForRowType(type: .plan) else { return }
+            self?.tableView.reloadRows(at: [indexPath], with: .none)
+        }
     }
 
     // MARK: actions
@@ -71,161 +92,110 @@ class MoreViewController: UIViewController {
 
 }
 
-extension MoreViewController: UITableViewDataSource {
+// MARK: - UITableViewDataSource
+extension MoreViewController {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfSections
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch Section(rawValue: section)! {
-        case .avatar:
-            return numberOfAvatarRows
-        case .settings:
-            return numberOfSettingsRows
-        case .account:
-            return numberOfAccountRows
-        case .about:
-            return numberOfAboutRows
-        case .feedback:
-            return numberOfFeedbackRows
-        }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].rows.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = sections[indexPath.section].rows[indexPath.row]
 
-        switch Section(rawValue: indexPath.section)! {
+        switch row {
         case .avatar:
-            cell = getImageCell(tableView, indexPath: indexPath)
+            return getImageCell(tableView, indexPath: indexPath)
 
-        case .settings:
-            switch SettingsRow(rawValue: indexPath.row)! {
-            case .name:
-                cell = getEditInlineCell(tableView, indexPath: indexPath, cellType: .name)
-            case .organization:
-                cell = getEditInlineCell(tableView, indexPath: indexPath, cellType: .organization)
-            case .footer:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .footer)
-            }
+        case .name, .organization:
+            return getEditInlineCell(tableView, indexPath: indexPath, rowType: row)
 
-        case .account:
-            switch AccountRow(rawValue: indexPath.row)! {
-            case .address:
-                cell = getEditInlineCell(tableView, indexPath: indexPath, cellType: .address)
-                cell.isUserInteractionEnabled = false
-            case .masterKey:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .masterKey)
-            case .logout:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .logout)
-            }
+        case .address:
+            let cell = getEditInlineCell(tableView, indexPath: indexPath, rowType: row)
+            cell.isUserInteractionEnabled = false
+            return cell
 
-        case .about:
-            switch AboutRow(rawValue: indexPath.row)! {
-            case .version:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .version)
-            case .about:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .about)
-            case .website:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .website)
-            case .licenses:
-                cell = getActionCell(tableView, indexPath: indexPath, cellType: .licenses)
-            }
-
-        case .feedback:
-            cell = getActionCell(tableView, indexPath: indexPath, cellType: .feedback)
+        case .footer, .plan, .masterKey, .logout, .version, .about, .website, .licenses, .feedback:
+            return getActionCell(tableView, indexPath: indexPath, rowType: row)
         }
-        return cell
     }
 
     private func getImageCell(_ tableView: UITableView, indexPath: IndexPath) -> MoreImageTableViewCell {
         let cellIdentifier = "MoreImageCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MoreImageTableViewCell
-        cell.setAvatarImage(KulloConnector.sharedInstance.getClientAvatar())
+        cell.avatarImage = KulloConnector.sharedInstance.getClientAvatar()
         return cell
     }
 
-    private func getEditInlineCell(_ tableView: UITableView, indexPath: IndexPath, cellType: MoreCellType) -> MoreEditInlineTableViewCell {
+    private func getEditInlineCell(_ tableView: UITableView, indexPath: IndexPath, rowType: RowType) -> MoreEditInlineTableViewCell {
         let cellIdentifier = "MoreEditInlineCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MoreEditInlineTableViewCell
-        cell.setCellType(cellType)
+        cell.rowType = rowType
         return cell
     }
 
-    private func getActionCell(_ tableView: UITableView, indexPath: IndexPath, cellType: MoreCellType) -> MoreActionTableViewCell {
+    private func getActionCell(_ tableView: UITableView, indexPath: IndexPath, rowType: RowType) -> MoreActionTableViewCell {
         let cellIdentifier = "MoreActionCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MoreActionTableViewCell
-        cell.setCellType(cellType)
+        cell.rowType = rowType
         return cell
     }
 
 }
 
-extension MoreViewController: UITableViewDelegate {
+// MARK: - UITableViewDelegate
+extension MoreViewController {
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if Section(rawValue: indexPath.section) == .avatar {
-            return 220
-        } else {
-            return 44
-        }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return sections[indexPath.section].rows[indexPath.row].height
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if Section(rawValue: section) == .avatar {
-            return CGFloat.leastNormalMagnitude
-        } else {
-            return 10
-        }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return sections[section].type.headerHeight
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        switch Section(rawValue: indexPath.section)! {
+        let row = sections[indexPath.section].rows[indexPath.row]
+        switch row {
         case .avatar:
             showAvatarActionSheet()
 
-        case .settings:
-            switch SettingsRow(rawValue: indexPath.row)! {
-            case .name, .organization:
-                let editInlineCell = tableView.cellForRow(at: indexPath) as! MoreEditInlineTableViewCell
-                editInlineCell.cellEditContent.becomeFirstResponder()
-            case .footer:
-                showDetailViewControllerForMoreCellType(.footer)
+        case .name, .organization:
+            let editInlineCell = tableView.cellForRow(at: indexPath) as! MoreEditInlineTableViewCell
+            editInlineCell.cellEditContent.becomeFirstResponder()
+
+        case .footer, .masterKey, .version, .about, .licenses:
+            showDetailViewControllerForRowType(row)
+
+        case .address:
+            // do nothing on selection
+            break
+
+        case .plan:
+            if let urlString = KulloConnector.sharedInstance.accountInfo?.settingsUrl,
+                let url = URL(string: urlString) {
+                UIApplication.shared.openURL(url)
             }
 
-        case .account:
-            switch AccountRow(rawValue: indexPath.row)! {
-            case .address:
-                // do nothing on selection
-                break
-            case .masterKey:
-                showDetailViewControllerForMoreCellType(.masterKey)
-            case .logout:
-                logoutClicked()
-            }
+        case .logout:
+            logoutClicked()
 
-        case .about:
-            switch AboutRow(rawValue: indexPath.row)! {
-            case .version:
-                showDetailViewControllerForMoreCellType(.version)
-            case .about:
-                showDetailViewControllerForMoreCellType(.about)
-            case .website:
-                UIApplication.shared.openURL(URL(string: kulloWebsiteAddress)!)
-            case .licenses:
-                showDetailViewControllerForMoreCellType(.licenses)
-            }
+        case .website:
+            UIApplication.shared.openURL(URL(string: kulloWebsiteAddress)!)
 
         case .feedback:
             showFeedbackDialog()
         }
     }
     
-    private func showDetailViewControllerForMoreCellType(_ cellType: MoreCellType) {
+    private func showDetailViewControllerForRowType(_ rowType: RowType) {
         let detailViewControllerName: String
-        switch cellType {
+        switch rowType {
 
         case .footer, .masterKey:
             detailViewControllerName = "MoreEditTextViewController"
@@ -244,9 +214,9 @@ extension MoreViewController: UITableViewDelegate {
         }
         let detailViewController = storyboard!.instantiateViewController(withIdentifier: detailViewControllerName)
 
-        switch cellType {
+        switch rowType {
         case .footer, .masterKey:
-            (detailViewController as! MoreEditTextViewController).cellType = cellType
+            (detailViewController as! MoreEditTextViewController).rowType = rowType
         default:
             break
         }
@@ -328,7 +298,6 @@ extension MoreViewController: UITableViewDelegate {
         KulloConnector.sharedInstance.deleteClientAvatar()
         tableView.reloadData()
     }
-
 }
 
 extension MoreViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
@@ -342,24 +311,4 @@ extension MoreViewController: UINavigationControllerDelegate, UIImagePickerContr
             self.tableView.reloadData()
         }
     }
-
-}
-
-enum MoreCellType {
-    case image
-
-    case name
-    case organization
-    case footer
-
-    case address
-    case masterKey
-    case logout
-
-    case version
-    case about
-    case website
-    case licenses
-
-    case feedback
 }

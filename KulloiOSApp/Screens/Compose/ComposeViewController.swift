@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 import MobileCoreServices
@@ -161,7 +161,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         if let convId = convId {
             alertDialog = showWaitingDialog(
                 NSLocalizedString("Sending messages", comment: ""),
-                message: NSLocalizedString("Please wait...", comment: "")
+                message: syncingAlertMessage()
             )
 
             let text = messageTextView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -170,7 +170,12 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             KulloConnector.sharedInstance.sync(.sendOnly)
         }
     }
-    
+
+    fileprivate func syncingAlertMessage() -> String {
+        let message = NSLocalizedString("Please wait...", comment: "")
+        let progress = KulloConnector.sharedInstance.getSendingProgress()
+        return "\(message) \(Int(round(progress * 100)))%"
+    }
 }
 
 extension ComposeViewController: UIGestureRecognizerDelegate {
@@ -343,7 +348,7 @@ extension ComposeViewController: DraftAttachmentsAddDelegate {
 
     func draftAttachmentsAddError(_ convId: Int64, path: String, error: String) {
         deleteTemp()
-        showInfoDialog(NSLocalizedString("Error while adding attachment", comment: ""), message: "")
+        showInfoDialog(NSLocalizedString("Error while adding attachment", comment: ""), message: error)
     }
 
 }
@@ -355,7 +360,9 @@ extension ComposeViewController: SyncDelegate {
     }
 
     func syncProgressed() {
-        // do nothing
+        guard let alertDialog = alertDialog else { return }
+
+        alertDialog.message = syncingAlertMessage()
     }
 
     func syncDraftAttachmentsTooBig(_ convId: Int64) {

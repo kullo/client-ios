@@ -1,4 +1,7 @@
 /* No comment provided by engineer. */
+"%d%% used" = "%d%% used";
+
+/* No comment provided by engineer. */
 "About Kullo" = "About Kullo";
 
 /* No comment provided by engineer. */
@@ -107,7 +110,7 @@
 "Libraries" = "Libraries";
 
 /* No comment provided by engineer. */
-"local_error_file_too_big" = "The selected file is too big";
+"local_error_file_too_big" = "The selected files are too big";
 
 /* No comment provided by engineer. */
 "local_error_filesystem" = "Error while reading or writing to local files";
@@ -177,6 +180,9 @@
 
 /* No comment provided by engineer. */
 "Organization" = "Organization";
+
+/* No comment provided by engineer. */
+"Plan" = "Plan";
 
 /* No comment provided by engineer. */
 "Please enter an address." = "Please enter an address.";

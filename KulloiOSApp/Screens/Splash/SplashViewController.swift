@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 import UIKit
@@ -15,32 +15,24 @@ class SplashViewController: UIViewController {
 
         KulloConnector.sharedInstance.addSessionEventsDelegate(self)
 
-        if KulloConnector.sharedInstance.hasSession() {
-            performSegue(withIdentifier: SplashViewController.inboxSegue, sender: self)
+        KulloConnector.sharedInstance.waitForSession(onSuccess: {
+            self.performSegue(withIdentifier: SplashViewController.inboxSegue, sender: self)
 
-        } else {
-            log.debug("No session available")
-            let credentialsAvailable = KulloConnector.sharedInstance.checkForStoredCredentialsAndCreateSession({
-                address, error in
-                if error != nil {
-                    let alertDialog = UIAlertController(
-                        title: NSLocalizedString("Couldn't load data", comment: ""),
-                        message: error,
-                        preferredStyle: .alert)
-                    alertDialog.addAction(AlertHelper.getAlertOKAction())
+        }, onCredentialsMissing: {
+            log.debug("Could not start creating a session due to missing credentials")
+            self.performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
 
-                    self.present(alertDialog, animated: true, completion: {
-                        self.performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
-                    })
-                } else {
-                    self.performSegue(withIdentifier: SplashViewController.inboxSegue, sender: self)
-                }
-            })
-            if !credentialsAvailable {
-                log.debug("Could not start creating a session")
-                performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
+        }, onError: { error in
+            let alertDialog = UIAlertController(
+                title: NSLocalizedString("Couldn't load data", comment: ""),
+                message: error,
+                preferredStyle: .alert)
+            alertDialog.addAction(AlertHelper.getAlertOKAction())
+
+            self.present(alertDialog, animated: true) {
+                self.performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
             }
-        }
+        })
     }
 
     override func viewDidDisappear(_ animated: Bool) {

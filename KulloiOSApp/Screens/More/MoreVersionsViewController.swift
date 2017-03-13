@@ -1,38 +1,41 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
 class MoreVersionsViewController: UITableViewController {
 
-    enum Section: Int {
+    private enum Section: Int {
         case app, components
+
+        static let count = 2
+
+        var title: String {
+            switch self {
+            case .app: return NSLocalizedString("App", comment: "")
+            case .components: return NSLocalizedString("Libraries", comment: "")
+            }
+        }
+
+        var count: Int {
+            switch self {
+            case .app: return 1
+            case .components: return MoreVersionsViewController.versions.count
+            }
+        }
     }
 
-    let sectionTitles = [
-        NSLocalizedString("App", comment: ""),
-        NSLocalizedString("Libraries", comment: ""),
-    ]
-
-    let versions = KulloConnector.sharedInstance.getVersions()
-
+    private static let versions = KulloConnector.sharedInstance.getVersions()
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
+        return Section.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
+        return Section(rawValue: section)!.title
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch Section(rawValue: section)! {
-
-        case .app:
-            return 1
-
-        case .components:
-            return versions.count
-        }
+        return Section(rawValue: section)!.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,12 +56,10 @@ class MoreVersionsViewController: UITableViewController {
             return KulloConnector.VersionTuple("Kullo for iOS", appVersion)
 
         case .components:
-            return versions[indexPath.row]
+            return MoreVersionsViewController.versions[indexPath.row]
         }
     }
-
 }
-
 
 class MoreVersionsCell: UITableViewCell {
     @IBOutlet var componentLabel: UILabel!

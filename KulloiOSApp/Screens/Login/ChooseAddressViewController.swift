@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 import LibKullo
@@ -49,6 +49,10 @@ class ChooseAddressViewController: UIViewController {
 
     @IBAction func usernameChanged(_ sender: UITextField) {
         updateRegisterButtonState()
+    }
+
+    @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 
     @IBAction func termsTapped(_ sender: UITapGestureRecognizer) {

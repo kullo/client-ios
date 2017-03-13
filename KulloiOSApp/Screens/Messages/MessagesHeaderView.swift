@@ -1,3 +1,4 @@
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 //
 //  MessagesHeaderView.swift
 //  KulloiOSApp

@@ -1,12 +1,17 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
 class MoreImageTableViewCell: UITableViewCell {
 
     @IBOutlet fileprivate var avatarImageView: UIImageView!
-    
-    func setAvatarImage(_ avatarImage: UIImage?) {
-        avatarImageView.image = avatarImage
+
+    var avatarImage: UIImage? {
+        get {
+            return avatarImageView.image
+        }
+        set {
+            avatarImageView.image = newValue
+        }
     }
 }

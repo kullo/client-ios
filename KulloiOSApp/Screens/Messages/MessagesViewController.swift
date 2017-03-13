@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 import XCGLogger
@@ -38,7 +38,10 @@ class MessagesViewController: UIViewController {
         headerView.setNeedsLayout()
         headerView.layoutIfNeeded()
         let headerHeight = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        headerView.frame.size.height = headerHeight
+        headerView.frame.size.height = ceil(headerHeight)
+
+        // necessary to inform tableView of headerView's height change
+        tableView.tableHeaderView = headerView
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -170,6 +173,7 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
         cell.messageOrganization.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
         cell.messageDateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithSymbolicNames()
         cell.messageUnreadLabel.isHidden = !KulloConnector.sharedInstance.getMessageUnread(messageId)
+        cell.hasAttachmentsIcon.isHidden = !KulloConnector.sharedInstance.hasAttachments(messageId)
         cell.messageTextLabel.text = messageTextWithoutNewLine
 
         cell.preservesSuperviewLayoutMargins = false

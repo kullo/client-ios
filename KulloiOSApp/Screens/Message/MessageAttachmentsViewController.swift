@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import CoreGraphics
 import UIKit
@@ -44,11 +44,17 @@ class MessageAttachmentsViewController: UIViewController {
     @IBAction func download() {
         alertDialog = showWaitingDialog(
             NSLocalizedString("Downloading attachments", comment: ""),
-            message: NSLocalizedString("Please wait...", comment: "")
+            message: downloadingAlertMessage()
         )
 
         KulloConnector.sharedInstance.addSyncDelegate(self)
         KulloConnector.sharedInstance.downloadAttachments(messageId)
+    }
+
+    fileprivate func downloadingAlertMessage() -> String {
+        let message = NSLocalizedString("Please wait...", comment: "")
+        let progress = KulloConnector.sharedInstance.getAttachmentDownloadProgress()
+        return "\(message) \(Int(round(progress * 100)))%"
     }
 
     // MARK: Data
@@ -118,8 +124,9 @@ extension MessageAttachmentsViewController: SyncDelegate {
     }
 
     func syncProgressed() {
-        // do nothing
+        guard let alertDialog = alertDialog else { return }
 
+        alertDialog.message = downloadingAlertMessage()
     }
 
     func syncDraftAttachmentsTooBig(_ convId: Int64) {

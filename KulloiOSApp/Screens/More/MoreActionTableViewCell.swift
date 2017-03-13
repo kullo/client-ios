@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
@@ -6,35 +6,56 @@ class MoreActionTableViewCell: UITableViewCell {
     @IBOutlet var cellTitle: UILabel!
     @IBOutlet var cellContent: UILabel!
 
-    func setCellType(_ cellType: MoreCellType) {
-        switch cellType {
-        case .footer:
-            let footer = KulloConnector.sharedInstance.getClientFooter()
-            cellTitle.text = NSLocalizedString("Footer", comment: "")
-            cellContent.text = footer
-        case .masterKey:
-            cellTitle.text = NSLocalizedString("MasterKey", comment: "")
-            cellContent.text = ""
-        case .logout:
-            cellTitle.text = NSLocalizedString("Logout", comment: "")
-            cellContent.text = ""
-        case .version:
-            cellTitle.text = NSLocalizedString("Version", comment: "")
-            cellContent.text = VersionUtil.appVersion
-        case .about:
-            cellTitle.text = NSLocalizedString("About Kullo", comment: "")
-            cellContent.text = ""
-        case .website:
-            cellTitle.text = NSLocalizedString("Web", comment: "")
-            cellContent.text = kulloWebsiteAddress
-        case .licenses:
-            cellTitle.text = NSLocalizedString("Software licenses", comment: "")
-            cellContent.text = ""
-        case .feedback:
-            cellTitle.text = NSLocalizedString("Feedback", comment: "")
-            cellContent.text = ""
-        default: break
+    var rowType: MoreViewController.RowType? {
+        didSet {
+            guard let rowType = rowType else { return }
+
+            switch rowType {
+            case .footer:
+                let footer = KulloConnector.sharedInstance.getClientFooter()
+                cellTitle.text = NSLocalizedString("Footer", comment: "")
+                cellContent.text = footer
+            case .plan:
+                cellTitle.text = NSLocalizedString("Plan", comment: "")
+                cellContent.text = accountInfo
+            case .masterKey:
+                cellTitle.text = NSLocalizedString("MasterKey", comment: "")
+                cellContent.text = ""
+            case .logout:
+                cellTitle.text = NSLocalizedString("Logout", comment: "")
+                cellContent.text = ""
+            case .version:
+                cellTitle.text = NSLocalizedString("Version", comment: "")
+                cellContent.text = VersionUtil.appVersion
+            case .about:
+                cellTitle.text = NSLocalizedString("About Kullo", comment: "")
+                cellContent.text = ""
+            case .website:
+                cellTitle.text = NSLocalizedString("Web", comment: "")
+                cellContent.text = kulloWebsiteAddress
+            case .licenses:
+                cellTitle.text = NSLocalizedString("Software licenses", comment: "")
+                cellContent.text = ""
+            case .feedback:
+                cellTitle.text = NSLocalizedString("Feedback", comment: "")
+                cellContent.text = ""
+            default: break
+            }
         }
     }
 
+    private var accountInfo: String {
+        let content: String
+        if let info = KulloConnector.sharedInstance.accountInfo {
+            let storagePercentUsed = 100 * Double(info.storageUsed!) / Double(info.storageQuota!)
+            let used = String.localizedStringWithFormat(
+                NSLocalizedString("%d%% used", comment: ""),
+                Int(storagePercentUsed)
+            )
+            content = "\(info.planName!) (\(used))"
+        } else {
+            content = ""
+        }
+        return content
+    }
 }

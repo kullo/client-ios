@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 import XCGLogger
@@ -6,8 +6,8 @@ import XCGLogger
 class MoreEditTextViewController: UIViewController {
     
     // MARK: Properties
-    
-    var cellType: MoreCellType?
+
+    var rowType: MoreViewController.RowType?
     @IBOutlet var editTextView: UITextView!
 
     // MARK: View lifecycle
@@ -17,8 +17,8 @@ class MoreEditTextViewController: UIViewController {
 
         setupKeyboardNotifcationListenerForScrollView(editTextView)
 
-        if let cellType = self.cellType {
-            switch cellType {
+        if let rowType = self.rowType {
+            switch rowType {
             case .footer:
                 title = NSLocalizedString("Edit footer", comment: "")
                 editTextView.text = KulloConnector.sharedInstance.getClientFooter()
@@ -42,8 +42,8 @@ class MoreEditTextViewController: UIViewController {
         }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
         removeKeyboardNotificationListeners()
     }
@@ -51,7 +51,15 @@ class MoreEditTextViewController: UIViewController {
 }
 
 extension MoreEditTextViewController: UITextViewDelegate {
+
     func textViewDidChange(_ textView: UITextView) {
-        KulloConnector.sharedInstance.setClientFooter(self.editTextView.text)
+        if let rowType = rowType {
+            switch rowType {
+            case .footer:
+                KulloConnector.sharedInstance.setClientFooter(self.editTextView.text)
+            default:
+                break
+            }
+        }
     }
 }

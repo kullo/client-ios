@@ -1,4 +1,4 @@
-/* Copyright 2015-2016 Kullo GmbH. All rights reserved. */
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import LibKullo
 import UIKit
@@ -72,10 +72,9 @@ class InboxViewController: UIViewController {
     func updateDataAndRefreshTable() {
         conversationIds = KulloConnector.sharedInstance.getAllConversationIdsSorted()
 
-        let haveSession = KulloConnector.sharedInstance.hasSession()
         let haveConversations = conversationIds.count > 0
         let syncIsRunning = KulloConnector.sharedInstance.isSyncRunning()
-        shouldShowPullToRefreshHint = haveSession && !haveConversations && !syncIsRunning
+        shouldShowPullToRefreshHint = !haveConversations && !syncIsRunning
 
         if shouldShowPullToRefreshHint {
             tableView.rowHeight = InboxViewController.pullToRefreshCellHeight
