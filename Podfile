@@ -6,7 +6,7 @@ use_frameworks!
 target 'KulloiOSApp' do
     pod 'Google/CloudMessaging'
     pod 'HTAutocompleteTextField'
-    pod 'SwiftKeychainWrapper'
+    pod 'SwiftKeychainWrapper', :git => 'https://github.com/tiwoc/SwiftKeychainWrapper.git', :branch => 'kullo'
     pod 'SwiftyMimeTypes' #, :git => 'https://github.com/tiwoc/SwiftyMimeTypes.git', :branch => 'master'
     pod 'TCMobileProvision'
     pod 'XCGLogger'

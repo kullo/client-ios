@@ -7,6 +7,7 @@ import XCGLogger
 
 class MoreViewController: UITableViewController {
 
+    fileprivate static let moreLeaveInboxSegueIdentifier = "MoreLeaveInboxSegue"
     fileprivate static let moreLogoutSegueIdentifier = "MoreLogoutSegue"
 
     fileprivate enum SectionType {
@@ -24,7 +25,7 @@ class MoreViewController: UITableViewController {
     enum RowType {
         case avatar
         case name, organization, footer
-        case address, plan, masterKey, logout
+        case address, plan, masterKey, leaveInbox, logout
         case version, about, website, licenses
         case feedback
 
@@ -41,7 +42,7 @@ class MoreViewController: UITableViewController {
     fileprivate let sections = [
         Section(type: .avatar, rows: [.avatar]),
         Section(type: .settings, rows: [.name, .organization, .footer]),
-        Section(type: .account, rows: [.address, .plan, .masterKey, .logout]),
+        Section(type: .account, rows: [.address, .plan, .masterKey, .leaveInbox, .logout]),
         Section(type: .about, rows: [.version, .about, .website, .licenses]),
         Section(type: .feedback, rows: [.feedback]),
     ]
@@ -63,7 +64,7 @@ class MoreViewController: UITableViewController {
         super.viewWillAppear(animated)
 
         tableView.reloadData()
-        KulloConnector.sharedInstance.getAccountInfo { [weak self] in
+        KulloConnector.shared.getAccountInfo { [weak self] in
             guard let indexPath = self?.indexPathForRowType(type: .plan) else { return }
             self?.tableView.reloadRows(at: [indexPath], with: .none)
         }
@@ -73,18 +74,37 @@ class MoreViewController: UITableViewController {
 
     @IBAction func dismissAndSaveChanges() {
         // upload potential changes to UserSettings
-        KulloConnector.sharedInstance.sync(.withoutAttachments)
+        KulloConnector.shared.sync(.withoutAttachments)
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
+    func leaveInboxClicked() {
+        let warning = String.localizedStringWithFormat(
+            NSLocalizedString("leave_inbox_warning", comment: ""),
+            KulloConnector.shared.getClientAddress()
+        )
+
+        showConfirmationDialog(
+            NSLocalizedString("Leave inbox?", comment: ""),
+            message: warning,
+            confirmationButtonText: NSLocalizedString("Leave inbox", comment: ""),
+            handler: { _ in
+                self.performSegue(withIdentifier: MoreViewController.moreLeaveInboxSegueIdentifier, sender: self)
+            }
+        )
+    }
+
     func logoutClicked() {
+        let warning = String.localizedStringWithFormat(
+            NSLocalizedString("logout_warning", comment: ""),
+            KulloConnector.shared.getClientAddress()
+        )
+
         showConfirmationDialog(
             NSLocalizedString("Log out now?", comment: ""),
-            message: NSLocalizedString("logout_warning", comment: ""),
+            message: warning,
             confirmationButtonText: NSLocalizedString("Logout and delete data", comment: ""),
-            handler: {
-                (action: UIAlertAction?) in
-
+            handler: { _ in
                 self.performSegue(withIdentifier: MoreViewController.moreLogoutSegueIdentifier, sender: self)
             }
         )
@@ -118,7 +138,7 @@ extension MoreViewController {
             cell.isUserInteractionEnabled = false
             return cell
 
-        case .footer, .plan, .masterKey, .logout, .version, .about, .website, .licenses, .feedback:
+        case .footer, .plan, .masterKey, .leaveInbox, .logout, .version, .about, .website, .licenses, .feedback:
             return getActionCell(tableView, indexPath: indexPath, rowType: row)
         }
     }
@@ -126,7 +146,7 @@ extension MoreViewController {
     private func getImageCell(_ tableView: UITableView, indexPath: IndexPath) -> MoreImageTableViewCell {
         let cellIdentifier = "MoreImageCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MoreImageTableViewCell
-        cell.avatarImage = KulloConnector.sharedInstance.getClientAvatar()
+        cell.avatarImage = KulloConnector.shared.getClientAvatar()
         return cell
     }
 
@@ -177,10 +197,13 @@ extension MoreViewController {
             break
 
         case .plan:
-            if let urlString = KulloConnector.sharedInstance.accountInfo?.settingsUrl,
+            if let urlString = KulloConnector.shared.accountInfo?.settingsUrl,
                 let url = URL(string: urlString) {
                 UIApplication.shared.openURL(url)
             }
+
+        case .leaveInbox:
+            leaveInboxClicked()
 
         case .logout:
             logoutClicked()
@@ -228,7 +251,7 @@ extension MoreViewController {
             let vc = storyboard?.instantiateViewController(withIdentifier: "ComposeViewController")
 
             if let composeViewController = vc as? ComposeViewController {
-                let convId = KulloConnector.sharedInstance.startConversationWithSingleRecipient(feedbackAddress)
+                let convId = KulloConnector.shared.startConversationWithSingleRecipient(feedbackAddress)
                 composeViewController.convId = convId
                 navigationController.pushViewController(composeViewController, animated: true)
             }
@@ -260,7 +283,7 @@ extension MoreViewController {
                 )
             )
         }
-        if KulloConnector.sharedInstance.hasAvatar() {
+        if KulloConnector.shared.hasAvatar() {
             alertDialog.addAction(
                 UIAlertAction(
                     title: NSLocalizedString("Delete avatar", comment: ""),
@@ -295,7 +318,7 @@ extension MoreViewController {
     }
 
     private func deleteAvatar() {
-        KulloConnector.sharedInstance.deleteClientAvatar()
+        KulloConnector.shared.deleteClientAvatar()
         tableView.reloadData()
     }
 }
@@ -306,7 +329,7 @@ extension MoreViewController: UINavigationControllerDelegate, UIImagePickerContr
         DispatchQueue.main.async {
             let image = info[UIImagePickerControllerEditedImage] as! UIImage
             let croppedSquareImage = image.squareImageWithSize(CGSize(width: avatarDimension, height: avatarDimension))
-            KulloConnector.sharedInstance.setClientAvatar(croppedSquareImage)
+            KulloConnector.shared.setClientAvatar(croppedSquareImage)
             picker.dismiss(animated: true, completion: nil)
             self.tableView.reloadData()
         }

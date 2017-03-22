@@ -10,12 +10,28 @@ class SplashViewController: UIViewController {
 
     @IBOutlet weak var activityLabel: UILabel!
 
+    private var forceGoingToLogin = false
+    fileprivate var initialActivityLabelText: String?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        initialActivityLabelText = activityLabel.text
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        KulloConnector.sharedInstance.addSessionEventsDelegate(self)
+        guard !forceGoingToLogin else {
+            forceGoingToLogin = false
+            performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
+            return
+        }
 
-        KulloConnector.sharedInstance.waitForSession(onSuccess: {
+        KulloConnector.shared.addSessionEventsDelegate(self)
+
+        KulloConnector.shared.waitForSession(onSuccess: {
+            KulloConnector.shared.sync(.withoutAttachments)
             self.performSegue(withIdentifier: SplashViewController.inboxSegue, sender: self)
 
         }, onCredentialsMissing: {
@@ -38,7 +54,7 @@ class SplashViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        KulloConnector.sharedInstance.removeSessionEventsDelegate(self)
+        KulloConnector.shared.removeSessionEventsDelegate(self)
     }
 
     @IBAction func goToSplash(_ sender: UIStoryboardSegue) {
@@ -46,8 +62,13 @@ class SplashViewController: UIViewController {
         // Used for UnwindSegues.
     }
 
+    @IBAction func goToLogin(_ sender: UIStoryboardSegue) {
+        KulloConnector.shared.logout(deleteData: false)
+        forceGoingToLogin = true
+    }
+
     @IBAction func logout(_ sender: UIStoryboardSegue) {
-        KulloConnector.sharedInstance.logout()
+        KulloConnector.shared.logout(deleteData: true)
 
         // going to the login is handled automatically when this action has finished executing and this view is shown
     }
@@ -56,5 +77,9 @@ class SplashViewController: UIViewController {
 extension SplashViewController: SessionEventsDelegate {
     func sessionEventMigrationStarted() {
         activityLabel.text = NSLocalizedString("Optimizing inbox", comment: "")
+    }
+
+    func sessionEventSessionCreated() {
+        activityLabel.text = initialActivityLabelText
     }
 }

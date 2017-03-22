@@ -12,21 +12,21 @@ class MoreEditInlineTableViewCell: UITableViewCell {
 
             switch rowType {
             case .address:
-                let address = KulloConnector.sharedInstance.getClientAddress()
+                let address = KulloConnector.shared.getClientAddress()
                 cellTitle.text = NSLocalizedString("Address", comment: "")
                 cellEditContent.placeholder = ""
                 cellEditContent.text = address
                 cellEditContent.isUserInteractionEnabled = false
 
             case .name:
-                let name = KulloConnector.sharedInstance.getClientName()
+                let name = KulloConnector.shared.getClientName()
                 cellTitle.text = NSLocalizedString("Name", comment: "")
                 cellEditContent.placeholder = NSLocalizedString("Enter name", comment: "")
                 cellEditContent.text = name
                 cellEditContent.isUserInteractionEnabled = true
 
             case .organization:
-                let organization = KulloConnector.sharedInstance.getClientOrganization()
+                let organization = KulloConnector.shared.getClientOrganization()
                 cellTitle.text = NSLocalizedString("Organization", comment: "")
                 cellEditContent.placeholder = NSLocalizedString("Enter organization", comment: "")
                 cellEditContent.text = organization
@@ -50,9 +50,9 @@ class MoreEditInlineTableViewCell: UITableViewCell {
         if let rowType = rowType, let text = textField.text {
             switch rowType {
             case .name:
-                KulloConnector.sharedInstance.setClientName(text)
+                KulloConnector.shared.setClientName(text)
             case .organization:
-                KulloConnector.sharedInstance.setClientOrganization(text)
+                KulloConnector.shared.setClientOrganization(text)
             default: break
             }
         }

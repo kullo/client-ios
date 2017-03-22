@@ -11,6 +11,8 @@
 		650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650C8F0D1C203883002C3CEE /* AttachmentsViewController.swift */; };
 		651327EB1C5293CE00AC93D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */; };
 		65165C371C05C84200BCC26F /* KulloAddressTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65165C361C05C84200BCC26F /* KulloAddressTextField.swift */; };
+		651A3A371E72AD2A00970734 /* ChooseInboxTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651A3A361E72AD2A00970734 /* ChooseInboxTableViewController.swift */; };
+		651A3A391E769ADF00970734 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651A3A381E769ADF00970734 /* WelcomeViewController.swift */; };
 		6530AD751D871B0100E33CE9 /* MessagesHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530AD741D871B0100E33CE9 /* MessagesHeaderView.swift */; };
 		653844E91C2872BF0014BF83 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 653844E81C2872BF0014BF83 /* GoogleService-Info.plist */; };
 		653844EC1C288FCA0014BF83 /* FeatureDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653844EB1C288FCA0014BF83 /* FeatureDetection.swift */; };
@@ -93,6 +95,8 @@
 		6510427C1BD8EAB700D56605 /* strip_invalid_archs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = strip_invalid_archs.sh; path = libkullo/strip_invalid_archs.sh; sourceTree = "<group>"; };
 		651327EA1C5293CE00AC93D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		65165C361C05C84200BCC26F /* KulloAddressTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KulloAddressTextField.swift; sourceTree = "<group>"; };
+		651A3A361E72AD2A00970734 /* ChooseInboxTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseInboxTableViewController.swift; sourceTree = "<group>"; };
+		651A3A381E769ADF00970734 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		6530AD741D871B0100E33CE9 /* MessagesHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesHeaderView.swift; sourceTree = "<group>"; };
 		653844E81C2872BF0014BF83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		653844EA1C2875F30014BF83 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
@@ -411,6 +415,8 @@
 		F2F200911BC094390000E80E /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				651A3A381E769ADF00970734 /* WelcomeViewController.swift */,
+				651A3A361E72AD2A00970734 /* ChooseInboxTableViewController.swift */,
 				F298C5EC1BBFDF9D00081487 /* LoginViewController.swift */,
 				65DA028F1C1087D300D77DD6 /* GenerateKeysViewController.swift */,
 				65DA02911C109FBA00D77DD6 /* ChooseAddressViewController.swift */,
@@ -616,6 +622,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65DA02901C1087D300D77DD6 /* GenerateKeysViewController.swift in Sources */,
+				651A3A371E72AD2A00970734 /* ChooseInboxTableViewController.swift in Sources */,
 				F2640A701BD040970073BFE9 /* ColorUtils.swift in Sources */,
 				F298C60B1BC024FE00081487 /* StringUtils.swift in Sources */,
 				659B0A0A1C68A97300FEB30B /* SplashViewController.swift in Sources */,
@@ -641,6 +648,7 @@
 				F2F200801BC07FA70000E80E /* InboxViewController.swift in Sources */,
 				F2E132EC1BE8FDA6002C3070 /* NewConversationViewController.swift in Sources */,
 				650C8F0E1C203883002C3CEE /* AttachmentsViewController.swift in Sources */,
+				651A3A391E769ADF00970734 /* WelcomeViewController.swift in Sources */,
 				65B9EAE71DF59B730091B539 /* ErrorUtils.swift in Sources */,
 				F2640A721BD041EF0073BFE9 /* Constants.swift in Sources */,
 				F29D81801BDEC99400C0687A /* MoreImageTableViewCell.swift in Sources */,

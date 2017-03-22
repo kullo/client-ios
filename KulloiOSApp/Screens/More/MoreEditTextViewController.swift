@@ -21,11 +21,11 @@ class MoreEditTextViewController: UIViewController {
             switch rowType {
             case .footer:
                 title = NSLocalizedString("Edit footer", comment: "")
-                editTextView.text = KulloConnector.sharedInstance.getClientFooter()
+                editTextView.text = KulloConnector.shared.getClientFooter()
                 editTextView.isEditable = true
             case .masterKey:
                 title = NSLocalizedString("MasterKey", comment: "")
-                editTextView.text = KulloConnector.sharedInstance.getClientMasterKeyPem()
+                editTextView.text = KulloConnector.shared.getClientMasterKeyPem()
                 editTextView.isEditable = false
                 editTextView.font = fontMasterKey
             default:
@@ -56,7 +56,7 @@ extension MoreEditTextViewController: UITextViewDelegate {
         if let rowType = rowType {
             switch rowType {
             case .footer:
-                KulloConnector.sharedInstance.setClientFooter(self.editTextView.text)
+                KulloConnector.shared.setClientFooter(self.editTextView.text)
             default:
                 break
             }

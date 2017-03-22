@@ -71,7 +71,7 @@ class ChooseAddressViewController: UIViewController {
 
         let addressString = "\(usernameField.text ?? "")#kullo.net"
         if let address = KAAddress.create(addressString) {
-            KulloConnector.sharedInstance.registerAccount(address, delegate: self)
+            KulloConnector.shared.registerAccount(address, delegate: self)
         } else {
             showRegistrationFailure(NSLocalizedString("registration_invalid_address", comment: ""))
         }
@@ -113,7 +113,7 @@ extension ChooseAddressViewController: RegisterAccountDelegate {
     }
 
     func registerAccountFinished(_ address: KAAddress, masterKey: KAMasterKey) {
-        KulloConnector.sharedInstance.saveCredentials(address, masterKey: masterKey)
+        KulloConnector.shared.prepareLogin(address, masterKey: masterKey)
         alertDialog?.dismiss(animated: true, completion: {
             self.performSegue(withIdentifier: ChooseAddressViewController.splashSegue, sender: self)
         })

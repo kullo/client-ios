@@ -14,13 +14,14 @@ class KulloConnector {
 
     typealias VersionTuple = (component: String, version: String)
 
-    static let sharedInstance = KulloConnector()
+    static let shared = KulloConnector()
 
     private(set) var accountInfo: KAAccountInfo?
 
     private let client: KAClient
     private var session: KASession?
     private var storage: StorageManager?
+    private let badgeManager = BadgeManager()
 
     private var generateKeysTask: KAAsyncTask?
     private var registerAccountTask: KAAsyncTask?
@@ -64,6 +65,7 @@ class KulloConnector {
     private init() {
         client = KAClient.create()!
         log.info("\(self.client.versions())")
+        badgeManager.register(connector: self)
     }
 
     // MARK: Login
@@ -76,6 +78,7 @@ class KulloConnector {
         log.debug("State: \(self.sessionState)")
         switch sessionState {
         case .created:
+            badgeManager.update()
             onSuccess()
 
         case .creating:
@@ -137,15 +140,21 @@ class KulloConnector {
 
     // MARK: Logout
 
-    func logout() {
+    func logout(deleteData: Bool) {
+        // This method might be called multiple times, must be idempotent
+        guard session != nil && storage != nil else { return }
+
         log.info("Logging out user.")
 
         unregisterPushToken()
         unregisterPushTokenTask?.wait(forMs: 2000)
 
         closeSession()
-        storage!.deleteAllData()
+        if deleteData {
+            storage!.deleteUserData()
+        }
         storage = nil
+        badgeManager.update()
 
         log.info("User logged out.")
     }
@@ -166,7 +175,7 @@ class KulloConnector {
         createSessionTask = client.createSessionAsync(
             credentials.address,
             masterKey: credentials.masterKey,
-            dbFilePath: storage!.getDbPath(),
+            dbFilePath: storage!.dbPath,
             sessionListener: SessionListener(kulloConnector: self),
             listener: ClientCreateSessionListener(kulloConnector: self, completion: {
                 address, error in
@@ -252,6 +261,11 @@ class KulloConnector {
     }
 
     func unregisterPushToken() {
+        guard pushTokenRegistered else {
+            log.warning("Tried to unregister a push token that hasn't been registered")
+            return
+        }
+
         if let pushToken = pushToken {
             unregisterPushTokenTask = session?.unregisterPushToken(makeKAPushToken(pushToken))
             pushTokenRegistered = false
@@ -272,8 +286,16 @@ class KulloConnector {
 
     //MARK: Update/Store/Load/Remove user settings
 
-    func saveCredentials(_ address: KAAddress, masterKey: KAMasterKey) {
-        StorageManager(address: address).saveCredentials(address, masterKey: masterKey)
+    func prepareLogin(_ address: KAAddress, masterKey: KAMasterKey? = nil) {
+        if let lastUserAddress = StorageManager.getLastUserAddress(),
+            address.isEqual(to: lastUserAddress) {
+
+            // No need to do something, as the new login is the same as the last one
+            return
+        }
+
+        logout(deleteData: false)
+        StorageManager(address: address).saveLoggedInUser(masterKey: masterKey)
     }
 
     //MARK: Registration

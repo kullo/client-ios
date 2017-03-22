@@ -29,7 +29,7 @@ class MessageViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        KulloConnector.sharedInstance.setMessageUnread(messageId!, value: false)
+        KulloConnector.shared.setMessageUnread(messageId!, value: false)
     }
 
     // MARK: refresh content
@@ -39,12 +39,12 @@ class MessageViewController: UIViewController {
 
             // let avatar size calculation happen
             avatarImageView.layoutIfNeeded()
-            avatarImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId, size: avatarImageView.frame.size)
+            avatarImageView.image = KulloConnector.shared.getSenderAvatar(messageId, size: avatarImageView.frame.size)
             avatarImageView.showAsCircle()
 
-            senderNameLabel.text = KulloConnector.sharedInstance.getSenderName(messageId)
-            senderOrganizationLabel.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
-            dateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithDateAndTime()
+            senderNameLabel.text = KulloConnector.shared.getSenderName(messageId)
+            senderOrganizationLabel.text = KulloConnector.shared.getSenderOrganization(messageId)
+            dateLabel.text = KulloConnector.shared.getMessageReceivedDate(messageId).formatWithDateAndTime()
             messageTextView.attributedText = getMessageCombinedWithImprint(messageId)
             checkForAttachmentsAndSetButtonVisibilty()
         } else {
@@ -53,8 +53,8 @@ class MessageViewController: UIViewController {
     }
 
     func getMessageCombinedWithImprint(_ messageId: Int64) -> NSAttributedString {
-        let message = KulloConnector.sharedInstance.getMessageText(messageId)
-        let imprint = KulloConnector.sharedInstance.getSenderImprint(messageId)
+        let message = KulloConnector.shared.getMessageText(messageId)
+        let imprint = KulloConnector.shared.getSenderImprint(messageId)
 
         let messageAttributes = [
             NSForegroundColorAttributeName: UIColor.black,
@@ -74,7 +74,7 @@ class MessageViewController: UIViewController {
     
     func checkForAttachmentsAndSetButtonVisibilty() {
         if let attachmentsButton = toolbarItems?.first {
-            let attachmentIds = KulloConnector.sharedInstance.getMessageAttachmentIds(messageId!)
+            let attachmentIds = KulloConnector.shared.getMessageAttachmentIds(messageId!)
 
             if attachmentIds.count > 0 {
                 attachmentsButton.isEnabled = true

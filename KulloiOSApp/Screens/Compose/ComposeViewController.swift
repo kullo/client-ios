@@ -53,7 +53,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
 
         setupKeyboardNotifcationListenerForScrollView(scrollView)
-        KulloConnector.sharedInstance.addSessionEventsDelegate(self)
+        KulloConnector.shared.addSessionEventsDelegate(self)
 
         reloadRecipientData()
         reloadDraft()
@@ -68,7 +68,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        KulloConnector.sharedInstance.removeSessionEventsDelegate(self)
+        KulloConnector.shared.removeSessionEventsDelegate(self)
         removeKeyboardNotificationListeners()
     }
 
@@ -89,7 +89,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         if let convId = convId {
-            KulloConnector.sharedInstance.saveDraftForConversation(convId, message: messageTextView.text, prepareToSend: false)
+            KulloConnector.shared.saveDraftForConversation(convId, message: messageTextView.text, prepareToSend: false)
             sendButton.isEnabled = readyToSend
         }
     }
@@ -98,8 +98,8 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
     func reloadRecipientData() {
         if let convId = convId {
-            let conversationName = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
-            let conversationImage = KulloConnector.sharedInstance.getConversationImage(convId, size: conversationImageView.frame.size)
+            let conversationName = KulloConnector.shared.getConversationNameOrPlaceHolder(convId)
+            let conversationImage = KulloConnector.shared.getConversationImage(convId, size: conversationImageView.frame.size)
             conversationTitleLabel.text = conversationName
             conversationImageView.image = conversationImage
             conversationImageView.showAsCircle()
@@ -114,7 +114,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
     func reloadDraftState() {
         if let convId = convId {
-            let draftState = KulloConnector.sharedInstance.getDraftState(convId)
+            let draftState = KulloConnector.shared.getDraftState(convId)
             self.draftState = draftState
             messageTextView.isEditable = draftState == .editing
             sendButton.isEnabled = readyToSend
@@ -123,13 +123,13 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
     func reloadDraftText() {
         if let convId = convId {
-            messageTextView.text = KulloConnector.sharedInstance.getDraftText(convId)
+            messageTextView.text = KulloConnector.shared.getDraftText(convId)
             sendButton.isEnabled = readyToSend
         }
     }
 
     func reloadDraftAttachments() {
-        attachmentIds = KulloConnector.sharedInstance.getDraftAttachmentIds(convId)
+        attachmentIds = KulloConnector.shared.getDraftAttachmentIds(convId)
         sendButton.isEnabled = readyToSend
         if let attachmentsList = attachmentsList {
             attachmentsList.reloadData()
@@ -165,15 +165,15 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             )
 
             let text = messageTextView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            KulloConnector.sharedInstance.saveDraftForConversation(convId, message: text, prepareToSend: true)
-            KulloConnector.sharedInstance.addSyncDelegate(self)
-            KulloConnector.sharedInstance.sync(.sendOnly)
+            KulloConnector.shared.saveDraftForConversation(convId, message: text, prepareToSend: true)
+            KulloConnector.shared.addSyncDelegate(self)
+            KulloConnector.shared.sync(.sendOnly)
         }
     }
 
     fileprivate func syncingAlertMessage() -> String {
         let message = NSLocalizedString("Please wait...", comment: "")
-        let progress = KulloConnector.sharedInstance.getSendingProgress()
+        let progress = KulloConnector.shared.getSendingProgress()
         return "\(message) \(Int(round(progress * 100)))%"
     }
 }
@@ -196,13 +196,13 @@ extension ComposeViewController: AttachmentsViewDataSource {
     func attachmentsViewMetadataForAttachment(_ attachmentIndex: Int) -> AttachmentMeta {
         let attachmentId = attachmentIds[attachmentIndex]
         return AttachmentMeta(
-            filename: KulloConnector.sharedInstance.getDraftAttachmentFilename(convId, attachmentId: attachmentId),
-            size: KulloConnector.sharedInstance.getDraftAttachmentFilesize(convId, attachmentId: attachmentId)
+            filename: KulloConnector.shared.getDraftAttachmentFilename(convId, attachmentId: attachmentId),
+            size: KulloConnector.shared.getDraftAttachmentFilesize(convId, attachmentId: attachmentId)
         )
     }
 
     func attachmentsViewSaveAttachment(_ attachmentIndex: Int, path: String) {
-        KulloConnector.sharedInstance.saveDraftAttachment(
+        KulloConnector.shared.saveDraftAttachment(
             convId,
             attachmentId: attachmentIds[attachmentIndex],
             path: path,
@@ -211,7 +211,7 @@ extension ComposeViewController: AttachmentsViewDataSource {
     }
 
     func attachmentsViewRemoveAttachment(_ attachmentIndex: Int) {
-        KulloConnector.sharedInstance.removeDraftAttachment(convId, attachmentId: attachmentIds[attachmentIndex])
+        KulloConnector.shared.removeDraftAttachment(convId, attachmentId: attachmentIds[attachmentIndex])
         reloadDraftAttachments()
     }
 
@@ -244,7 +244,7 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
         let filenameBasename = filenameNSString.deletingPathExtension
         let filenameExtension = filenameNSString.pathExtension
 
-        let otherFilenames = KulloConnector.sharedInstance.getDraftAttachmentFilenames(convId)
+        let otherFilenames = KulloConnector.shared.getDraftAttachmentFilenames(convId)
         var result = filename
 
         var isDuplicate: Bool
@@ -324,7 +324,7 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
 
         } else {
             log.debug("attachment to be added: \(path)")
-            KulloConnector.sharedInstance.addAttachmentToDraft(convId, path: path, delegate: self)
+            KulloConnector.shared.addAttachmentToDraft(convId, path: path, delegate: self)
             picker.dismiss(animated: true, completion: nil)
         }
     }
@@ -372,14 +372,14 @@ extension ComposeViewController: SyncDelegate {
             alertDialog.addAction(AlertHelper.getAlertOKAction())
         }
         log.info("Attachments too big for \(convId)")
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
     }
     
     func syncFinished() {
         alertDialog?.dismiss(animated: true, completion: { () -> Void in
             self.navigationController!.popViewController(animated: true)
         })
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
     }
     
     func syncError(_ error: String) {
@@ -389,7 +389,7 @@ extension ComposeViewController: SyncDelegate {
             alertDialog.addAction(AlertHelper.getAlertOKAction())
         }
         log.info("Sync error \(error)")
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
     }
 }
 

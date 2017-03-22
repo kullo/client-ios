@@ -47,13 +47,13 @@ class MessageAttachmentsViewController: UIViewController {
             message: downloadingAlertMessage()
         )
 
-        KulloConnector.sharedInstance.addSyncDelegate(self)
-        KulloConnector.sharedInstance.downloadAttachments(messageId)
+        KulloConnector.shared.addSyncDelegate(self)
+        KulloConnector.shared.downloadAttachments(messageId)
     }
 
     fileprivate func downloadingAlertMessage() -> String {
         let message = NSLocalizedString("Please wait...", comment: "")
-        let progress = KulloConnector.sharedInstance.getAttachmentDownloadProgress()
+        let progress = KulloConnector.shared.getAttachmentDownloadProgress()
         return "\(message) \(Int(round(progress * 100)))%"
     }
 
@@ -61,8 +61,8 @@ class MessageAttachmentsViewController: UIViewController {
 
     func updateDataAndRefreshUI() {
         if let messageId = messageId {
-            attachmentsList?.attachmentsAreDownloaded = KulloConnector.sharedInstance.getMessageAttachmentsDownloaded(messageId)
-            attachmentIds = KulloConnector.sharedInstance.getMessageAttachmentIds(messageId)
+            attachmentsList?.attachmentsAreDownloaded = KulloConnector.shared.getMessageAttachmentsDownloaded(messageId)
+            attachmentIds = KulloConnector.shared.getMessageAttachmentIds(messageId)
 
             if attachmentsList?.attachmentsAreDownloaded ?? false {
                 downloadBarButtonItem.isEnabled = false
@@ -95,13 +95,13 @@ extension MessageAttachmentsViewController: AttachmentsViewDataSource {
     func attachmentsViewMetadataForAttachment(_ attachmentIndex: Int) -> AttachmentMeta {
         let attachmentId = attachmentIds[attachmentIndex]
         return AttachmentMeta(
-            filename: KulloConnector.sharedInstance.getMessageAttachmentFilename(messageId, attachmentId: attachmentId),
-            size: KulloConnector.sharedInstance.getMessageAttachmentFilesize(messageId, attachmentId: attachmentId)
+            filename: KulloConnector.shared.getMessageAttachmentFilename(messageId, attachmentId: attachmentId),
+            size: KulloConnector.shared.getMessageAttachmentFilesize(messageId, attachmentId: attachmentId)
         )
     }
 
     func attachmentsViewSaveAttachment(_ attachmentIndex: Int, path: String) {
-        KulloConnector.sharedInstance.saveMessageAttachment(
+        KulloConnector.shared.saveMessageAttachment(
             messageId,
             attachmentId: attachmentIds[attachmentIndex],
             path: path,
@@ -135,7 +135,7 @@ extension MessageAttachmentsViewController: SyncDelegate {
             alertDialog.message = NSLocalizedString("Attachments at one conversation are too big.", comment: "")
             alertDialog.addAction(AlertHelper.getAlertOKAction())
         }
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
     }
 
     func syncFinished() {
@@ -143,7 +143,7 @@ extension MessageAttachmentsViewController: SyncDelegate {
         alertDialog?.dismiss(animated: true, completion: { () -> Void in
             self.updateDataAndRefreshUI()
         })
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
     }
 
     func syncError(_ error: String) {
@@ -152,7 +152,7 @@ extension MessageAttachmentsViewController: SyncDelegate {
             alertDialog.message = error
             alertDialog.addAction(AlertHelper.getAlertOKAction())
         }
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
     }
 
 }

@@ -24,7 +24,7 @@ class MoreVersionsViewController: UITableViewController {
         }
     }
 
-    private static let versions = KulloConnector.sharedInstance.getVersions()
+    private static let versions = KulloConnector.shared.getVersions()
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return Section.count

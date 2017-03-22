@@ -107,6 +107,15 @@
 "Invalid address" = "Invalid address";
 
 /* No comment provided by engineer. */
+"Leave inbox" = "Leave inbox";
+
+/* No comment provided by engineer. */
+"Leave inbox?" = "Leave inbox?";
+
+/* No comment provided by engineer. */
+"leave_inbox_warning" = "You will not receive push notifications for %@ anymore.";
+
+/* No comment provided by engineer. */
 "Libraries" = "Libraries";
 
 /* No comment provided by engineer. */
@@ -134,7 +143,7 @@
 "Logout and delete data" = "Logout and delete data";
 
 /* No comment provided by engineer. */
-"logout_warning" = "After logging out you'll need to type in MasterKey and sender settings again.";
+"logout_warning" = "After logging out you'll need to type in MasterKey and sender settings for %@ again.";
 
 /* No comment provided by engineer. */
 "MasterKey" = "MasterKey";

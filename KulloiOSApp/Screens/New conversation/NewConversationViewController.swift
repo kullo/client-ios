@@ -46,7 +46,7 @@ class NewConversationViewController: UIViewController  {
 
     @IBAction func createConversationButtonClicked(_ sender: AnyObject) {
         if recipients.count > 0 {
-            let convId = KulloConnector.sharedInstance.addNewConversationForKulloAddresses(recipients)
+            let convId = KulloConnector.shared.addNewConversationForKulloAddresses(recipients)
             delegate?.newConversationCreatedWithId(convId)
             dismiss()
         }
@@ -67,7 +67,7 @@ class NewConversationViewController: UIViewController  {
             if addressString != "" {
 
                 if let kulloAddress = KAAddress.create(addressString) {
-                    if kulloAddress.toString() == KulloConnector.sharedInstance.getClientAddress() {
+                    if kulloAddress.toString() == KulloConnector.shared.getClientAddress() {
                         showInfoDialog(
                             NSLocalizedString("add_self_title", comment: ""),
                             message: NSLocalizedString("add_self_message", comment: "")
@@ -79,7 +79,7 @@ class NewConversationViewController: UIViewController  {
                             NSLocalizedString("Adding recipient", comment: ""),
                             message: NSLocalizedString("Checking if address exists...", comment: "")
                         )
-                        KulloConnector.sharedInstance.checkIfAddressExists(kulloAddress, delegate: self)
+                        KulloConnector.shared.checkIfAddressExists(kulloAddress, delegate: self)
                     }
 
                 } else {

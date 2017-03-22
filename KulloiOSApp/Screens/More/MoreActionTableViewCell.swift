@@ -12,7 +12,7 @@ class MoreActionTableViewCell: UITableViewCell {
 
             switch rowType {
             case .footer:
-                let footer = KulloConnector.sharedInstance.getClientFooter()
+                let footer = KulloConnector.shared.getClientFooter()
                 cellTitle.text = NSLocalizedString("Footer", comment: "")
                 cellContent.text = footer
             case .plan:
@@ -20,6 +20,9 @@ class MoreActionTableViewCell: UITableViewCell {
                 cellContent.text = accountInfo
             case .masterKey:
                 cellTitle.text = NSLocalizedString("MasterKey", comment: "")
+                cellContent.text = ""
+            case .leaveInbox:
+                cellTitle.text = NSLocalizedString("Leave inbox", comment: "")
                 cellContent.text = ""
             case .logout:
                 cellTitle.text = NSLocalizedString("Logout", comment: "")
@@ -46,7 +49,7 @@ class MoreActionTableViewCell: UITableViewCell {
 
     private var accountInfo: String {
         let content: String
-        if let info = KulloConnector.sharedInstance.accountInfo {
+        if let info = KulloConnector.shared.accountInfo {
             let storagePercentUsed = 100 * Double(info.storageUsed!) / Double(info.storageQuota!)
             let used = String.localizedStringWithFormat(
                 NSLocalizedString("%d%% used", comment: ""),

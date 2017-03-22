@@ -35,6 +35,9 @@
 /* Class = "UITextField"; placeholder = "Block G"; ObjectID = "AJV-dQ-m2t"; */
 "AJV-dQ-m2t.placeholder" = "Block G";
 
+/* Class = "UIButton"; normalTitle = "Open inbox"; ObjectID = "BP7-RY-j4I"; */
+"BP7-RY-j4I.normalTitle" = "Postfach öffnen";
+
 /* Class = "UIViewController"; title = "Login"; ObjectID = "BYZ-38-t0r"; */
 "BYZ-38-t0r.title" = "Einloggen";
 
@@ -146,6 +149,9 @@
 /* Class = "UITextField"; text = "EditCellContent"; ObjectID = "aRy-fS-mxF"; */
 "aRy-fS-mxF.text" = "EditCellContent";
 
+/* Class = "UILabel"; text = "Already logged in?"; ObjectID = "agS-5a-e59"; */
+"agS-5a-e59.text" = "Bereits eingeloggt?";
+
 /* Class = "UIBarButtonItem"; title = "Close"; ObjectID = "b0e-Ns-Umt"; */
 "b0e-Ns-Umt.title" = "Schließen";
 
@@ -190,6 +196,9 @@
 
 /* Class = "UITextField"; placeholder = "your.username"; ObjectID = "g7p-5P-Qol"; */
 "g7p-5P-Qol.placeholder" = "dein.benutzername";
+
+/* Class = "UINavigationItem"; title = "Choose inbox"; ObjectID = "gKt-x3-daB"; */
+"gKt-x3-daB.title" = "Postfach wählen";
 
 /* Class = "UITextField"; placeholder = "Block I"; ObjectID = "gr3-g7-Pjm"; */
 "gr3-g7-Pjm.placeholder" = "Block I";

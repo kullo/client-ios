@@ -47,22 +47,22 @@ class MessagesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        KulloConnector.sharedInstance.addSessionEventsDelegate(self)
-        KulloConnector.sharedInstance.addSyncDelegate(self)
+        KulloConnector.shared.addSessionEventsDelegate(self)
+        KulloConnector.shared.addSyncDelegate(self)
         updateDataAndRefreshTable()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
-        KulloConnector.sharedInstance.removeSessionEventsDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
+        KulloConnector.shared.removeSessionEventsDelegate(self)
     }
 
     // MARK: Actions
 
     func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
-        KulloConnector.sharedInstance.sync(.withoutAttachments)
+        KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
         refreshControl.endRefreshing()
     }
@@ -75,25 +75,25 @@ class MessagesViewController: UIViewController {
             return
         }
 
-        let participants = KulloConnector.sharedInstance.getParticipantAdresses(convId)
+        let participants = KulloConnector.shared.getParticipantAdresses(convId)
             .map({$0.toString()})
             .sorted()
             .joined(separator: ", ")
         let prefix = NSLocalizedString("conversation_with", comment: "")
         headerView.label.text = "\(prefix) \(participants)"
 
-        messageIds = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId)
-        navigationItem.title = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
+        messageIds = KulloConnector.shared.getAllMessageIdsSorted(convId)
+        navigationItem.title = KulloConnector.shared.getConversationNameOrPlaceHolder(convId)
         tableView.reloadData()
         updateListAppearance()
     }
 
     func updateSyncProgress() {
-        progressView.progress = KulloConnector.sharedInstance.getSyncProgress()
+        progressView.progress = KulloConnector.shared.getSyncProgress()
     }
 
     func updateListAppearance() {
-        let syncIsRunning = KulloConnector.sharedInstance.isSyncRunning()
+        let syncIsRunning = KulloConnector.shared.isSyncRunning()
 
         if syncIsRunning {
             updateSyncProgress()
@@ -156,7 +156,7 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
 
         let messageId = messageIds[indexPath.row]
 
-        let messageText = KulloConnector.sharedInstance.getMessageText(messageId)
+        let messageText = KulloConnector.shared.getMessageText(messageId)
         let messageTextWithoutNewLine = messageText.replacingOccurrences(
             of: "\\n+",
             with: " ",
@@ -166,14 +166,14 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
 
         // let avatar size calculation happen
         cell.messageImageView.layoutIfNeeded()
-        cell.messageImageView.image = KulloConnector.sharedInstance.getSenderAvatar(messageId, size: cell.messageImageView.frame.size)
+        cell.messageImageView.image = KulloConnector.shared.getSenderAvatar(messageId, size: cell.messageImageView.frame.size)
         cell.messageImageView.showAsCircle()
 
-        cell.messageName.text = KulloConnector.sharedInstance.getSenderName(messageId)
-        cell.messageOrganization.text = KulloConnector.sharedInstance.getSenderOrganization(messageId)
-        cell.messageDateLabel.text = KulloConnector.sharedInstance.getMessageReceivedDate(messageId).formatWithSymbolicNames()
-        cell.messageUnreadLabel.isHidden = !KulloConnector.sharedInstance.getMessageUnread(messageId)
-        cell.hasAttachmentsIcon.isHidden = !KulloConnector.sharedInstance.hasAttachments(messageId)
+        cell.messageName.text = KulloConnector.shared.getSenderName(messageId)
+        cell.messageOrganization.text = KulloConnector.shared.getSenderOrganization(messageId)
+        cell.messageDateLabel.text = KulloConnector.shared.getMessageReceivedDate(messageId).formatWithSymbolicNames()
+        cell.messageUnreadLabel.isHidden = !KulloConnector.shared.getMessageUnread(messageId)
+        cell.hasAttachmentsIcon.isHidden = !KulloConnector.shared.hasAttachments(messageId)
         cell.messageTextLabel.text = messageTextWithoutNewLine
 
         cell.preservesSuperviewLayoutMargins = false
@@ -195,8 +195,8 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
             hideHint = true
 
             let msgId = messageIds[indexPath.row]
-            KulloConnector.sharedInstance.removeMessage(msgId)
-            messageIds = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId!)
+            KulloConnector.shared.removeMessage(msgId)
+            messageIds = KulloConnector.shared.getAllMessageIdsSorted(convId!)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }

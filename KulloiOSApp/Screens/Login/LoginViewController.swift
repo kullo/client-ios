@@ -76,7 +76,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         )
 
         if inputFieldsAreValidIfNotGiveUserFeedback() {
-            KulloConnector.sharedInstance.checkCredentials(
+            KulloConnector.shared.checkCredentials(
                 addressTextField.text!,
                 masterKeyBlocks: getKeyBlocksAsStringArray(),
                 delegate: self)
@@ -255,7 +255,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 extension LoginViewController: ClientCheckCredentialsDelegate {
 
     func checkCredentialsSuccess(_ address: KAAddress, masterKey: KAMasterKey) {
-        KulloConnector.sharedInstance.saveCredentials(address, masterKey: masterKey)
+        KulloConnector.shared.prepareLogin(address, masterKey: masterKey)
         clearInputFields()
 
         alertDialog?.dismiss(animated: true, completion: {

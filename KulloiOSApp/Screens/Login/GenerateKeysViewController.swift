@@ -32,19 +32,19 @@ class GenerateKeysViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        KulloConnector.sharedInstance.addGenerateKeysDelegate(self)
-        KulloConnector.sharedInstance.startGenerateKeysIfNecessary()
+        KulloConnector.shared.addGenerateKeysDelegate(self)
+        KulloConnector.shared.startGenerateKeysIfNecessary()
         updateProgress(getProgress())
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        KulloConnector.sharedInstance.removeGenerateKeysDelegate(self)
+        KulloConnector.shared.removeGenerateKeysDelegate(self)
     }
 
     func getProgress() -> Int8 {
-        return KulloConnector.sharedInstance.getGenerateKeysProgress()
+        return KulloConnector.shared.getGenerateKeysProgress()
     }
 
     func updateProgress(_ progress: Int8) {

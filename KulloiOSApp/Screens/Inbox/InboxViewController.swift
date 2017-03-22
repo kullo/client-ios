@@ -39,8 +39,8 @@ class InboxViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        KulloConnector.sharedInstance.addSessionEventsDelegate(self)
-        KulloConnector.sharedInstance.addSyncDelegate(self)
+        KulloConnector.shared.addSessionEventsDelegate(self)
+        KulloConnector.shared.addSyncDelegate(self)
         updateDataAndRefreshTable()
     }
 
@@ -56,24 +56,24 @@ class InboxViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        KulloConnector.sharedInstance.removeSyncDelegate(self)
-        KulloConnector.sharedInstance.removeSessionEventsDelegate(self)
+        KulloConnector.shared.removeSyncDelegate(self)
+        KulloConnector.shared.removeSessionEventsDelegate(self)
     }
 
     // MARK: Actions
 
     func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
-        KulloConnector.sharedInstance.sync(.withoutAttachments)
+        KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
     }
 
     // MARK: Data
 
     func updateDataAndRefreshTable() {
-        conversationIds = KulloConnector.sharedInstance.getAllConversationIdsSorted()
+        conversationIds = KulloConnector.shared.getAllConversationIdsSorted()
 
         let haveConversations = conversationIds.count > 0
-        let syncIsRunning = KulloConnector.sharedInstance.isSyncRunning()
+        let syncIsRunning = KulloConnector.shared.isSyncRunning()
         shouldShowPullToRefreshHint = !haveConversations && !syncIsRunning
 
         if shouldShowPullToRefreshHint {
@@ -87,12 +87,12 @@ class InboxViewController: UIViewController {
     }
 
     func updateSyncProgress() {
-        progressView.progress = KulloConnector.sharedInstance.getSyncProgress()
+        progressView.progress = KulloConnector.shared.getSyncProgress()
     }
 
     func updateListAppearance() {
         let haveConversations = conversationIds.count > 0
-        let syncIsRunning = KulloConnector.sharedInstance.isSyncRunning()
+        let syncIsRunning = KulloConnector.shared.isSyncRunning()
 
         if haveConversations {
             refreshControl.endRefreshing()
@@ -213,12 +213,12 @@ extension InboxViewController: UITableViewDataSource, UITableViewDelegate {
 
         // let avatar size calculation happen
         cell.inboxImageView.layoutIfNeeded()
-        cell.inboxImageView.image = KulloConnector.sharedInstance.getConversationImage(convId, size: cell.inboxImageView.frame.size)
+        cell.inboxImageView.image = KulloConnector.shared.getConversationImage(convId, size: cell.inboxImageView.frame.size)
         cell.inboxImageView.showAsCircle()
 
-        cell.inboxTitleLabel.text = KulloConnector.sharedInstance.getConversationNameOrPlaceHolder(convId)
-        cell.inboxDateLabel.text = KulloConnector.sharedInstance.getLatestMessageTimestamp(convId).formatWithSymbolicNames()
-        cell.inboxUnreadLabel.isHidden = KulloConnector.sharedInstance.getConversationUnread(convId) == 0
+        cell.inboxTitleLabel.text = KulloConnector.shared.getConversationNameOrPlaceHolder(convId)
+        cell.inboxDateLabel.text = KulloConnector.shared.getLatestMessageTimestamp(convId).formatWithSymbolicNames()
+        cell.inboxUnreadLabel.isHidden = KulloConnector.shared.getConversationUnread(convId) == 0
 
         cell.preservesSuperviewLayoutMargins = false
         cell.separatorInset = UIEdgeInsets.zero
@@ -237,10 +237,10 @@ extension InboxViewController: UITableViewDataSource, UITableViewDelegate {
             let doDelete = {
                 self.conversationIds.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-                KulloConnector.sharedInstance.removeConversation(convId)
+                KulloConnector.shared.removeConversation(convId)
             }
 
-            let messagesToDelete = KulloConnector.sharedInstance.getAllMessageIdsSorted(convId).count
+            let messagesToDelete = KulloConnector.shared.getAllMessageIdsSorted(convId).count
             if messagesToDelete == 0 {
                 doDelete()
             } else {

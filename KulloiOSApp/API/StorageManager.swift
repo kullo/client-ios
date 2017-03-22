@@ -5,9 +5,7 @@ import SwiftKeychainWrapper
 
 class StorageManager {
 
-    fileprivate let keychain = KeychainWrapper.standard
-
-    //MARK: public interface
+    //MARK: - public interface
 
     let userAddress: KAAddress
 
@@ -22,6 +20,11 @@ class StorageManager {
             return KAAddress.create(addrString)
         }
         return nil
+    }
+
+    class func getAccounts() -> [KAAddress] {
+        let keys = KeychainWrapper.standard.allKeys().filter(StorageManager.masterkeyBlock0Filter)
+        return keys.flatMap(addressFromBlockKey).sorted(by: { (lhs, rhs) in lhs.isLessThan(rhs) })
     }
 
     init(address: KAAddress) {
@@ -43,26 +46,26 @@ class StorageManager {
     }
 
     func migrateUserSettings(_ userSettings: KAUserSettings) {
-        // If these keys exist, the have been written with default accessibility, so don't pass .AfterFirstUnlock
-        if let name = keychain.string(forKey: getNameKey()) {
+        // If these keys exist, they have been written with default accessibility, so don't pass .AfterFirstUnlock
+        if let name = keychain.string(forKey: nameKey) {
             userSettings.setName(name)
-            keychain.removeObject(forKey: getNameKey())
+            keychain.removeObject(forKey: nameKey)
         }
-        if let organization = keychain.string(forKey: getOrganizationKey()) {
+        if let organization = keychain.string(forKey: organizationKey) {
             userSettings.setOrganization(organization)
-            keychain.removeObject(forKey: getOrganizationKey())
+            keychain.removeObject(forKey: organizationKey)
         }
-        if let footer = keychain.string(forKey: getFooterKey()) {
+        if let footer = keychain.string(forKey: footerKey) {
             userSettings.setFooter(footer)
-            keychain.removeObject(forKey: getFooterKey())
+            keychain.removeObject(forKey: footerKey)
         }
-        if var avatarMimeType = keychain.string(forKey: getAvatarTypeKey()) {
+        if var avatarMimeType = keychain.string(forKey: avatarTypeKey) {
             // fix wrong MIME type that has been set previously by this app
             if avatarMimeType == "image/jpg" {
                 avatarMimeType = "image/jpeg"
             }
             userSettings.setAvatarMimeType(avatarMimeType)
-            keychain.removeObject(forKey: getAvatarTypeKey())
+            keychain.removeObject(forKey: avatarTypeKey)
         }
         if let avatar = loadAvatar() {
             userSettings.setAvatar(avatar)
@@ -70,17 +73,21 @@ class StorageManager {
         }
     }
 
-    func saveCredentials(_ address: KAAddress, masterKey: KAMasterKey) {
-        keychain.set(address.toString(), forKey: StorageManager.KEY_ADDRESS, withAccessibility: .afterFirstUnlock)
+    func saveLoggedInUser(masterKey: KAMasterKey?) {
+        keychain.set(
+            userAddress.toString(),
+            forKey: StorageManager.KEY_ADDRESS,
+            withAccessibility: .afterFirstUnlock)
 
-        let blockList = masterKey.dataBlocks()
-        for (index, block) in blockList.enumerated() {
-            keychain.set(block, forKey: getBlockKey(index), withAccessibility: .afterFirstUnlock)
+        if let blockList = masterKey?.dataBlocks() {
+            for (index, block) in blockList.enumerated() {
+                keychain.set(block, forKey: getBlockKey(index), withAccessibility: .afterFirstUnlock)
+            }
         }
     }
 
-    func getDbPath() -> String {
-        return "\(getUserDirectory())/sync.db"
+    var dbPath: String {
+        return "\(userDirectory)/sync.db"
     }
 
     class func getTempPathForView(_ viewName: String, filename: String = "") -> String {
@@ -89,15 +96,21 @@ class StorageManager {
         return "\(dir)/\(filename)"
     }
 
-    func deleteAllData() {
-        StorageManager.removeFileOrDirectoryIfPossible(getUserDirectory())
-        if !keychain.removeAllKeys() {
-            log.error("Couldn't delete all keychain data.")
+    func deleteUserData() {
+        StorageManager.removeFileOrDirectoryIfPossible(userDirectory)
+        for index in 0...15 {
+            keychain.removeObject(forKey: getBlockKey(index), withAccessibility: .afterFirstUnlock)
+        }
+
+        if let lastUserAddress = StorageManager.getLastUserAddress(), lastUserAddress.isEqual(to: userAddress) {
+            keychain.removeObject(forKey: StorageManager.KEY_ADDRESS, withAccessibility: .afterFirstUnlock)
         }
     }
 
 
-    //MARK: private implementation
+    //MARK: - private implementation
+
+    fileprivate let keychain = KeychainWrapper.standard
 
     fileprivate static let CURRENT_STORAGE_VERSION = 2
     fileprivate let userAddressString: String
@@ -113,18 +126,18 @@ class StorageManager {
             case 0:
                 // add domain to user directory name
                 StorageManager.moveFileOrDirectoryIfPossible(
-                    "\(getDocumentsDirectory())/\(userAddress.localPart())",
-                    to: getUserDirectory())
+                    "\(documentsDirectory)/\(userAddress.localPart())",
+                    to: userDirectory)
 
                 // move avatar into user directory and remove address from filename
                 StorageManager.moveFileOrDirectoryIfPossible(
-                    "\(getDocumentsDirectory())/user_avatar_\(userAddressString)",
-                    to: getAvatarPath())
+                    "\(documentsDirectory)/user_avatar_\(userAddressString)",
+                    to: avatarPath)
 
                 // remove address and closing parenthesis from DB filename
                 moveDb(
-                    "\(getUserDirectory())/\(userAddress.localPart()).db)",
-                    to: getDbPath())
+                    "\(userDirectory)/\(userAddress.localPart()).db)",
+                    to: dbPath)
 
                 // add address to MasterKey block key
                 for index in 0...15 {
@@ -198,6 +211,20 @@ class StorageManager {
         StorageManager.moveFileOrDirectoryIfPossible("\(from)-shm", to: "\(to)-shm")
     }
 
+    fileprivate static func masterkeyBlock0Filter(_ key: String) -> Bool {
+        return key.hasPrefix("masterkey_") && key.hasSuffix("_block_0")
+    }
+
+    fileprivate static func addressFromBlockKey(_ key: String) -> KAAddress? {
+        let keySplitByUnderscore = key.characters.split(
+            separator: "_",
+            maxSplits: 2,
+            omittingEmptySubsequences: false)
+        guard keySplitByUnderscore.count >= 3 else { return nil }
+
+        return KAAddress.create(String(keySplitByUnderscore[1]))
+    }
+
     fileprivate func getBlockKey(_ index: Int) -> String {
         return "masterkey_\(userAddressString)_block_\(index)"
     }
@@ -206,57 +233,58 @@ class StorageManager {
         return "block_\(index)"
     }
 
-    fileprivate func getNameKey() -> String {
+    fileprivate var nameKey: String {
         return "user_name_\(userAddressString)"
     }
 
-    fileprivate func getOrganizationKey() -> String {
+    fileprivate var organizationKey: String {
         return "user_organization_\(userAddressString)"
     }
 
-    fileprivate func getFooterKey() -> String {
+    fileprivate var footerKey: String {
         return "user_footer_\(userAddressString)"
     }
 
-    fileprivate func getAvatarTypeKey() -> String {
+    fileprivate var avatarTypeKey: String {
         return "user_avatar_mime_type_\(userAddressString)"
     }
 
-    fileprivate func getDocumentsDirectory() -> String {
+    fileprivate var documentsDirectory: String {
         return NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true).first!
     }
 
-    fileprivate func getUserDirectory() -> String {
-        let userDir = "\(getDocumentsDirectory())/\(userAddress.toString())"
+    fileprivate var userDirectory: String {
+        let userDir = "\(documentsDirectory)/\(userAddress.toString())"
         StorageManager.createDirectory(userDir)
         StorageManager.excludeDirectoryFromBackup(userDir)
         return userDir
     }
 
-    fileprivate func getAvatarPath() -> String {
-        return "\(getUserDirectory())/avatar.jpg"
+    fileprivate var avatarPath: String {
+        return "\(userDirectory)/avatar.jpg"
     }
 
     fileprivate func loadAvatar() -> Data? {
-        return (try? Data(contentsOf: URL(fileURLWithPath: getAvatarPath())))
+        return try? Data(contentsOf: URL(fileURLWithPath: avatarPath))
     }
 
     fileprivate func saveAvatar(_ avatar: Data?) {
         precondition(avatar == nil || avatar!.count > 0)
 
         if let avatar = avatar {
-            let avatarPath = getAvatarPath()
             do {
                 try avatar.write(to: URL(fileURLWithPath: avatarPath), options: [.atomic])
             } catch let err {
-                log.error("Writing the avatar to \(avatarPath) failed: \(err)")
+                log.error("Writing the avatar to \(self.avatarPath) failed: \(err)")
             }
 
         } else {
-            StorageManager.removeFileOrDirectoryIfPossible(getAvatarPath())
+            StorageManager.removeFileOrDirectoryIfPossible(avatarPath)
         }
     }
+
+    //MARK: utilities
 
     fileprivate class func createDirectory(_ path: String) {
         let fileManager = FileManager.default
@@ -287,19 +315,11 @@ class StorageManager {
             }
         }
 
-        do {
-            try fileManager.moveItem(atPath: from, toPath: to)
-        } catch {
-            // ignore
-        }
+        _ = try? fileManager.moveItem(atPath: from, toPath: to)
     }
 
     class func removeFileOrDirectoryIfPossible(_ path: String) {
-        do {
-            try FileManager.default.removeItem(atPath: path)
-        } catch {
-            // ignore
-        }
+        _ = try? FileManager.default.removeItem(atPath: path)
     }
 
 }

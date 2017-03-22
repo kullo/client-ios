@@ -1,18 +1,22 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 class BadgeManager {
+    weak var connector: KulloConnector?
 
-    func register() {
-        KulloConnector.sharedInstance.addSessionEventsDelegate(self)
+    func register(connector: KulloConnector) {
+        self.connector = connector
+        connector.addSessionEventsDelegate(self)
     }
 
     func unregister() {
-        KulloConnector.sharedInstance.removeSessionEventsDelegate(self)
+        connector?.removeSessionEventsDelegate(self)
+        self.connector = nil
     }
 
     func update() {
-        let unreadCount = KulloConnector.sharedInstance.getTotalUnread()
-        UIApplication.shared.applicationIconBadgeNumber = Int(unreadCount)
+        if let unreadCount = connector?.getTotalUnread() {
+            UIApplication.shared.applicationIconBadgeNumber = Int(unreadCount)
+        }
     }
 }
 

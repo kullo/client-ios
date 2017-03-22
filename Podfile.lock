@@ -38,10 +38,20 @@ PODS:
 DEPENDENCIES:
   - Google/CloudMessaging
   - HTAutocompleteTextField
-  - SwiftKeychainWrapper
+  - SwiftKeychainWrapper (from `https://github.com/tiwoc/SwiftKeychainWrapper.git`, branch `kullo`)
   - SwiftyMimeTypes
   - TCMobileProvision
   - XCGLogger
+
+EXTERNAL SOURCES:
+  SwiftKeychainWrapper:
+    :branch: kullo
+    :git: https://github.com/tiwoc/SwiftKeychainWrapper.git
+
+CHECKOUT OPTIONS:
+  SwiftKeychainWrapper:
+    :commit: a1727bb3a9e7e9e692e96488fd48f68cacb51ea9
+    :git: https://github.com/tiwoc/SwiftKeychainWrapper.git
 
 SPEC CHECKSUMS:
   DTFoundation: 0ef29c70a9814e15518694862bd739347abe2a50
@@ -54,11 +64,11 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   HTAutocompleteTextField: ce809f04875e843e20f214ab973bb496ba7a93b1
-  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  SwiftKeychainWrapper: e353c2d5ac22e72ff7c1dc3b1de1f0e7341ba030
   SwiftyMimeTypes: 3319e15f65533b994ef33918377e7b7213fbb08e
   TCMobileProvision: 2a8962b38821a20fad53b9d7851bbc9ae8c52995
   XCGLogger: 38063ea89b4c8b23232d18efd2e12eb0005f3ea4
 
-PODFILE CHECKSUM: 6541d697446652251592ae6cec3cea7896fd5ba1
+PODFILE CHECKSUM: c53f27604f9505cb312ef59d4b255a9ef54ba91c
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

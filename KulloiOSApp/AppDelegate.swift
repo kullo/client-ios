@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     fileprivate var apnDeviceToken: Data?
-    fileprivate let badgeManager = BadgeManager()
 
     //MARK: lifecycle
 
@@ -47,7 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
         )
-        badgeManager.register()
         if !FeatureDetection.isRunningOnSimulator() {
             application.registerForRemoteNotifications()
         }
@@ -80,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
-        KulloConnector.sharedInstance.syncIfNecessary()
+        KulloConnector.shared.syncIfNecessary()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -89,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !FeatureDetection.isRunningOnSimulator() {
             stopGcm()
         }
-        KulloConnector.sharedInstance.closeSession()
+        KulloConnector.shared.closeSession()
 
         // restore default log listener because we had some crashes during static deinitialization
         KARegistry.setLogListener(nil)
@@ -129,8 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        KulloConnector.sharedInstance.waitForSession(onSuccess: {
-            KulloConnector.sharedInstance.sync(.withoutAttachments) {
+        KulloConnector.shared.waitForSession(onSuccess: {
+            KulloConnector.shared.sync(.withoutAttachments) {
                 completionHandler?($0)
                 UIApplication.shared.endBackgroundTask(task)
             }
@@ -192,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     log.error("Couldn't get registration token from GCM: \(err)")
                 } else {
                     log.debug("GCM token: \(registrationToken)")
-                    KulloConnector.sharedInstance.registerPushToken(registrationToken!)
+                    KulloConnector.shared.registerPushToken(registrationToken!)
                 }
             }
         )
