@@ -103,7 +103,7 @@ class MoreViewController: UITableViewController {
         showConfirmationDialog(
             NSLocalizedString("Log out now?", comment: ""),
             message: warning,
-            confirmationButtonText: NSLocalizedString("Logout and delete data", comment: ""),
+            confirmationButtonText: NSLocalizedString("Log out and delete data", comment: ""),
             handler: { _ in
                 self.performSegue(withIdentifier: MoreViewController.moreLogoutSegueIdentifier, sender: self)
             }

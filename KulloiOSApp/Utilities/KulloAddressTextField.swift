@@ -1,28 +1,41 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
-import HTAutocompleteTextField
+import MLPAutoCompleteTextField
 
-class KulloAddressTextField: HTAutocompleteTextField {
+class KulloAddressTextField: MLPAutoCompleteTextField {
 
-    deinit {
-        NotificationCenter.default.removeObserver(
+    fileprivate var addresses = [String]()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        keyboardType = .twitter
+        clearButtonMode = .always
+        autoCompleteDataSource = self
+        autoCompleteDelegate = self
+        autoCompleteTableAppearsAsKeyboardAccessory = true
+
+        addresses = KulloConnector.shared.getAllAddresses().map({ $0.toString() })
+
+        NotificationCenter.default.addObserver(
             self,
+            selector: #selector(kulloAddrTextDidChange),
             name: NSNotification.Name.UITextFieldTextDidChange,
             object: nil
         )
     }
 
-    override func setupAutocompleteTextField() {
-        super.setupAutocompleteTextField()
-
-        keyboardType = .twitter
-        autocompleteDataSource = self
-        ignoreCase = true
-        needsClearButtonSpace = true
-
-        NotificationCenter.default.addObserver(
+    deinit {
+        NotificationCenter.default.removeObserver(
             self,
-            selector: #selector(kulloAddrTextDidChange),
             name: NSNotification.Name.UITextFieldTextDidChange,
             object: nil
         )
@@ -41,39 +54,59 @@ class KulloAddressTextField: HTAutocompleteTextField {
 
             if text != self.text {
                 self.text = text
-                forceRefreshAutocompleteText()
             }
         }
     }
 
-}
+    fileprivate func makeKulloNetCompletion(prefix: String) -> String? {
+        guard !prefix.isEmpty else { return nil }
 
-extension KulloAddressTextField:  HTAutocompleteDataSource {
-
-    func textField(_ textField: HTAutocompleteTextField!, completionForPrefix _prefix: String!, ignoreCase: Bool) -> String! {
-        let prefix = ignoreCase ? _prefix.lowercased(): _prefix
-
-        // do nothing if there is no #
-        guard let hashRange = prefix?.range(of: "#") else {
-            return ""
-        }
-
-        let domainPart = prefix?.substring(from: hashRange.upperBound)
+        let components = prefix.components(separatedBy: "#")
         let completionDomain = "kullo.net"
 
-        // return full completion if the # is the last char
-        if hashRange.upperBound == prefix?.endIndex {
-            return completionDomain
-        }
+        switch components.count {
+        case 1:
+            return prefix + "#" + completionDomain
 
-        // return a suffix of the completion if a prefix has already been typed
-        if let alreadyTypedDomainChars = completionDomain.range(of: domainPart!) {
-            if alreadyTypedDomainChars.lowerBound == completionDomain.startIndex {
-                return completionDomain.substring(from: alreadyTypedDomainChars.upperBound)
+        case 2:
+            let userPart = components[0]
+            let domainPart = components[1]
+
+            if completionDomain.hasPrefix(domainPart) {
+                return userPart + "#" + completionDomain
+            } else {
+                return nil
+            }
+
+        default:
+            return nil
+        }
+    }
+}
+
+extension KulloAddressTextField: MLPAutoCompleteTextFieldDataSource {
+    func autoCompleteTextField(
+        _ textField: MLPAutoCompleteTextField!,
+        possibleCompletionsFor string: String!,
+        completionHandler handler: (([Any]?) -> Void)!) {
+
+        var suggestions = addresses.filter({ $0.range(of: string) != nil })
+        if let kulloNetCompletion = makeKulloNetCompletion(prefix: string) {
+            if !suggestions.contains(kulloNetCompletion) {
+                suggestions.append(kulloNetCompletion)
             }
         }
-
-        return ""
+        handler(suggestions)
     }
+}
 
+extension KulloAddressTextField: MLPAutoCompleteTextFieldDelegate {
+    func autoCompleteTextField(
+        _ textField: MLPAutoCompleteTextField!,
+        didSelectAutoComplete selectedString: String!,
+        withAutoComplete selectedObject: MLPAutoCompletionObject!,
+        forRowAt indexPath: IndexPath!) {
+
+        _ = textField.delegate?.textFieldShouldReturn?(textField)
+    }
 }

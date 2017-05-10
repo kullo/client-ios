@@ -1,11 +1,7 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 //
 //  InitialsTest.swift
-//  KulloiOSApp
-//
-//  Created by Daniel on 22.08.16.
-//  Copyright © 2016 Kullo GmbH. All rights reserved.
-//
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import XCTest
 

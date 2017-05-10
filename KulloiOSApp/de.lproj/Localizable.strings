@@ -140,10 +140,10 @@
 "Logout" = "Abmelden";
 
 /* No comment provided by engineer. */
-"Logout and delete data" = "Abmelden und Daten löschen";
+"Log out and delete data" = "Abmelden und Daten löschen";
 
 /* No comment provided by engineer. */
-"logout_warning" = "Nach dem Logout musst du MasterKey und Absender-Informationen für %@ erneut eingeben.";
+"logout_warning" = "Stelle sicher dass du ein Backup deines MasterKey für %@ hast. Andernfalls verlierst du den Zugang zu deinem Postfach!";
 
 /* No comment provided by engineer. */
 "MasterKey" = "MasterKey";

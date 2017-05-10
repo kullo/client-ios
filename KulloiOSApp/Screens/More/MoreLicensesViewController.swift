@@ -10,9 +10,13 @@ class MoreLicensesViewController: UIViewController {
 
         webView.delegate = self
 
-        let path = Bundle.main.path(forResource: "licenses", ofType: "html")
-        let html = try! String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-        webView.loadHTMLString(html, baseURL: nil)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let path = Bundle.main.path(forResource: "licenses", ofType: "html")
+            let html = try! String(contentsOfFile: path!, encoding: String.Encoding.utf8)
+            DispatchQueue.main.async {
+                self.webView.loadHTMLString(html, baseURL: nil)
+            }
+        }
     }
 }
 
@@ -26,5 +30,4 @@ extension MoreLicensesViewController: UIWebViewDelegate {
         }
         return true
     }
-
 }

@@ -140,10 +140,10 @@
 "Logout" = "Logout";
 
 /* No comment provided by engineer. */
-"Logout and delete data" = "Logout and delete data";
+"Log out and delete data" = "Log out and delete data";
 
 /* No comment provided by engineer. */
-"logout_warning" = "After logging out you'll need to type in MasterKey and sender settings for %@ again.";
+"logout_warning" = "Make sure you have a backup of the MasterKey for %@ before logging out. Otherwise, you will lose access to your account!";
 
 /* No comment provided by engineer. */
 "MasterKey" = "MasterKey";

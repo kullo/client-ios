@@ -1,24 +1,9 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
+import Firebase
 import LibKullo
 import UIKit
-import XCGLogger
-
-let log: XCGLogger = {
-    // manually setup logger which uses NSLog instead of print so that messages show up on production build
-    let log = XCGLogger(identifier: "kulloLogger", includeDefaultDestinations: false)
-    let systemDestination = AppleSystemLogDestination(owner: log)
-    systemDestination.outputLevel = .debug
-    systemDestination.showLogIdentifier = false
-    systemDestination.showFunctionName = true
-    systemDestination.showThreadName = true
-    systemDestination.showLevel = true
-    systemDestination.showFileName = true
-    systemDestination.showLineNumber = true
-    systemDestination.showDate = true
-    log.add(destination: systemDestination)
-    return log
-}()
+import UserNotifications
 
 // Additional strings that must be translated to be shown in notifications, but are unused in code.
 // These can be commented out because genstrings does also search comments for NSLocalizedString.
@@ -27,9 +12,7 @@ let log: XCGLogger = {
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
-    fileprivate var apnDeviceToken: Data?
 
     //MARK: lifecycle
 
@@ -42,13 +25,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KARegistry.setTaskRunner(KIOperationTaskRunner())
         KHRegistry.setHttpClientFactory(KIUrlSessionHttpClientFactory())
 
-        // register for push notifications and badge updates
-        application.registerUserNotificationSettings(
-            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-        )
-        if !FeatureDetection.isRunningOnSimulator() {
-            application.registerForRemoteNotifications()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onTokenRefreshNotification),
+            name: Notification.Name.firInstanceIDTokenRefresh,
+            object: nil)
+        FIRApp.configure()
+
+        if #available(iOS 10.0, *) {
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+
+            // For iOS 10 data message (sent via FCM)
+            FIRMessaging.messaging().remoteMessageDelegate = self
+
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
         }
+
+        application.registerForRemoteNotifications()
 
         return true
     }
@@ -62,31 +61,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 
-        if !FeatureDetection.isRunningOnSimulator() {
-            disconnectGcm()
-        }
+        disconnectFromFcm()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-
-        if !FeatureDetection.isRunningOnSimulator() {
-            connectGcm()
-        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
+        connectToFcm()
         KulloConnector.shared.syncIfNecessary()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
-        if !FeatureDetection.isRunningOnSimulator() {
-            stopGcm()
-        }
         KulloConnector.shared.closeSession()
 
         // restore default log listener because we had some crashes during static deinitialization
@@ -96,11 +87,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: push notifications
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        log.info("Registered for remote notifications, token \(deviceToken)")
-        apnDeviceToken = deviceToken
+        let tokenType: FIRInstanceIDAPNSTokenType = FeatureDetection.isRunningInPushSandbox() ? .sandbox : .prod
+        log.info("Registered for remote notifications, token of type \(tokenType): \(deviceToken.base64EncodedString())")
 
-        startGcm()
-        refreshGcmToken()
+        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: tokenType)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -108,15 +98,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        log.debug("Incoming notification (through GCM): \(userInfo)")
-        GCMService.sharedInstance().appDidReceiveMessage(userInfo);
+        log.debug("Incoming notification (through FCM): \(userInfo)")
+        FIRMessaging.messaging().appDidReceiveMessage(userInfo)
         startSync(nil)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let appState = application.applicationState
         log.debug("Incoming notification (through APN): \(userInfo); app state: \(appState)")
-        GCMService.sharedInstance().appDidReceiveMessage(userInfo);
+        FIRMessaging.messaging().appDidReceiveMessage(userInfo)
         startSync(completionHandler)
     }
 
@@ -143,72 +133,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 
-    func startGcm() {
-        let instanceIdConfig = GGLInstanceIDConfig.default()
-        instanceIdConfig?.delegate = self
-        GGLInstanceID.sharedInstance().start(with: instanceIdConfig)
+    func connectToFcm() {
+        log.debug("FCM: connect")
+        guard let firebaseToken = FIRInstanceID.instanceID().token() else { return }
 
-        GCMService.sharedInstance().start(with: GCMConfig.default())
-    }
+        log.debug("FCM: registering token \(firebaseToken)")
+        KulloConnector.shared.registerPushToken(firebaseToken)
 
-    func connectGcm() {
-        log.debug("GCM: connect")
-        GCMService.sharedInstance().connect { error in
-            if let err = error {
-                log.error("Couldn't connect to GCM: \(err)")
+        FIRMessaging.messaging().disconnect()
+        FIRMessaging.messaging().connect { error in
+            if let error = error {
+                log.error("Unable to connect to FCM: \(error)")
             } else {
-                log.info("Successfully connected to GCM")
+                log.debug("Connected to FCM.")
             }
         }
     }
 
-    func disconnectGcm() {
-        log.debug("GCM: disconnect")
-        GCMService.sharedInstance().disconnect()
+    func disconnectFromFcm() {
+        log.debug("FCM: disconnect")
+        FIRMessaging.messaging().disconnect()
     }
 
-    func stopGcm() {
-        log.debug("GCM: teardown")
-        GCMService.sharedInstance().teardown()
+    @objc private func onTokenRefreshNotification() {
+        log.debug("FCM: token refresh")
+        connectToFcm()
     }
-
-    func refreshGcmToken() {
-        guard let deviceToken = apnDeviceToken else {
-            log.error("Couldn't refresh Google services token, had no APN device token")
-            return
-        }
-
-        GGLInstanceID.sharedInstance().token(
-            withAuthorizedEntity: gcmSenderId,
-            scope: kGGLInstanceIDScopeGCM,
-            options: [
-                kGGLInstanceIDRegisterAPNSOption: deviceToken,
-                kGGLInstanceIDAPNSServerTypeSandboxOption: FeatureDetection.isRunningInPushSandbox()
-            ],
-            handler: { registrationToken, error in
-                if let err = error {
-                    log.error("Couldn't get registration token from GCM: \(err)")
-                } else {
-                    log.debug("GCM token: \(registrationToken)")
-                    KulloConnector.shared.registerPushToken(registrationToken!)
-                }
-            }
-        )
-    }
-
 }
 
-
-extension AppDelegate: GGLInstanceIDDelegate {
-
-    func onTokenRefresh() {
-        refreshGcmToken()
+@available(iOS 10.0, *)
+extension AppDelegate: FIRMessagingDelegate {
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        log.debug("Incoming notification (through FCM): \(remoteMessage)")
+        startSync(nil)
     }
-
 }
 
 extension UIApplicationState: CustomStringConvertible {
-    
     public var description: String {
         switch self {
         case .active: return "active"
@@ -216,5 +177,14 @@ extension UIApplicationState: CustomStringConvertible {
         case .background: return "background"
         }
     }
-    
+}
+
+extension FIRInstanceIDAPNSTokenType: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .prod: return "prod"
+        case .sandbox: return "sandbox"
+        case .unknown: return "unknown"
+        }
+    }
 }

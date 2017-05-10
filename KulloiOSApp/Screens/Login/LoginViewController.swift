@@ -3,12 +3,11 @@
 import UIKit
 import LibKullo
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController {
 
     fileprivate static let splashSegue = "LoginSplashSegue"
 
     @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var addressLabel: UILabel!
     @IBOutlet var addressTextField: UITextField!
 
     @IBOutlet var blockATextField: UITextField!
@@ -28,17 +27,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var blockOTextField: UITextField!
     @IBOutlet var blockPTextField: UITextField!
 
-    @IBOutlet var registerButton: UIButton!
     @IBOutlet var loginButton: UIButton!
 
     fileprivate var blockTextFields = [UITextField]()
     fileprivate weak var alertDialog: UIAlertController?
 
-    enum CredentialsError {
+    fileprivate enum AddressError {
         case emptyAddress
         case invalidAddress
-        case emptyBlocks
-        case invalidBlock
+    }
+
+    fileprivate struct BlocksState {
+        let emptyBlocks: [Int]
+        let invalidBlocks: [Int]
+
+        var isValid: Bool {
+            return emptyBlocks.isEmpty && invalidBlocks.isEmpty
+        }
     }
 
     // MARK: View lifecycle
@@ -46,7 +51,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addBlockTextFieldsToArray()
+        blockTextFields = [
+            blockATextField, blockBTextField, blockCTextField, blockDTextField,
+            blockETextField, blockFTextField, blockGTextField, blockHTextField,
+            blockITextField, blockJTextField, blockKTextField, blockLTextField,
+            blockMTextField, blockNTextField, blockOTextField, blockPTextField,
+        ]
+
+        addressTextField.delegate = self
+
+        for blockTextField in blockTextFields {
+            blockTextField.delegate = self
+            blockTextField.addTarget(self, action: #selector(blockTextFieldEditingChanged), for: .editingChanged)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -61,8 +78,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
         removeKeyboardNotificationListeners()
     }
@@ -75,148 +92,96 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             message: NSLocalizedString("Please wait...", comment: "")
         )
 
-        if inputFieldsAreValidIfNotGiveUserFeedback() {
+        if validateAndShowFeedback() {
             KulloConnector.shared.checkCredentials(
                 addressTextField.text!,
-                masterKeyBlocks: getKeyBlocksAsStringArray(),
+                masterKeyBlocks: blockTextFields.map({ $0.text ?? "" }),
                 delegate: self)
         }
     }
 
-    func inputFieldsAreValidIfNotGiveUserFeedback() -> Bool {
-        let okAction = AlertHelper.getAlertOKAction()
+    fileprivate func validateAndShowFeedback() -> Bool {
+        var foundErrors = false
 
-        if let error = validateInputFields() {
-            alertDialog?.title = NSLocalizedString("Login failed", comment: "")
-            alertDialog?.addAction(okAction)
-
-            switch error {
+        if let addressError = validateAddress() {
+            switch addressError {
             case .emptyAddress:
                 alertDialog?.message = NSLocalizedString("validation_empty_address", comment: "")
-                return false
             case .invalidAddress:
                 alertDialog?.message = NSLocalizedString("validation_invalid_address", comment: "")
-                return false
-            case .emptyBlocks:
-                alertDialog?.message = NSLocalizedString("validation_empty_blocks", comment: "")
-                return false
-            case .invalidBlock:
-                alertDialog?.message = NSLocalizedString("validation_invalid_blocks", comment: "")
-                return false
             }
+            setTextFieldDesignToErrorStatus(addressTextField)
+            foundErrors = true
+        } else {
+            setTextFieldDesignToNormalStatus(addressTextField)
         }
 
-        return true
+        let blocksState = validateBlocks()
+        if !blocksState.isValid {
+            if !blocksState.emptyBlocks.isEmpty {
+                alertDialog?.message = NSLocalizedString("validation_empty_blocks", comment: "")
+            } else if !blocksState.invalidBlocks.isEmpty {
+                alertDialog?.message = NSLocalizedString("validation_invalid_blocks", comment: "")
+            }
+            foundErrors = true
+        }
+
+        let allBlocks = Set(blockTextFields.indices)
+        let badBlocks = Set(blocksState.emptyBlocks).union(Set(blocksState.invalidBlocks))
+        for badBlock in badBlocks {
+            setTextFieldDesignToErrorStatus(blockTextFields[badBlock])
+        }
+        for goodBlock in allBlocks.subtracting(badBlocks) {
+            setTextFieldDesignToNormalStatus(blockTextFields[goodBlock])
+        }
+
+        if foundErrors {
+            alertDialog?.title = NSLocalizedString("Login failed", comment: "")
+            alertDialog?.addAction(AlertHelper.getAlertOKAction())
+        }
+        return !foundErrors
     }
 
-    func validateInputFields() -> CredentialsError? {
+    fileprivate func validateAddress() -> AddressError? {
         let addressText = addressTextField.text ?? ""
 
         if addressText.isEmpty {
-            setTextFieldDesignToErrorStatus(addressTextField)
-            return CredentialsError.emptyAddress
+            return .emptyAddress
         }
 
         if !KulloConnector.isValidKulloAddress(addressText) {
-            setTextFieldDesignToErrorStatus(addressTextField)
-            return CredentialsError.invalidAddress
+            return .invalidAddress
         }
 
-        setTextFieldDesignToNormalStatus(addressTextField)
-
-        var invalidBlock = false
-        var emptyBlock = false
-
-        for blockTextField in blockTextFields {
-            let blockText = blockTextField.text ?? ""
-
-            if blockText.isEmpty {
-                emptyBlock = true
-                setTextFieldDesignToErrorStatus(blockTextField)
-
-            } else if !KulloConnector.isValidMasterKeyBlock(blockText) {
-                invalidBlock = true
-                setTextFieldDesignToErrorStatus(blockTextField)
-
-            } else {
-                setTextFieldDesignToNormalStatus(blockTextField)
-            }
-        }
-
-        if emptyBlock {
-            return CredentialsError.emptyBlocks
-        }
-        if invalidBlock {
-            return CredentialsError.invalidBlock
-        }
         return nil
     }
 
-    func getKeyBlocksAsStringArray() -> [String] {
-        var blockArray: [String] = []
+    fileprivate func validateBlocks() -> BlocksState {
+        var emptyBlocks = [Int]()
+        var invalidBlocks = [Int]()
 
-        for blockTextField in blockTextFields {
-            blockArray.append(blockTextField.text!)
+        for (index, blockTextField) in zip(blockTextFields.indices, blockTextFields) {
+            let blockText = blockTextField.text ?? ""
+
+            if blockText.isEmpty {
+                emptyBlocks.append(index)
+            } else if !KulloConnector.isValidMasterKeyBlock(blockText) {
+                invalidBlocks.append(index)
+            }
         }
 
-        return blockArray
-    }
-
-    // MARK: UI
-
-    func addBlockTextFieldsToArray() {
-        blockTextFields.append(blockATextField)
-        blockTextFields.append(blockBTextField)
-        blockTextFields.append(blockCTextField)
-        blockTextFields.append(blockDTextField)
-        blockTextFields.append(blockETextField)
-        blockTextFields.append(blockFTextField)
-        blockTextFields.append(blockGTextField)
-        blockTextFields.append(blockHTextField)
-        blockTextFields.append(blockITextField)
-        blockTextFields.append(blockJTextField)
-        blockTextFields.append(blockKTextField)
-        blockTextFields.append(blockLTextField)
-        blockTextFields.append(blockMTextField)
-        blockTextFields.append(blockNTextField)
-        blockTextFields.append(blockOTextField)
-        blockTextFields.append(blockPTextField)
-    }
-
-    // MARK: UITextFieldDelegate
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField === addressTextField {
-            blockTextFields.first?.becomeFirstResponder()
-        }
-        return true
-    }
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-    {
-        //igore change events other than character insertion and on non-MasterKey fields
-        if string.characters.count == 0 || !blockTextFields.contains(textField) {
-            return true
-        }
-
-        let currentText = textField.text ?? ""
-        let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        return prospectiveText.containsOnlyCharactersIn("0123456789") && prospectiveText.characters.count <= 6
+        return BlocksState(emptyBlocks: emptyBlocks, invalidBlocks: invalidBlocks)
     }
 
     // MARK: textfield on text changed
 
-    @IBAction func textfieldEditingChanged(_ textField: UITextField) {
-        if textField === addressTextField {
-            setTextFieldDesignToNormalStatus(textField)
-
-        } else if blockTextFields.contains(textField) {
-            if validateBlockFieldAndSetErrorStatus(textField) {
-                focusNextBlockField(textField)
-            }
+    func blockTextFieldEditingChanged(_ textField: UITextField) {
+        if validateBlockFieldAndSetErrorStatus(textField) {
+            focusNextBlockField(textField)
         }
     }
 
-    func validateBlockFieldAndSetErrorStatus(_ textField: UITextField) -> Bool {
+    fileprivate func validateBlockFieldAndSetErrorStatus(_ textField: UITextField) -> Bool {
         if textField.text?.characters.count == 6 {
             if KulloConnector.isValidMasterKeyBlock(textField.text!) {
                 setTextFieldDesignToNormalStatus(textField)
@@ -231,7 +196,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func focusNextBlockField(_ textField: UITextField) {
+    fileprivate func focusNextBlockField(_ textField: UITextField) {
         let indexOfTextfield = blockTextFields.index(of: textField)!
         if indexOfTextfield < blockTextFields.count - 1 {
             blockTextFields[indexOfTextfield + 1].becomeFirstResponder()
@@ -240,16 +205,49 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func setTextFieldDesignToErrorStatus(_ textField: UITextField) {
+    fileprivate func setTextFieldDesignToErrorStatus(_ textField: UITextField) {
         textField.backgroundColor = colorTextFieldErrorBG
         textField.textColor = colorTextFieldErrorText
     }
 
-    func setTextFieldDesignToNormalStatus(_ textField: UITextField) {
+    fileprivate func setTextFieldDesignToNormalStatus(_ textField: UITextField) {
         textField.backgroundColor = colorTextFieldBG
         textField.textColor = colorTextFieldText
     }
 
+}
+
+extension LoginViewController: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        setTextFieldDesignToNormalStatus(textField)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField === addressTextField {
+            if !(textField.text ?? "").isEmpty && validateAddress() != nil {
+                setTextFieldDesignToErrorStatus(textField)
+            }
+        }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField === addressTextField {
+            blockTextFields.first?.becomeFirstResponder()
+        }
+        return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //igore change events other than character insertion and on non-MasterKey fields
+        if string.characters.count == 0 || !blockTextFields.contains(textField) {
+            return true
+        }
+
+        let currentText = textField.text ?? ""
+        let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        return prospectiveText.containsOnlyCharactersIn("0123456789") && prospectiveText.characters.count <= 6
+    }
 }
 
 extension LoginViewController: ClientCheckCredentialsDelegate {

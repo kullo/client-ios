@@ -652,6 +652,18 @@ class KulloConnector {
         }
     }
 
+    func getAllAddresses() -> Set<KAAddress> {
+        guard let conversations = session?.conversations() else {
+            return Set<KAAddress>()
+        }
+
+        var result = Set<KAAddress>()
+        for conv in conversations.all() {
+            result.formUnion(conversations.participants(conv.int64Value))
+        }
+        return result
+    }
+
     // MARK: current user
 
     func getClientAddress() -> String {
