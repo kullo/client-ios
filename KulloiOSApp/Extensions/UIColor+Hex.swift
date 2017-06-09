@@ -3,7 +3,6 @@
 import UIKit
 
 extension UIColor {
-    
     convenience init(hex: String) {
         if let _ = hex.range(of: "^#[0-9a-fA-F]{6}$", options: .regularExpression) {
             var rgbValue: UInt32 = 0
@@ -22,5 +21,4 @@ extension UIColor {
             preconditionFailure("hex colors must have the format #RRGGBB")
         }
     }
-
 }

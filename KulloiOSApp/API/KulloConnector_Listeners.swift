@@ -268,6 +268,20 @@ class DraftAttachmentsAddListener: KADraftAttachmentsAddListener {
 
 }
 
+class MessagesSearchListener: KAMessagesSearchListener {
+    private let completion: ([KAMessagesSearchResult]) -> Void
+
+    init(completion: @escaping ([KAMessagesSearchResult]) -> Void) {
+        self.completion = completion
+    }
+
+    func finished(_ results: [KAMessagesSearchResult]) {
+        DispatchQueue.main.async {
+            self.completion(results)
+        }
+    }
+}
+
 class DraftAttachmentsSaveToListener: KADraftAttachmentsSaveToListener {
 
     weak var delegate: DraftAttachmentsSaveToDelegate?

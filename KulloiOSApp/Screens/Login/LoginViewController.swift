@@ -8,7 +8,7 @@ class LoginViewController: UIViewController {
     fileprivate static let splashSegue = "LoginSplashSegue"
 
     @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var addressTextField: UITextField!
+    @IBOutlet var addressTextField: KulloAddressTextField!
 
     @IBOutlet var blockATextField: UITextField!
     @IBOutlet var blockBTextField: UITextField!
@@ -58,6 +58,7 @@ class LoginViewController: UIViewController {
             blockMTextField, blockNTextField, blockOTextField, blockPTextField,
         ]
 
+        addressTextField.includeDefaultKulloNetCompletion = true
         addressTextField.delegate = self
 
         for blockTextField in blockTextFields {

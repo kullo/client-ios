@@ -32,13 +32,3 @@ extension UIViewController {
         return alert
     }
 }
-
-class AlertHelper {
-    class func getAlertOKAction(_ handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
-        return UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: handler)
-    }
-
-    class func getAlertCancelAction() -> UIAlertAction {
-        return UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
-    }
-}

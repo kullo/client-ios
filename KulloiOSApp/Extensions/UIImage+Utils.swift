@@ -3,24 +3,7 @@
 import UIKit
 import CoreImage
 
-extension UIImageView {
-    
-    func showAsCircle() {
-        self.layer.borderWidth = 0.0
-        self.layer.masksToBounds = false
-        self.layer.cornerRadius = self.frame.size.width/2
-        self.clipsToBounds = true
-    }
-}
-
-extension CGSize {
-    static func / (left: CGSize, right: CGFloat) -> CGSize {
-        return CGSize(width: left.width / right, height: left.height / right)
-    }
-}
-
 extension UIImage {
-
     private func middleHorizontalSlice() -> UIImage {
         return cropped(CGRect(x: size.width/4, y: 0, width: size.width/2, height: size.height))
     }
@@ -171,6 +154,5 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage
     }
-
     
 }

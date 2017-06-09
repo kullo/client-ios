@@ -1,17 +1,13 @@
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+
 import Foundation
 import LibKullo
 
 extension KAAddress {
-    // Equatable
-    static func == (lhs: KAAddress, rhs: KAAddress) -> Bool {
-        if lhs === rhs { return true }
-        return lhs.isEqual(to: rhs)
-    }
-
-    // from NSObject, for Objective-C compatibility
+    // from NSObject, also used for Equatable
     open override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? KAAddress else { return false }
-        return self == other
+        return self === other || self.toString() == other.toString()
     }
 
     // Hashable

@@ -128,6 +128,9 @@
 "local_error_unknown" = "Unbekannter lokaler Fehler";
 
 /* No comment provided by engineer. */
+"Log out and delete data" = "Abmelden und Daten löschen";
+
+/* No comment provided by engineer. */
 "Log out now?" = "Wirklich abmelden?";
 
 /* No comment provided by engineer. */
@@ -138,9 +141,6 @@
 
 /* No comment provided by engineer. */
 "Logout" = "Abmelden";
-
-/* No comment provided by engineer. */
-"Log out and delete data" = "Abmelden und Daten löschen";
 
 /* No comment provided by engineer. */
 "logout_warning" = "Stelle sicher dass du ein Backup deines MasterKey für %@ hast. Andernfalls verlierst du den Zugang zu deinem Postfach!";
@@ -219,6 +219,15 @@
 
 /* No comment provided by engineer. */
 "registration_invalid_address" = "Diese Adresse ist ungültig. Bitte stelle sicher, dass du ausschließlich erlaubte Zeichen verwendest.";
+
+/* No comment provided by engineer. */
+"search_scope_all" = "alle";
+
+/* No comment provided by engineer. */
+"search_scope_received" = "empfangen";
+
+/* No comment provided by engineer. */
+"search_scope_sent" = "gesendet";
 
 /* No comment provided by engineer. */
 "Sending messages" = "Sende Nachrichten";

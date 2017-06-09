@@ -18,10 +18,10 @@ class NewConversationViewController: UIViewController  {
     @IBOutlet var recipientsLabel: UILabel!
     @IBOutlet var createButton: UIBarButtonItem!
 
-    var recipientsAsString  = [String]()
-    var recipients = [KAAddress]()
+    fileprivate var recipientsAsString  = [String]()
+    fileprivate var recipients = [KAAddress]()
 
-    weak var alertDialog: UIAlertController?
+    fileprivate weak var alertDialog: UIAlertController?
     
     // MARK: lifecycle
     
@@ -31,10 +31,16 @@ class NewConversationViewController: UIViewController  {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         updateControlStates()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        kulloAddressTextField.excludedCompletions = Set(recipientsAsString)
+    }
+
     // MARK: actions
     
-    func updateControlStates() {
+    fileprivate func updateControlStates() {
         if recipients.isEmpty {
             recipientsLabel.isHidden = true
             createButton.isEnabled = false
@@ -60,7 +66,7 @@ class NewConversationViewController: UIViewController  {
         checkAndAddNewRecipient()
     }
     
-    func checkAndAddNewRecipient() {
+    fileprivate func checkAndAddNewRecipient() {
         kulloAddressTextField.resignFirstResponder()
         
         if let addressString = kulloAddressTextField.text {
@@ -143,12 +149,13 @@ extension NewConversationViewController: ClientAddressExistsDelegate {
     func clientAddressExistsFinished(_ address: KAAddress, exists: Bool) {
         if exists {
             if !recipientsAsString.contains(address.toString()) {
+                recipientsAsString.append(address.toString())
+                recipients.append(address)
+                kulloAddressTextField.text = ""
+                kulloAddressTextField.excludedCompletions = Set(self.recipientsAsString)
+                tableView.reloadData()
+                updateControlStates()
                 alertDialog?.dismiss(animated: true, completion: { () -> Void in
-                    self.recipientsAsString.append(address.toString())
-                    self.recipients.append(address)
-                    self.kulloAddressTextField.text = ""
-                    self.tableView.reloadData()
-                    self.updateControlStates()
                     self.kulloAddressTextField.becomeFirstResponder()
                 })
             } else {

@@ -8,10 +8,20 @@ class MessagesViewController: UIViewController {
     // MARK: Properties
     fileprivate static let writeNewMessageCellId = "WriteNewMessageTableViewCell"
     fileprivate static let messageCellId = "MessagesTableViewCell"
-    
+    fileprivate static let openSearchSegueIdentifier = "MessagesOpenSearch"
+
     var convId: Int64?
     fileprivate var messageIds = [Int64]()
     fileprivate var hideHint = false
+    fileprivate var visibleSinceMap = [Int64: UInt64]()
+    fileprivate var visibleSinceTimer: Timer?
+
+    fileprivate var isShown = false {
+        didSet {
+            guard isShown != oldValue else { return }
+            updateVisibleSinceTimer(appState: UIApplication.shared.applicationState)
+        }
+    }
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var progressView: UIProgressView!
@@ -52,6 +62,36 @@ class MessagesViewController: UIViewController {
         updateDataAndRefreshTable()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        isShown = true
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillResignActive),
+            name: NSNotification.Name.UIApplicationWillResignActive,
+            object: nil)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        isShown = false
+        NotificationCenter.default.removeObserver(
+            self,
+            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: NSNotification.Name.UIApplicationWillResignActive,
+            object: nil)
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
@@ -65,6 +105,87 @@ class MessagesViewController: UIViewController {
         KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
         refreshControl.endRefreshing()
+    }
+
+    @objc fileprivate func appDidBecomeActive() {
+        updateVisibleSinceTimer(appState: .active)
+    }
+
+    @objc fileprivate func appWillResignActive() {
+        updateVisibleSinceTimer(appState: .inactive)
+    }
+
+    fileprivate func updateVisibleSinceTimer(appState: UIApplicationState) {
+        if isShown && appState == .active {
+            visibleSinceMap.removeAll()
+            visibleSinceTimer?.invalidate()
+            visibleSinceTimer = Timer.scheduledTimer(
+                timeInterval: 0.5,
+                target: self,
+                selector: #selector(updateVisibleSinceMap),
+                userInfo: nil,
+                repeats: true
+            )
+            visibleSinceTimer?.fire()
+
+        } else {
+            visibleSinceTimer?.invalidate()
+            visibleSinceTimer = nil
+        }
+    }
+
+    @objc fileprivate func updateVisibleSinceMap() {
+        guard let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows else { return }
+
+        var markedMessagesAsRead = false
+        var newVisibleSinceMap = [Int64: UInt64]()
+        for indexPath in indexPathsForVisibleRows {
+            let messageId = messageIds[indexPath.row]
+
+            if tableView.bounds.contains(tableView.rectForRow(at: indexPath)),
+                KulloConnector.shared.getMessageUnread(messageId),
+                !KulloConnector.shared.hasAttachments(messageId),
+                !isTextTruncated(indexPath: indexPath) {
+
+                if let oldVisibleSince = visibleSinceMap[messageId] {
+                    if secondsSince(machTime: oldVisibleSince) >= 3 {
+                        KulloConnector.shared.setMessageUnread(messageId, value: false)
+                        markedMessagesAsRead = true
+                        log.debug("marked \(messageId) as read")
+
+                    } else {
+                        newVisibleSinceMap[messageId] = oldVisibleSince
+                    }
+
+                } else {
+                    newVisibleSinceMap[messageId] = mach_absolute_time()
+                }
+            }
+        }
+        visibleSinceMap = newVisibleSinceMap
+
+        if markedMessagesAsRead {
+            updateDataAndRefreshTable()
+        }
+    }
+
+    fileprivate func isTextTruncated(indexPath: IndexPath) -> Bool {
+        guard let cell = tableView.cellForRow(at: indexPath) as? MessagesTableViewCell else {
+            return false
+        }
+
+        cell.layoutIfNeeded()
+        return cell.messageTextLabel.isTruncated
+    }
+
+    fileprivate static let machTimeToSecondsFactor: Double = {
+        var info = mach_timebase_info_data_t()
+        mach_timebase_info(&info)
+        return Double(info.numer) / Double(info.denom) / 1_000_000_000
+    }()
+
+    fileprivate func secondsSince(machTime: UInt64) -> Double {
+        return Double(mach_absolute_time() - machTime) * MessagesViewController.machTimeToSecondsFactor
     }
 
     // MARK: Data
@@ -127,7 +248,12 @@ class MessagesViewController: UIViewController {
             if let destination = segue.destination as? ComposeViewController {
                 destination.convId = convId
             }
+        } else if segue.identifier == MessagesViewController.openSearchSegueIdentifier {
+            if let destination = segue.destination as? MessageSearchViewController {
+                destination.conversationFilter = convId
+            }
         }
+
     }
 
 }

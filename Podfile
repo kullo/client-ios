@@ -6,7 +6,7 @@ use_frameworks!
 target 'KulloiOSApp' do
     pod 'Firebase/Core'
     pod 'Firebase/Messaging'
-    pod 'MLPAutoCompleteTextField'
+    pod 'MLPAutoCompleteTextField', :git => 'https://github.com/EddyBorja/MLPAutoCompleteTextField.git', :branch => 'master'
     pod 'SwiftKeychainWrapper', :git => 'https://github.com/tiwoc/SwiftKeychainWrapper.git', :branch => 'kullo'
     pod 'SwiftyMimeTypes' #, :git => 'https://github.com/tiwoc/SwiftyMimeTypes.git', :branch => 'master'
     pod 'TCMobileProvision'

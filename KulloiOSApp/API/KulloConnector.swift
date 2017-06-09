@@ -33,6 +33,7 @@ class KulloConnector {
     private var clientAddressExistsTask: KAAsyncTask?
     private var addAttachmentTask: KAAsyncTask?
     private var messageAttachmentsSaveToTask: KAAsyncTask?
+    private var messagesSearchTask: KAAsyncTask?
     private var draftAttachmentsSaveToTask: KAAsyncTask?
 
     private enum SessionState { case none, creating, created }
@@ -226,6 +227,7 @@ class KulloConnector {
         clientAddressExistsTask?.cancel()
         addAttachmentTask?.cancel()
         messageAttachmentsSaveToTask?.cancel()
+        messagesSearchTask?.cancel()
         draftAttachmentsSaveToTask?.cancel()
 
         session?.syncer()?.waitUntilDone()
@@ -239,6 +241,7 @@ class KulloConnector {
         clientAddressExistsTask?.waitUntilDone()
         addAttachmentTask?.waitUntilDone()
         messageAttachmentsSaveToTask?.waitUntilDone()
+        messagesSearchTask?.waitUntilDone()
         draftAttachmentsSaveToTask?.waitUntilDone()
 
         sessionState = .none
@@ -374,10 +377,12 @@ class KulloConnector {
                 switch event.event {
                 case .conversationAdded:
                     delegate.sessionEventConversationAdded(event.conversationId)
-                case .conversationChanged:
-                    delegate.sessionEventConversationChanged(event.conversationId)
                 case .conversationRemoved:
                     delegate.sessionEventConversationRemoved(event.conversationId)
+                case .conversationChanged:
+                    delegate.sessionEventConversationChanged(event.conversationId)
+                case .conversationLatestMessageTimestampChanged:
+                    break //FIXME: implement
                 case .draftStateChanged:
                     delegate.sessionEventDraftStateChanged(event.conversationId)
                 case .draftTextChanged:
@@ -396,7 +401,7 @@ class KulloConnector {
                     delegate.sessionEventMessageAttachmentsDownloadedChanged(event.conversationId, msgId: event.messageId)
                 case .messageRemoved:
                     delegate.sessionEventMessageRemoved(event.conversationId, msgId: event.messageId)
-                case .latestSenderChanged:
+                case .userSettingsChanged:
                     break //FIXME: implement
                 }
             }
@@ -901,6 +906,18 @@ class KulloConnector {
             path: path,
             listener: MessageAttachmentsSaveToListener(delegate: delegate)
         )
+    }
+
+    func searchForMessages(text: String, convId: Int64?, senderPredicate: KASenderPredicate?, completion: @escaping ([KAMessagesSearchResult]) -> Void) {
+        messagesSearchTask = session?.messages()?.searchAsync(
+            text,
+            convId: convId ?? -1,
+            sender: senderPredicate,
+            limitResults: 50,
+            boundary: nil,
+            listener: MessagesSearchListener(completion: { results in
+                completion(results)
+            }))
     }
 
     // MARK: draft attachments

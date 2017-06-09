@@ -4,6 +4,9 @@ import MLPAutoCompleteTextField
 
 class KulloAddressTextField: MLPAutoCompleteTextField {
 
+    var includeDefaultKulloNetCompletion = false
+    var excludedCompletions = Set<String>()
+
     fileprivate var addresses = [String]()
 
     override init(frame: CGRect) {
@@ -90,8 +93,13 @@ extension KulloAddressTextField: MLPAutoCompleteTextFieldDataSource {
         possibleCompletionsFor string: String!,
         completionHandler handler: (([Any]?) -> Void)!) {
 
-        var suggestions = addresses.filter({ $0.range(of: string) != nil })
-        if let kulloNetCompletion = makeKulloNetCompletion(prefix: string) {
+        var suggestions = addresses.filter({
+            $0.localizedCaseInsensitiveContains(string)
+            && !self.excludedCompletions.contains($0)
+        })
+        if includeDefaultKulloNetCompletion,
+            let kulloNetCompletion = makeKulloNetCompletion(prefix: string) {
+
             if !suggestions.contains(kulloNetCompletion) {
                 suggestions.append(kulloNetCompletion)
             }

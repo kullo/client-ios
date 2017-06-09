@@ -16,7 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     //MARK: lifecycle
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
         // log app meta data, which also triggers lazy creation of logger
         log.logAppDetails()
 
@@ -25,12 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KARegistry.setTaskRunner(KIOperationTaskRunner())
         KHRegistry.setHttpClientFactory(KIUrlSessionHttpClientFactory())
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(onTokenRefreshNotification),
-            name: Notification.Name.firInstanceIDTokenRefresh,
-            object: nil)
-        FIRApp.configure()
+        FirebaseApp.configure()
 
         if #available(iOS 10.0, *) {
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -39,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 completionHandler: {_, _ in })
 
             // For iOS 10 data message (sent via FCM)
-            FIRMessaging.messaging().remoteMessageDelegate = self
+            Messaging.messaging().delegate = self
 
         } else {
             let settings: UIUserNotificationSettings =
@@ -87,10 +85,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: push notifications
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenType: FIRInstanceIDAPNSTokenType = FeatureDetection.isRunningInPushSandbox() ? .sandbox : .prod
-        log.info("Registered for remote notifications, token of type \(tokenType): \(deviceToken.base64EncodedString())")
-
-        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: tokenType)
+        let tokenType: MessagingAPNSTokenType =
+            FeatureDetection.isRunningInPushSandbox() ? .sandbox : .prod
+        log.info("Token of type \(tokenType): \(deviceToken.base64EncodedString())")
+        Messaging.messaging().setAPNSToken(deviceToken, type: tokenType)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -99,14 +97,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         log.debug("Incoming notification (through FCM): \(userInfo)")
-        FIRMessaging.messaging().appDidReceiveMessage(userInfo)
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         startSync(nil)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let appState = application.applicationState
         log.debug("Incoming notification (through APN): \(userInfo); app state: \(appState)")
-        FIRMessaging.messaging().appDidReceiveMessage(userInfo)
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         startSync(completionHandler)
     }
 
@@ -135,35 +133,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func connectToFcm() {
         log.debug("FCM: connect")
-        guard let firebaseToken = FIRInstanceID.instanceID().token() else { return }
+        guard let firebaseToken = Messaging.messaging().fcmToken else { return }
 
         log.debug("FCM: registering token \(firebaseToken)")
         KulloConnector.shared.registerPushToken(firebaseToken)
 
-        FIRMessaging.messaging().disconnect()
-        FIRMessaging.messaging().connect { error in
-            if let error = error {
-                log.error("Unable to connect to FCM: \(error)")
-            } else {
-                log.debug("Connected to FCM.")
-            }
-        }
+        Messaging.messaging().shouldEstablishDirectChannel = true
     }
 
     func disconnectFromFcm() {
         log.debug("FCM: disconnect")
-        FIRMessaging.messaging().disconnect()
-    }
-
-    @objc private func onTokenRefreshNotification() {
-        log.debug("FCM: token refresh")
-        connectToFcm()
+        Messaging.messaging().shouldEstablishDirectChannel = false
     }
 }
 
-@available(iOS 10.0, *)
-extension AppDelegate: FIRMessagingDelegate {
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        log.debug("FCM: token refresh")
+        connectToFcm()
+    }
+
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         log.debug("Incoming notification (through FCM): \(remoteMessage)")
         startSync(nil)
     }
@@ -179,7 +169,7 @@ extension UIApplicationState: CustomStringConvertible {
     }
 }
 
-extension FIRInstanceIDAPNSTokenType: CustomStringConvertible {
+extension MessagingAPNSTokenType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .prod: return "prod"

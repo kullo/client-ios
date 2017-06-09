@@ -11,6 +11,9 @@
 /* Class = "UINavigationItem"; title = "Compose"; ObjectID = "3Qk-af-SMq"; */
 "3Qk-af-SMq.title" = "Schreiben";
 
+/* Class = "UILabel"; text = "12/02/2015"; ObjectID = "46q-4v-0oZ"; */
+"46q-4v-0oZ.text" = "12/02/2015";
+
 /* Class = "UILabel"; text = "Doe Inc."; ObjectID = "5qf-IK-PDp"; */
 "5qf-IK-PDp.text" = "Kullo GmbH";
 
@@ -56,8 +59,14 @@
 /* Class = "UIViewController"; title = "Registration"; ObjectID = "F35-Bi-mh7"; */
 "F35-Bi-mh7.title" = "Registrierung";
 
+/* Class = "UILabel"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "F4B-X5-faf"; */
+"F4B-X5-faf.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
 /* Class = "UITextField"; placeholder = "Block K"; ObjectID = "GyY-5R-r4g"; */
 "GyY-5R-r4g.placeholder" = "Block K";
+
+/* Class = "UILabel"; text = "John Doe"; ObjectID = "Hxy-4Y-Uuq"; */
+"Hxy-4Y-Uuq.text" = "John Doe";
 
 /* Class = "UILabel"; text = "Doe Inc."; ObjectID = "Jfb-Tw-Obh"; */
 "Jfb-Tw-Obh.text" = "Doe Inc.";
@@ -286,6 +295,9 @@
 
 /* Class = "UITextField"; placeholder = "Block C"; ObjectID = "xcT-Cc-9WG"; */
 "xcT-Cc-9WG.placeholder" = "Block C";
+
+/* Class = "UINavigationItem"; title = "Search"; ObjectID = "y03-Jd-X7N"; */
+"y03-Jd-X7N.title" = "Suche";
 
 /* Class = "UITextField"; placeholder = "Enter address"; ObjectID = "y3A-ft-yqL"; */
 "y3A-ft-yqL.placeholder" = "Adresse eingeben";
