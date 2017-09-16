@@ -137,6 +137,12 @@ class MessagesViewController: UIViewController {
     @objc fileprivate func updateVisibleSinceMap() {
         guard let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows else { return }
 
+        // prevent crash due to TableView containing empty state
+        guard messageIds.count > 0 else {
+            visibleSinceMap.removeAll()
+            return
+        }
+
         var markedMessagesAsRead = false
         var newVisibleSinceMap = [Int64: UInt64]()
         for indexPath in indexPathsForVisibleRows {
