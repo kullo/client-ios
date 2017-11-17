@@ -6,17 +6,17 @@ import XCGLogger
 class MessagesViewController: UIViewController {
 
     // MARK: Properties
-    fileprivate static let writeNewMessageCellId = "WriteNewMessageTableViewCell"
-    fileprivate static let messageCellId = "MessagesTableViewCell"
-    fileprivate static let openSearchSegueIdentifier = "MessagesOpenSearch"
+    private static let writeNewMessageCellId = "WriteNewMessageTableViewCell"
+    private static let messageCellId = "MessagesTableViewCell"
+    private static let openSearchSegueIdentifier = "MessagesOpenSearch"
 
     var convId: Int64?
-    fileprivate var messageIds = [Int64]()
-    fileprivate var hideHint = false
-    fileprivate var visibleSinceMap = [Int64: UInt64]()
-    fileprivate var visibleSinceTimer: Timer?
+    private var messageIds = [Int64]()
+    private var hideHint = false
+    private var visibleSinceMap = [Int64: UInt64]()
+    private var visibleSinceTimer: Timer?
 
-    fileprivate var isShown = false {
+    private var isShown = false {
         didSet {
             guard isShown != oldValue else { return }
             updateVisibleSinceTimer(appState: UIApplication.shared.applicationState)
@@ -101,21 +101,21 @@ class MessagesViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc fileprivate func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
+    @objc private func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
         KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
         refreshControl.endRefreshing()
     }
 
-    @objc fileprivate func appDidBecomeActive() {
+    @objc private func appDidBecomeActive() {
         updateVisibleSinceTimer(appState: .active)
     }
 
-    @objc fileprivate func appWillResignActive() {
+    @objc private func appWillResignActive() {
         updateVisibleSinceTimer(appState: .inactive)
     }
 
-    fileprivate func updateVisibleSinceTimer(appState: UIApplicationState) {
+    private func updateVisibleSinceTimer(appState: UIApplicationState) {
         if isShown && appState == .active {
             visibleSinceMap.removeAll()
             visibleSinceTimer?.invalidate()
@@ -134,7 +134,7 @@ class MessagesViewController: UIViewController {
         }
     }
 
-    @objc fileprivate func updateVisibleSinceMap() {
+    @objc private func updateVisibleSinceMap() {
         guard let indexPathsForVisibleRows = tableView.indexPathsForVisibleRows else { return }
 
         // prevent crash due to TableView containing empty state
@@ -175,7 +175,7 @@ class MessagesViewController: UIViewController {
         }
     }
 
-    fileprivate func isTextTruncated(indexPath: IndexPath) -> Bool {
+    private func isTextTruncated(indexPath: IndexPath) -> Bool {
         guard let cell = tableView.cellForRow(at: indexPath) as? MessagesTableViewCell else {
             return false
         }
@@ -184,13 +184,13 @@ class MessagesViewController: UIViewController {
         return cell.messageTextLabel.isTruncated
     }
 
-    fileprivate static let machTimeToSecondsFactor: Double = {
+    private static let machTimeToSecondsFactor: Double = {
         var info = mach_timebase_info_data_t()
         mach_timebase_info(&info)
         return Double(info.numer) / Double(info.denom) / 1_000_000_000
     }()
 
-    fileprivate func secondsSince(machTime: UInt64) -> Double {
+    private func secondsSince(machTime: UInt64) -> Double {
         return Double(mach_absolute_time() - machTime) * MessagesViewController.machTimeToSecondsFactor
     }
 

@@ -5,8 +5,8 @@ import LibKullo
 
 class ChooseAddressViewController: UIViewController {
 
-    fileprivate static let linkRegex = try! NSRegularExpression(pattern: "(\\[.*\\])", options: [])
-    fileprivate static let splashSegue = "ChooseAddressSplashSegue"
+    private static let linkRegex = try! NSRegularExpression(pattern: "(\\[.*\\])", options: [])
+    private static let splashSegue = "ChooseAddressSplashSegue"
 
     let addressSuffix = "#kullo.net"
     var alertDialog: UIAlertController?
@@ -77,13 +77,13 @@ class ChooseAddressViewController: UIViewController {
         }
     }
 
-    fileprivate func showRegistrationFailure(_ message: String) {
+    private func showRegistrationFailure(_ message: String) {
         alertDialog?.title = NSLocalizedString("Registration failed", comment: "")
         alertDialog?.message = message
         alertDialog?.addAction(AlertHelper.getAlertOKAction())
     }
 
-    fileprivate func updateRegisterButtonState() {
+    private func updateRegisterButtonState() {
         let usernameEmpty = usernameField.text?.isEmpty ?? true
         registerButton.isEnabled = termsAcceptedSwitch.isOn && !usernameEmpty
     }

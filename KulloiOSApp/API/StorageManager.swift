@@ -112,16 +112,16 @@ class StorageManager {
 
     //MARK: - private implementation
 
-    fileprivate let keychain = KeychainWrapper.standard
+    private let keychain = KeychainWrapper.standard
 
-    fileprivate static let CURRENT_STORAGE_VERSION = 2
-    fileprivate let userAddressString: String
+    private static let CURRENT_STORAGE_VERSION = 2
+    private let userAddressString: String
 
-    fileprivate static let KEY_ADDRESS = "kullo_address"
-    fileprivate static let KEY_STORAGE_VERSION = "kullo_storage_version"
-    fileprivate static let DEFAULTS_KEY_STORAGE_VERSION = "KulloStorageVersion"
+    private static let KEY_ADDRESS = "kullo_address"
+    private static let KEY_STORAGE_VERSION = "kullo_storage_version"
+    private static let DEFAULTS_KEY_STORAGE_VERSION = "KulloStorageVersion"
 
-    fileprivate func migrate() {
+    private func migrate() {
         var storageVersion = getStorageVersion()
         while storageVersion < StorageManager.CURRENT_STORAGE_VERSION {
             switch storageVersion {
@@ -177,7 +177,7 @@ class StorageManager {
         }
     }
 
-    fileprivate func getStorageVersion() -> Int {
+    private func getStorageVersion() -> Int {
         if let storageVersion = keychain.integer(forKey: StorageManager.KEY_STORAGE_VERSION, withAccessibility: .afterFirstUnlock) {
             return storageVersion
         }
@@ -203,22 +203,22 @@ class StorageManager {
         return storageVersion
     }
 
-    fileprivate func setStorageVersion(_ storageVersion: Int) {
+    private func setStorageVersion(_ storageVersion: Int) {
         keychain.set(storageVersion, forKey: StorageManager.KEY_STORAGE_VERSION, withAccessibility: .afterFirstUnlock)
     }
 
-    fileprivate func moveDb(_ from: String, to: String) {
+    private func moveDb(_ from: String, to: String) {
         StorageManager.moveFileOrDirectoryIfPossible(from, to: to)
         StorageManager.moveFileOrDirectoryIfPossible("\(from)-wal", to: "\(to)-wal")
         StorageManager.moveFileOrDirectoryIfPossible("\(from)-shm", to: "\(to)-shm")
     }
 
-    fileprivate static func masterkeyBlock0Filter(_ key: String) -> Bool {
+    private static func masterkeyBlock0Filter(_ key: String) -> Bool {
         return key.hasPrefix("masterkey_") && key.hasSuffix("_block_0")
     }
 
-    fileprivate static func addressFromBlockKey(_ key: String) -> KAAddress? {
-        let keySplitByUnderscore = key.characters.split(
+    private static func addressFromBlockKey(_ key: String) -> KAAddress? {
+        let keySplitByUnderscore = key.split(
             separator: "_",
             maxSplits: 2,
             omittingEmptySubsequences: false)
@@ -227,51 +227,51 @@ class StorageManager {
         return KAAddressHelpers.create(String(keySplitByUnderscore[1]))
     }
 
-    fileprivate func getBlockKey(_ index: Int) -> String {
+    private func getBlockKey(_ index: Int) -> String {
         return "masterkey_\(userAddressString)_block_\(index)"
     }
 
-    fileprivate func getDeprecatedBlockKey(_ index: Int) -> String {
+    private func getDeprecatedBlockKey(_ index: Int) -> String {
         return "block_\(index)"
     }
 
-    fileprivate var nameKey: String {
+    private var nameKey: String {
         return "user_name_\(userAddressString)"
     }
 
-    fileprivate var organizationKey: String {
+    private var organizationKey: String {
         return "user_organization_\(userAddressString)"
     }
 
-    fileprivate var footerKey: String {
+    private var footerKey: String {
         return "user_footer_\(userAddressString)"
     }
 
-    fileprivate var avatarTypeKey: String {
+    private var avatarTypeKey: String {
         return "user_avatar_mime_type_\(userAddressString)"
     }
 
-    fileprivate var documentsDirectory: String {
+    private var documentsDirectory: String {
         return NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true).first!
     }
 
-    fileprivate var userDirectory: String {
+    private var userDirectory: String {
         let userDir = "\(documentsDirectory)/\(userAddress.description())"
         StorageManager.createDirectory(userDir)
         StorageManager.excludeDirectoryFromBackup(userDir)
         return userDir
     }
 
-    fileprivate var avatarPath: String {
+    private var avatarPath: String {
         return "\(userDirectory)/avatar.jpg"
     }
 
-    fileprivate func loadAvatar() -> Data? {
+    private func loadAvatar() -> Data? {
         return try? Data(contentsOf: URL(fileURLWithPath: avatarPath))
     }
 
-    fileprivate func saveAvatar(_ avatar: Data?) {
+    private func saveAvatar(_ avatar: Data?) {
         precondition(avatar == nil || avatar!.count > 0)
 
         if let avatar = avatar {
@@ -288,21 +288,21 @@ class StorageManager {
 
     //MARK: utilities
 
-    fileprivate class func createDirectory(_ path: String) {
+    private class func createDirectory(_ path: String) {
         let fileManager = FileManager.default
         if (!fileManager.fileExists(atPath: path)) {
             try! fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
         }
     }
 
-    fileprivate class func excludeDirectoryFromBackup(_ path: String) {
+    private class func excludeDirectoryFromBackup(_ path: String) {
         var url = URL(fileURLWithPath: path, isDirectory: true)
         var resourceValues = URLResourceValues()
         resourceValues.isExcludedFromBackup = true
         try! url.setResourceValues(resourceValues)
     }
 
-    fileprivate class func moveFileOrDirectoryIfPossible(_ from: String, to: String) {
+    private class func moveFileOrDirectoryIfPossible(_ from: String, to: String) {
         let fileManager = FileManager.default
 
         // do nothing if source doesn't exist

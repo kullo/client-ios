@@ -9,3 +9,5 @@
 "NSCameraUsageDescription" = "Wir benötigen Zugriff auf die Kamera um dir zu ermöglichen, ein Bild für deinen Avatar aufzunehmen.";
 
 "NSPhotoLibraryUsageDescription" = "Wir benötigen Zugriff auf die Fotogalerie um dir zu ermöglichen, Bilder an Nachrichten anzuhängen und einen Avatar auszuwählen.";
+
+"NSPhotoLibraryAddUsageDescription" = "Um Bilder in der Fotogalerie speichern zu können benötigen wir Schreibrechte darauf.";

@@ -7,7 +7,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
     var includeDefaultKulloNetCompletion = false
     var excludedCompletions = Set<String>()
 
-    fileprivate var addresses = [String]()
+    private var addresses = [String]()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,7 +44,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
         )
     }
 
-    @objc fileprivate func kulloAddrTextDidChange(_ notification: Notification) {
+    @objc private func kulloAddrTextDidChange(_ notification: Notification) {
         if var text = self.text {
 
             // trim whitespace
@@ -61,7 +61,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
         }
     }
 
-    fileprivate func makeKulloNetCompletion(prefix: String) -> String? {
+    private func makeKulloNetCompletion(prefix: String) -> String? {
         guard !prefix.isEmpty else { return nil }
 
         let components = prefix.components(separatedBy: "#")

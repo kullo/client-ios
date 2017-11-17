@@ -104,6 +104,9 @@
 "Footer" = "Footer";
 
 /* No comment provided by engineer. */
+"image_basename" = "image";
+
+/* No comment provided by engineer. */
 "Invalid address" = "Invalid address";
 
 /* No comment provided by engineer. */
@@ -264,6 +267,9 @@
 
 /* No comment provided by engineer. */
 "Version" = "Version";
+
+/* No comment provided by engineer. */
+"video_basename" = "video";
 
 /* No comment provided by engineer. */
 "We could not find a recipient with this address." = "We could not find a recipient with this address.";

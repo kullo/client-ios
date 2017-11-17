@@ -18,7 +18,7 @@ class InitialsUtil {
         let matches = wordRegex.matches(in: name as String, options: [], range: NSRange(location: 0, length: name.length))
 
         let initialFromNamePart = { (match: NSTextCheckingResult) in
-            name.substring(with: match.range).characters.first!
+            name.substring(with: match.range).first!
         }
 
         guard let first = matches.first, let last = matches.last else { return "" }

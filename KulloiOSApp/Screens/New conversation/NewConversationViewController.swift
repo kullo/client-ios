@@ -18,10 +18,10 @@ class NewConversationViewController: UIViewController  {
     @IBOutlet var recipientsLabel: UILabel!
     @IBOutlet var createButton: UIBarButtonItem!
 
-    fileprivate var recipientsAsString  = [String]()
-    fileprivate var recipients = [KAAddress]()
+    private var recipientsAsString  = [String]()
+    private var recipients = [KAAddress]()
 
-    fileprivate weak var alertDialog: UIAlertController?
+    private weak var alertDialog: UIAlertController?
     
     // MARK: lifecycle
     
@@ -40,7 +40,7 @@ class NewConversationViewController: UIViewController  {
 
     // MARK: actions
     
-    fileprivate func updateControlStates() {
+    private func updateControlStates() {
         if recipients.isEmpty {
             recipientsLabel.isHidden = true
             createButton.isEnabled = false
@@ -66,7 +66,7 @@ class NewConversationViewController: UIViewController  {
         checkAndAddNewRecipient()
     }
     
-    fileprivate func checkAndAddNewRecipient() {
+    private func checkAndAddNewRecipient() {
         kulloAddressTextField.resignFirstResponder()
         
         if let addressString = kulloAddressTextField.text {

@@ -7,10 +7,10 @@ import XCGLogger
 
 class MoreViewController: UITableViewController {
 
-    fileprivate static let moreLeaveInboxSegueIdentifier = "MoreLeaveInboxSegue"
-    fileprivate static let moreLogoutSegueIdentifier = "MoreLogoutSegue"
+    private static let moreLeaveInboxSegueIdentifier = "MoreLeaveInboxSegue"
+    private static let moreLogoutSegueIdentifier = "MoreLogoutSegue"
 
-    fileprivate enum SectionType {
+    private enum SectionType {
         case avatar, settings, account, about, feedback
 
         var headerHeight: CGFloat {
@@ -34,12 +34,12 @@ class MoreViewController: UITableViewController {
         }
     }
 
-    fileprivate struct Section {
+    private struct Section {
         var type: SectionType
         var rows: [RowType]
     }
 
-    fileprivate let sections = [
+    private let sections = [
         Section(type: .avatar, rows: [.avatar]),
         Section(type: .settings, rows: [.name, .organization, .footer]),
         Section(type: .account, rows: [.address, .plan, .masterKey, .leaveInbox, .logout]),

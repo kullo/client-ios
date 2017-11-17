@@ -9,13 +9,13 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     // MARK: properties
     
     var convId: Int64!
-    fileprivate weak var alertDialog: UIAlertController?
-    fileprivate var draftState: KADraftState?
+    private weak var alertDialog: UIAlertController?
+    private var draftState: KADraftState?
 
-    fileprivate let attachmentsSegueId = "ComposeEmbedAttachmentsSegue"
-    fileprivate var attachmentsList: AttachmentsViewController?
-    fileprivate var attachmentIds = [Int64]()
-    fileprivate let viewName = "Compose"
+    private let attachmentsSegueId = "ComposeEmbedAttachmentsSegue"
+    private var attachmentsList: AttachmentsViewController?
+    private var attachmentIds = [Int64]()
+    private let viewName = "Compose"
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var scrolledContentView: UIView!
@@ -171,7 +171,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    fileprivate func syncingAlertMessage() -> String {
+    private func syncingAlertMessage() -> String {
         let message = NSLocalizedString("Please wait...", comment: "")
         let progress = KulloConnector.shared.getSendingProgress()
         return "\(message) \(Int(round(progress * 100)))%"
@@ -239,7 +239,7 @@ extension ComposeViewController: DraftAttachmentsSaveToDelegate {
 
 extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    fileprivate func dedupeFilename(_ convId: Int64, filename: String) -> String {
+    private func dedupeFilename(_ convId: Int64, filename: String) -> String {
         let filenameNSString = NSString(string: filename)
         let filenameBasename = filenameNSString.deletingPathExtension
         let filenameExtension = filenameNSString.pathExtension
@@ -273,8 +273,11 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
             let url = info[UIImagePickerControllerReferenceURL] as! URL
             let image = info[UIImagePickerControllerOriginalImage] as! UIImage
 
-            var imageDataOpt: Data?
-            var imageExtension: String
+            // The URL always contains the file basename "asset", which isn't user friendly.
+            let basename = NSLocalizedString("image_basename", comment: "")
+
+            let imageDataOpt: Data?
+            let imageExtension: String
             switch url.pathExtension.lowercased() {
             case "png":
                 imageDataOpt = UIImagePNGRepresentation(image)
@@ -287,7 +290,7 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
                 errorMsg = NSLocalizedString("Error while compressing picture", comment: "")
                 break
             }
-            let filename = "\((url.lastPathComponent as NSString).deletingPathExtension).\(imageExtension)"
+            let filename = "\(basename).\(imageExtension)"
             path = StorageManager.getTempPathForView(viewName, filename: dedupeFilename(convId, filename: filename))
             guard (try? imageData.write(to: URL(fileURLWithPath: path), options: [])) != nil else {
                 errorMsg = NSLocalizedString("Error while saving attachment", comment: "")
@@ -296,7 +299,12 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
 
         case String(kUTTypeMovie):
             let originalUrl = info[UIImagePickerControllerMediaURL] as! URL
-            let filename = originalUrl.lastPathComponent
+
+            // The URL contains a UUID as the file's basename, which isn't user friendly.
+            let basename = NSLocalizedString("video_basename", comment: "")
+
+            let movieExtension = originalUrl.lastPathComponent.split(separator: ".").last!
+            let filename = "\(basename).\(movieExtension)"
             path = StorageManager.getTempPathForView(viewName, filename: dedupeFilename(convId, filename: filename))
             do {
                 try FileManager.default.moveItem(atPath: originalUrl.path, toPath: path)

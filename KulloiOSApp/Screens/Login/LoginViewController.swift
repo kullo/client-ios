@@ -5,7 +5,7 @@ import LibKullo
 
 class LoginViewController: UIViewController {
 
-    fileprivate static let splashSegue = "LoginSplashSegue"
+    private static let splashSegue = "LoginSplashSegue"
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var addressTextField: KulloAddressTextField!
@@ -29,15 +29,15 @@ class LoginViewController: UIViewController {
 
     @IBOutlet var loginButton: UIButton!
 
-    fileprivate var blockTextFields = [UITextField]()
-    fileprivate weak var alertDialog: UIAlertController?
+    private var blockTextFields = [UITextField]()
+    private weak var alertDialog: UIAlertController?
 
-    fileprivate enum AddressError {
+    private enum AddressError {
         case emptyAddress
         case invalidAddress
     }
 
-    fileprivate struct BlocksState {
+    private struct BlocksState {
         let emptyBlocks: [Int]
         let invalidBlocks: [Int]
 
@@ -101,7 +101,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    fileprivate func validateAndShowFeedback() -> Bool {
+    private func validateAndShowFeedback() -> Bool {
         var foundErrors = false
 
         if let addressError = validateAddress() {
@@ -143,7 +143,7 @@ class LoginViewController: UIViewController {
         return !foundErrors
     }
 
-    fileprivate func validateAddress() -> AddressError? {
+    private func validateAddress() -> AddressError? {
         let addressText = addressTextField.text ?? ""
 
         if addressText.isEmpty {
@@ -157,7 +157,7 @@ class LoginViewController: UIViewController {
         return nil
     }
 
-    fileprivate func validateBlocks() -> BlocksState {
+    private func validateBlocks() -> BlocksState {
         var emptyBlocks = [Int]()
         var invalidBlocks = [Int]()
 
@@ -176,14 +176,14 @@ class LoginViewController: UIViewController {
 
     // MARK: textfield on text changed
 
-    @objc fileprivate func blockTextFieldEditingChanged(_ textField: UITextField) {
+    @objc private func blockTextFieldEditingChanged(_ textField: UITextField) {
         if validateBlockFieldAndSetErrorStatus(textField) {
             focusNextBlockField(textField)
         }
     }
 
-    fileprivate func validateBlockFieldAndSetErrorStatus(_ textField: UITextField) -> Bool {
-        if textField.text?.characters.count == 6 {
+    private func validateBlockFieldAndSetErrorStatus(_ textField: UITextField) -> Bool {
+        if textField.text?.count == 6 {
             if KulloConnector.isValidMasterKeyBlock(textField.text!) {
                 setTextFieldDesignToNormalStatus(textField)
                 return true
@@ -197,7 +197,7 @@ class LoginViewController: UIViewController {
         }
     }
 
-    fileprivate func focusNextBlockField(_ textField: UITextField) {
+    private func focusNextBlockField(_ textField: UITextField) {
         let indexOfTextfield = blockTextFields.index(of: textField)!
         if indexOfTextfield < blockTextFields.count - 1 {
             blockTextFields[indexOfTextfield + 1].becomeFirstResponder()
@@ -206,12 +206,12 @@ class LoginViewController: UIViewController {
         }
     }
 
-    fileprivate func setTextFieldDesignToErrorStatus(_ textField: UITextField) {
+    private func setTextFieldDesignToErrorStatus(_ textField: UITextField) {
         textField.backgroundColor = colorTextFieldErrorBG
         textField.textColor = colorTextFieldErrorText
     }
 
-    fileprivate func setTextFieldDesignToNormalStatus(_ textField: UITextField) {
+    private func setTextFieldDesignToNormalStatus(_ textField: UITextField) {
         textField.backgroundColor = colorTextFieldBG
         textField.textColor = colorTextFieldText
     }
@@ -240,14 +240,14 @@ extension LoginViewController: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        //igore change events other than character insertion and on non-MasterKey fields
-        if string.characters.count == 0 || !blockTextFields.contains(textField) {
+        // ignore change events other than character insertion and on non-MasterKey fields
+        if string.isEmpty || !blockTextFields.contains(textField) {
             return true
         }
 
         let currentText = textField.text ?? ""
         let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        return prospectiveText.containsOnlyCharactersIn("0123456789") && prospectiveText.characters.count <= 6
+        return prospectiveText.containsOnlyCharactersIn("0123456789") && prospectiveText.count <= 6
     }
 }
 

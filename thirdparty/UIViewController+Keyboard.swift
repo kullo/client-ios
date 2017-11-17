@@ -22,7 +22,7 @@ extension UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
-    fileprivate var internalScrollView: UIScrollView! {
+    private var internalScrollView: UIScrollView! {
         get {
             return objc_getAssociatedObject(self, &scrollViewKey) as? UIScrollView
         }
@@ -31,7 +31,7 @@ extension UIViewController {
         }
     }
 
-    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillShow(_ notification: Notification) {
         let userInfo = notification.userInfo as! Dictionary<String, AnyObject>
         let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
         let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey]!.int32Value
@@ -47,7 +47,7 @@ extension UIViewController {
         }
     }
 
-    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         let userInfo = notification.userInfo as! Dictionary<String, AnyObject>
         let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
         let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey]!.int32Value

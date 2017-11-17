@@ -10,11 +10,11 @@ class MessageAttachmentsViewController: UIViewController {
 
     var messageId: Int64!
 
-    fileprivate let attachmentsSegueId = "MessageEmbedAttachmentsSegue"
-    fileprivate var attachmentsList: AttachmentsViewController?
-    fileprivate var attachmentIds = [Int64]()
+    private let attachmentsSegueId = "MessageEmbedAttachmentsSegue"
+    private var attachmentsList: AttachmentsViewController?
+    private var attachmentIds = [Int64]()
 
-    fileprivate weak var alertDialog: UIAlertController?
+    private weak var alertDialog: UIAlertController?
 
     // MARK: lifecycle
 
@@ -51,7 +51,7 @@ class MessageAttachmentsViewController: UIViewController {
         KulloConnector.shared.downloadAttachments(messageId)
     }
 
-    fileprivate func downloadingAlertMessage() -> String {
+    private func downloadingAlertMessage() -> String {
         let message = NSLocalizedString("Please wait...", comment: "")
         let progress = KulloConnector.shared.getAttachmentDownloadProgress()
         return "\(message) \(Int(round(progress * 100)))%"

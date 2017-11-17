@@ -4,15 +4,15 @@ import LibKullo
 import UIKit
 
 class MessageSearchViewController: UITableViewController {
-    fileprivate static let resultCellId = "MessageSearchResultTableViewCell"
-    fileprivate static let openMessageSegue = "MessageSearchOpenMessage"
-    fileprivate static let snippetFontNormal = UIFont.systemFont(ofSize: 14)
-    fileprivate static let snippetFontHighlighted = UIFont.boldSystemFont(ofSize: 14)
+    private static let resultCellId = "MessageSearchResultTableViewCell"
+    private static let openMessageSegue = "MessageSearchOpenMessage"
+    private static let snippetFontNormal = UIFont.systemFont(ofSize: 14)
+    private static let snippetFontHighlighted = UIFont.boldSystemFont(ofSize: 14)
 
-    fileprivate let searchController = UISearchController(searchResultsController: nil)
-    fileprivate var results = [KAMessagesSearchResult]()
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var results = [KAMessagesSearchResult]()
 
-    fileprivate enum Scope: Int {
+    private enum Scope: Int {
         case all
         case sent
         case received
@@ -26,7 +26,7 @@ class MessageSearchViewController: UITableViewController {
         }
     }
 
-    fileprivate static let scopes: [Scope] = [.all, .sent, .received]
+    private static let scopes: [Scope] = [.all, .sent, .received]
 
     var conversationFilter: Int64?
 

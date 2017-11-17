@@ -4,7 +4,7 @@ import UIKit
 
 class MoreImageTableViewCell: UITableViewCell {
 
-    @IBOutlet fileprivate var avatarImageView: UIImageView!
+    @IBOutlet private var avatarImageView: UIImageView!
 
     var avatarImage: UIImage? {
         get {

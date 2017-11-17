@@ -104,6 +104,9 @@
 "Footer" = "Impressum";
 
 /* No comment provided by engineer. */
+"image_basename" = "Bild";
+
+/* No comment provided by engineer. */
 "Invalid address" = "Ungültige Adresse";
 
 /* No comment provided by engineer. */
@@ -264,6 +267,9 @@
 
 /* No comment provided by engineer. */
 "Version" = "Version";
+
+/* No comment provided by engineer. */
+"video_basename" = "Video";
 
 /* No comment provided by engineer. */
 "We could not find a recipient with this address." = "Wir konnten keinen Empfänger mit dieser Adresse finden.";

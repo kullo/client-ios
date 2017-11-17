@@ -11,7 +11,7 @@ class SplashViewController: UIViewController {
     @IBOutlet weak var activityLabel: UILabel!
 
     private var forceGoingToLogin = false
-    fileprivate var initialActivityLabelText: String?
+    private var initialActivityLabelText: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()

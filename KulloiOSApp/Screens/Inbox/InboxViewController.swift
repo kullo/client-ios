@@ -7,19 +7,19 @@ import XCGLogger
 class InboxViewController: UIViewController {
 
     // MARK: Properties
-    fileprivate let conversationDetailSegueIdentifier = "ConversationDetailSegue"
-    fileprivate static let newConversationSegueIdentifier = "NewConversationSegue"
+    private let conversationDetailSegueIdentifier = "ConversationDetailSegue"
+    private static let newConversationSegueIdentifier = "NewConversationSegue"
 
-    fileprivate static let pullToRefreshCellId = "InboxPullToRefreshTableViewCell"
-    fileprivate static let pullToRefreshCellHeight: CGFloat = 200
-    fileprivate static let conversationCellId = "ConversationTableViewCell"
-    fileprivate static let conversationCellHeight: CGFloat = 90
+    private static let pullToRefreshCellId = "InboxPullToRefreshTableViewCell"
+    private static let pullToRefreshCellHeight: CGFloat = 200
+    private static let conversationCellId = "ConversationTableViewCell"
+    private static let conversationCellHeight: CGFloat = 90
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var progressView: UIProgressView!
 
-    fileprivate var conversationIds = [Int64]()
-    fileprivate var shouldShowPullToRefreshHint = false
+    private var conversationIds = [Int64]()
+    private var shouldShowPullToRefreshHint = false
     var destinationConversationId: Int64?
 
     lazy var refreshControl: UIRefreshControl = {
@@ -62,7 +62,7 @@ class InboxViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc fileprivate func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
+    @objc private func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
         KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
     }

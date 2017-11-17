@@ -74,10 +74,10 @@ class AttachmentsViewController: UITableViewController {
 
     //MARK: private implementation
 
-    fileprivate let viewStorageIdentifier = "Attachments"
-    fileprivate let cellIdentifier = "AttachmentTableViewCell"
-    fileprivate var documentInteractionController = UIDocumentInteractionController()
-    fileprivate weak var openingAlertDialog: UIAlertController?
+    private let viewStorageIdentifier = "Attachments"
+    private let cellIdentifier = "AttachmentTableViewCell"
+    private var documentInteractionController = UIDocumentInteractionController()
+    private weak var openingAlertDialog: UIAlertController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +85,7 @@ class AttachmentsViewController: UITableViewController {
         documentInteractionController.delegate = self
     }
 
-    fileprivate func getIconForFilename(_ filename: String) -> UIImage {
+    private func getIconForFilename(_ filename: String) -> UIImage {
         // create empty file for DocumentInteractionController to check out
         let cachesPath = NSSearchPathForDirectoriesInDomains(
             .cachesDirectory, .userDomainMask, true).first!
@@ -99,20 +99,20 @@ class AttachmentsViewController: UITableViewController {
         return icon?.resized(CGSize(width: 32, height: 32)) ?? UIImage()
     }
 
-    fileprivate func fileExistsInTempDirectory(_ filename: String) -> Bool {
+    private func fileExistsInTempDirectory(_ filename: String) -> Bool {
         let path = getTempPathForFilename(filename)
         return FileManager.default.fileExists(atPath: path)
     }
 
-    fileprivate func getTempDir() -> String {
+    private func getTempDir() -> String {
         return StorageManager.getTempPathForView(viewStorageIdentifier)
     }
 
-    fileprivate func getTempPathForFilename(_ filename: String) -> String {
+    private func getTempPathForFilename(_ filename: String) -> String {
         return StorageManager.getTempPathForView(viewStorageIdentifier, filename: filename)
     }
 
-    fileprivate func openAttachment(_ attachmentIndex: Int) {
+    private func openAttachment(_ attachmentIndex: Int) {
         if let meta = dataSource?.attachmentsViewMetadataForAttachment(attachmentIndex) {
             delegate?.attachmentsViewWillOpenAttachment(attachmentIndex)
             openingAlertDialog = showWaitingDialog(
