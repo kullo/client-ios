@@ -24,7 +24,7 @@ class ChooseInboxTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: ChooseInboxTableViewController.cellReuseIdentifier,
             for: indexPath)
-        cell.textLabel?.text = accounts[indexPath.row].toString()
+        cell.textLabel?.text = accounts[indexPath.row].description()
         return cell
     }
 

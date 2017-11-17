@@ -18,7 +18,7 @@ extension KAMessagesSearchResult {
             result.append(
                 NSAttributedString(
                     string: part,
-                    attributes: [NSFontAttributeName: isHighlighted ? highlightFont : normalFont]
+                    attributes: [.font: isHighlighted ? highlightFont : normalFont]
                 )
             )
         }

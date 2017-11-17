@@ -41,7 +41,6 @@ class MessageSearchViewController: UITableViewController {
 
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
 
         let searchBar = searchController.searchBar
         searchBar.tintColor = colorAccent
@@ -49,7 +48,13 @@ class MessageSearchViewController: UITableViewController {
         searchBar.selectedScopeButtonIndex = Scope.all.rawValue
         searchBar.delegate = self
 
-        tableView.tableHeaderView = searchController.searchBar
+        if #available(iOS 11, *) {
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            searchController.hidesNavigationBarDuringPresentation = false
+            tableView.tableHeaderView = searchController.searchBar
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {

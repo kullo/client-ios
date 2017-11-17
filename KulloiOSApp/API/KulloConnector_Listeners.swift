@@ -16,9 +16,9 @@ class ClientGenerateKeysListener: KAClientGenerateKeysListener {
         }
     }
 
-    @objc func finished(_ registration: KARegistration?) {
+    @objc func finished(_ registration: KARegistration) {
         DispatchQueue.main.async {
-            self.kulloConnector?.generateKeys_finished(registration!)
+            self.kulloConnector?.generateKeys_finished(registration)
         }
     }
 
@@ -34,26 +34,26 @@ class RegisterAccountListener: KARegistrationRegisterAccountListener {
         self.delegate = delegate
     }
 
-    @objc func challengeNeeded(_ address: KAAddress?, challenge: KAChallenge?) {
+    @objc func challengeNeeded(_ address: KAAddress, challenge: KAChallenge) {
         DispatchQueue.main.async {
-            self.delegate?.registerAccountChallengeNeeded(address!, challenge: challenge!)
+            self.delegate?.registerAccountChallengeNeeded(address, challenge: challenge)
         }
     }
 
-    @objc func addressNotAvailable(_ address: KAAddress?, reason: KAAddressNotAvailableReason) {
+    @objc func addressNotAvailable(_ address: KAAddress, reason: KAAddressNotAvailableReason) {
         DispatchQueue.main.async {
-            self.delegate?.registerAccountAddressNotAvailable(address!, reason: reason)
+            self.delegate?.registerAccountAddressNotAvailable(address, reason: reason)
         }
     }
 
-    @objc func finished(_ address: KAAddress?, masterKey: KAMasterKey?) {
+    @objc func finished(_ address: KAAddress, masterKey: KAMasterKey) {
         kulloConnector?.deleteGeneratedKeys()
         DispatchQueue.main.async {
-            self.delegate?.registerAccountFinished(address!, masterKey: masterKey!)
+            self.delegate?.registerAccountFinished(address, masterKey: masterKey)
         }
     }
 
-    @objc func error(_ address: KAAddress?, error: KANetworkError) {
+    @objc func error(_ address: KAAddress, error: KANetworkError) {
         DispatchQueue.main.async {
             self.delegate?.registerAccountError(error.message)
         }
@@ -69,17 +69,17 @@ class ClientCheckCredentialsListener: KAClientCheckCredentialsListener {
         self.delegate = delegate
     }
 
-    @objc func finished(_ address: KAAddress?, masterKey: KAMasterKey?, valid: Bool) {
+    @objc func finished(_ address: KAAddress, masterKey: KAMasterKey, valid: Bool) {
         DispatchQueue.main.async {
             if valid {
-                self.delegate?.checkCredentialsSuccess(address!, masterKey: masterKey!)
+                self.delegate?.checkCredentialsSuccess(address, masterKey: masterKey)
             } else {
-                self.delegate?.checkCredentialsInvalid(address!, masterKey: masterKey!)
+                self.delegate?.checkCredentialsInvalid(address, masterKey: masterKey)
             }
         }
     }
 
-    @objc func error(_ _address: KAAddress?, error: KANetworkError) {
+    @objc func error(_ _address: KAAddress, error: KANetworkError) {
         DispatchQueue.main.async {
             self.delegate?.checkCredentialsError(error.message)
         }
@@ -98,22 +98,22 @@ class ClientCreateSessionListener: KAClientCreateSessionListener {
         self.completion = completion
     }
 
-    @objc func migrationStarted(_ address: KAAddress?) {
+    @objc func migrationStarted(_ address: KAAddress) {
         DispatchQueue.main.async {
             self.kulloConnector?.createSessionListener_migrationStarted()
         }
     }
 
-    @objc func finished(_ session: KASession?) {
+    @objc func finished(_ session: KASession) {
         DispatchQueue.main.async {
-            self.kulloConnector?.setSession(session!)
-            self.completion(session!.userSettings()!.address()!, nil)
+            self.kulloConnector?.setSession(session)
+            self.completion(session.userSettings().address(), nil)
         }
     }
 
-    @objc func error(_ address: KAAddress?, error: KALocalError) {
+    @objc func error(_ address: KAAddress, error: KALocalError) {
         DispatchQueue.main.async {
-            self.completion(address!, error.message)
+            self.completion(address, error.message)
         }
     }
 }
@@ -126,7 +126,7 @@ class SessionListener: KASessionListener {
         self.kulloConnector = kulloConnector
     }
 
-    @objc func internalEvent(_ event: KAInternalEvent?) {
+    @objc func internalEvent(_ event: KAInternalEvent) {
         DispatchQueue.main.async {
             self.kulloConnector?.sessionListener_internalEvent(event)
         }
@@ -197,15 +197,15 @@ class ClientAddressExistsListener: KAClientAddressExistsListener {
         self.delegate = delegate
     }
     
-    @objc func finished(_ address: KAAddress?, exists: Bool) {
+    @objc func finished(_ address: KAAddress, exists: Bool) {
         DispatchQueue.main.async {
-            self.delegate?.clientAddressExistsFinished(address!, exists: exists)
+            self.delegate?.clientAddressExistsFinished(address, exists: exists)
         }
     }
     
-    @objc func error(_ address: KAAddress?, error: KANetworkError) {
+    @objc func error(_ address: KAAddress, error: KANetworkError) {
         DispatchQueue.main.async {
-            self.delegate?.clientAddressExistsError(address!, error: error.message)
+            self.delegate?.clientAddressExistsError(address, error: error.message)
         }
     }
     

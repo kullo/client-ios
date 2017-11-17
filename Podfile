@@ -8,9 +8,9 @@ target 'KulloiOSApp' do
     pod 'Firebase/Messaging'
     pod 'MLPAutoCompleteTextField', :git => 'https://github.com/EddyBorja/MLPAutoCompleteTextField.git', :branch => 'master'
     pod 'SwiftKeychainWrapper', :git => 'https://github.com/tiwoc/SwiftKeychainWrapper.git', :branch => 'kullo'
-    pod 'SwiftyMimeTypes' #, :git => 'https://github.com/tiwoc/SwiftyMimeTypes.git', :branch => 'master'
+    pod 'SwiftyMimeTypes', :git => 'https://github.com/tiwoc/SwiftyMimeTypes.git', :branch => 'master'
     pod 'TCMobileProvision'
-    pod 'XCGLogger'
+    pod 'XCGLogger', :git => 'https://github.com/liuwin7/XCGLogger.git', :commit => 'e0368ea3627ce8cb454ec8c04d18a9df00e55041'
 end
 
 # Remove irrelevant build architectures from Pods targets

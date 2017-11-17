@@ -12,7 +12,7 @@ extension UILabel {
         let necessarySize = text.boundingRect(
             with: CGSize(width: frame.width, height: CGFloat.greatestFiniteMagnitude),
             options: .usesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: font],
+            attributes: [.font: font],
             context: drawingContext
         )
         return necessarySize.height > frame.height

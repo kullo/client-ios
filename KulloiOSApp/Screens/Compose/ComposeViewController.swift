@@ -264,12 +264,12 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
         var path = ""
         var errorMsg: String?
-        switch mediaType {
 
-        case kUTTypeImage:
+        switch mediaType {
+        case String(kUTTypeImage):
             let url = info[UIImagePickerControllerReferenceURL] as! URL
             let image = info[UIImagePickerControllerOriginalImage] as! UIImage
 
@@ -294,7 +294,7 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
                 break
             }
 
-        case kUTTypeMovie:
+        case String(kUTTypeMovie):
             let originalUrl = info[UIImagePickerControllerMediaURL] as! URL
             let filename = originalUrl.lastPathComponent
             path = StorageManager.getTempPathForView(viewName, filename: dedupeFilename(convId, filename: filename))

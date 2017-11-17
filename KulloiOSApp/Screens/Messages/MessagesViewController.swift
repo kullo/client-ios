@@ -101,7 +101,7 @@ class MessagesViewController: UIViewController {
 
     // MARK: Actions
 
-    func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
+    @objc fileprivate func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
         KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
         refreshControl.endRefreshing()
@@ -203,7 +203,7 @@ class MessagesViewController: UIViewController {
         }
 
         let participants = KulloConnector.shared.getParticipantAdresses(convId)
-            .map({$0.toString()})
+            .map({$0.description()})
             .sorted()
             .joined(separator: ", ")
         let prefix = NSLocalizedString("conversation_with", comment: "")

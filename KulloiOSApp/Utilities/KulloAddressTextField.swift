@@ -26,7 +26,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
         autoCompleteDelegate = self
         autoCompleteTableAppearsAsKeyboardAccessory = true
 
-        addresses = KulloConnector.shared.getAllAddresses().map({ $0.toString() })
+        addresses = KulloConnector.shared.getAllAddresses().map({ $0.description() })
 
         NotificationCenter.default.addObserver(
             self,
@@ -44,7 +44,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
         )
     }
 
-    func kulloAddrTextDidChange(_ notification: Notification) {
+    @objc fileprivate func kulloAddrTextDidChange(_ notification: Notification) {
         if var text = self.text {
 
             // trim whitespace

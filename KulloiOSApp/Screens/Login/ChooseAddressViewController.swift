@@ -38,7 +38,7 @@ class ChooseAddressViewController: UIViewController {
             let linkText = NSMutableAttributedString(
                 attributedString: text.attributedSubstring(from: substringRangeWithoutBrackets))
             linkText.addAttribute(
-                NSForegroundColorAttributeName,
+                .foregroundColor,
                 value: colorAccent,
                 range: NSRange(location: 0, length: linkText.length))
 
@@ -70,7 +70,7 @@ class ChooseAddressViewController: UIViewController {
         )
 
         let addressString = "\(usernameField.text ?? "")#kullo.net"
-        if let address = KAAddress.create(addressString) {
+        if let address = KAAddressHelpers.create(addressString) {
             KulloConnector.shared.registerAccount(address, delegate: self)
         } else {
             showRegistrationFailure(NSLocalizedString("registration_invalid_address", comment: ""))

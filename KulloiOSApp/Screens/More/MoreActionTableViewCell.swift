@@ -50,7 +50,7 @@ class MoreActionTableViewCell: UITableViewCell {
     private var accountInfo: String {
         let content: String
         if let info = KulloConnector.shared.accountInfo {
-            let storagePercentUsed = 100 * Double(info.storageUsed!) / Double(info.storageQuota!)
+            let storagePercentUsed = 100 * info.storageUsed!.doubleValue / info.storageQuota!.doubleValue
             let used = String.localizedStringWithFormat(
                 NSLocalizedString("%d%% used", comment: ""),
                 Int(storagePercentUsed)

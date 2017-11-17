@@ -72,8 +72,8 @@ class NewConversationViewController: UIViewController  {
         if let addressString = kulloAddressTextField.text {
             if addressString != "" {
 
-                if let kulloAddress = KAAddress.create(addressString) {
-                    if kulloAddress.toString() == KulloConnector.shared.getClientAddress() {
+                if let kulloAddress = KAAddressHelpers.create(addressString) {
+                    if kulloAddress.description() == KulloConnector.shared.getClientAddress() {
                         showInfoDialog(
                             NSLocalizedString("add_self_title", comment: ""),
                             message: NSLocalizedString("add_self_message", comment: "")
@@ -120,7 +120,7 @@ extension NewConversationViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = recipients[indexPath.row].toString()
+        cell.textLabel?.text = recipients[indexPath.row].description()
         return cell
     }
 
@@ -148,8 +148,8 @@ extension NewConversationViewController: ClientAddressExistsDelegate {
 
     func clientAddressExistsFinished(_ address: KAAddress, exists: Bool) {
         if exists {
-            if !recipientsAsString.contains(address.toString()) {
-                recipientsAsString.append(address.toString())
+            if !recipientsAsString.contains(address.description()) {
+                recipientsAsString.append(address.description())
                 recipients.append(address)
                 kulloAddressTextField.text = ""
                 kulloAddressTextField.excludedCompletions = Set(self.recipientsAsString)

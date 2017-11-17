@@ -31,7 +31,7 @@ extension UIViewController {
         }
     }
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc fileprivate func keyboardWillShow(_ notification: Notification) {
         let userInfo = notification.userInfo as! Dictionary<String, AnyObject>
         let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
         let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey]!.int32Value
@@ -47,7 +47,7 @@ extension UIViewController {
         }
     }
 
-    func keyboardWillHide(_ notification: Notification) {
+    @objc fileprivate func keyboardWillHide(_ notification: Notification) {
         let userInfo = notification.userInfo as! Dictionary<String, AnyObject>
         let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
         let animationCurve = userInfo[UIKeyboardAnimationCurveUserInfoKey]!.int32Value

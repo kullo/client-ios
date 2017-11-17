@@ -56,14 +56,16 @@ class MessageViewController: UIViewController {
         let message = KulloConnector.shared.getMessageText(messageId)
         let imprint = KulloConnector.shared.getSenderImprint(messageId)
 
-        let messageAttributes = [
-            NSForegroundColorAttributeName: UIColor.black,
-            NSFontAttributeName: UIFont.systemFont(ofSize: textSizeMessage)
+        let messageAttributes: [NSAttributedStringKey: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: UIFont.systemFont(ofSize: textSizeMessage),
         ]
         let messageText = NSMutableAttributedString(string: message, attributes: messageAttributes)
 
-        let imprintAttributes = [NSForegroundColorAttributeName: UIColor.lightGray,
-            NSFontAttributeName: UIFont.systemFont(ofSize: textSizeMessage)]
+        let imprintAttributes: [NSAttributedStringKey: Any] = [
+            .foregroundColor: UIColor.lightGray,
+            .font: UIFont.systemFont(ofSize: textSizeMessage),
+        ]
         let imprintText = NSMutableAttributedString(string: imprint, attributes: imprintAttributes)
 
         messageText.append(NSAttributedString(string: "\n\n\n\n"))

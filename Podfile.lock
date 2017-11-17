@@ -2,21 +2,23 @@ PODS:
   - DTFoundation/Core (1.7.12)
   - DTFoundation/DTASN1 (1.7.12):
     - DTFoundation/Core
-  - Firebase/Core (4.0.0):
-    - FirebaseAnalytics (= 4.0.0)
-    - FirebaseCore (= 4.0.0)
-  - Firebase/Messaging (4.0.0):
+  - Firebase/Core (4.1.1):
+    - FirebaseAnalytics (= 4.0.3)
+    - FirebaseCore (= 4.0.6)
+  - Firebase/Messaging (4.1.1):
     - Firebase/Core
-    - FirebaseMessaging (= 2.0.0)
-  - FirebaseAnalytics (4.0.0):
+    - FirebaseMessaging (= 2.0.2)
+  - FirebaseAnalytics (4.0.3):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (4.0.0):
+    - nanopb (~> 0.3)
+  - FirebaseCore (4.0.6):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseInstanceID (2.0.0):
+    - nanopb (~> 0.3)
+  - FirebaseInstanceID (2.0.2):
     - FirebaseCore (~> 4.0)
-  - FirebaseMessaging (2.0.0):
+  - FirebaseMessaging (2.0.2):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -28,12 +30,17 @@ PODS:
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - MLPAutoCompleteTextField (1.6)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
-  - Protobuf (3.3.0)
-  - SwiftKeychainWrapper (3.0.1)
-  - SwiftyMimeTypes (1.0.0)
+  - Protobuf (3.4.0)
+  - SwiftKeychainWrapper (3.1.0)
+  - SwiftyMimeTypes (2.0.0)
   - TCMobileProvision (1.0.0):
     - DTFoundation/DTASN1 (~> 1.6)
   - XCGLogger (5.0.1):
@@ -46,9 +53,9 @@ DEPENDENCIES:
   - Firebase/Messaging
   - MLPAutoCompleteTextField (from `https://github.com/EddyBorja/MLPAutoCompleteTextField.git`, branch `master`)
   - SwiftKeychainWrapper (from `https://github.com/tiwoc/SwiftKeychainWrapper.git`, branch `kullo`)
-  - SwiftyMimeTypes
+  - SwiftyMimeTypes (from `https://github.com/tiwoc/SwiftyMimeTypes.git`, branch `master`)
   - TCMobileProvision
-  - XCGLogger
+  - XCGLogger (from `https://github.com/liuwin7/XCGLogger.git`, commit `e0368ea3627ce8cb454ec8c04d18a9df00e55041`)
 
 EXTERNAL SOURCES:
   MLPAutoCompleteTextField:
@@ -57,31 +64,44 @@ EXTERNAL SOURCES:
   SwiftKeychainWrapper:
     :branch: kullo
     :git: https://github.com/tiwoc/SwiftKeychainWrapper.git
+  SwiftyMimeTypes:
+    :branch: master
+    :git: https://github.com/tiwoc/SwiftyMimeTypes.git
+  XCGLogger:
+    :commit: e0368ea3627ce8cb454ec8c04d18a9df00e55041
+    :git: https://github.com/liuwin7/XCGLogger.git
 
 CHECKOUT OPTIONS:
   MLPAutoCompleteTextField:
     :commit: 21eea36e1d450677ba1ee68023d55a81364054d9
     :git: https://github.com/EddyBorja/MLPAutoCompleteTextField.git
   SwiftKeychainWrapper:
-    :commit: a1727bb3a9e7e9e692e96488fd48f68cacb51ea9
+    :commit: 0ce388958332dbb90d984700bfa1cec4bda996fc
     :git: https://github.com/tiwoc/SwiftKeychainWrapper.git
+  SwiftyMimeTypes:
+    :commit: 1bcff482b88d309c45605ca62bbbfc7dd7c7331b
+    :git: https://github.com/tiwoc/SwiftyMimeTypes.git
+  XCGLogger:
+    :commit: e0368ea3627ce8cb454ec8c04d18a9df00e55041
+    :git: https://github.com/liuwin7/XCGLogger.git
 
 SPEC CHECKSUMS:
   DTFoundation: 26a164ef510877387906fb92bff524a792db4bf8
-  Firebase: 284eea779b73fdff309791817da7c68bff8dd572
-  FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
-  FirebaseCore: 85ad466044c2f013cdb167f85d426d15b128114a
-  FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
-  FirebaseMessaging: 227406c05b0dc9290702d2e9f18ab5528f0c2cf2
+  Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
+  FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
+  FirebaseCore: 28def3c643989c97ea5a69ea5000f5fa9902b9fd
+  FirebaseInstanceID: c4c7fca62c7b7330caee5da04f19a37ea37bb1c1
+  FirebaseMessaging: 85af6c27188538b3a6f7dfd0b3b0596358cb0c39
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   MLPAutoCompleteTextField: 02700789c32dce9b3a7e9991810adf5edb757d80
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
-  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
-  SwiftKeychainWrapper: e353c2d5ac22e72ff7c1dc3b1de1f0e7341ba030
-  SwiftyMimeTypes: 234f117a7b937feedb1c3bdde9e882c5268c9910
+  Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
+  SwiftKeychainWrapper: fe63ac0e19acd227aa031043de5a8f88a3ff23da
+  SwiftyMimeTypes: 41b67909b7f48507a92061cbae06569a0bd9dce7
   TCMobileProvision: 2a8962b38821a20fad53b9d7851bbc9ae8c52995
-  XCGLogger: 0b43697155d41e4a1b15fc776f319c2141646b09
+  XCGLogger: ed5d5da079ab1c5cd6ee956eb87b14d0a468bbed
 
-PODFILE CHECKSUM: 22c45bfadb20e7f2bc4af2966f63f1ea02ed4de0
+PODFILE CHECKSUM: 3e0ac6b6c5b3ce21a4b2004f999d0b6d4e647c43
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1

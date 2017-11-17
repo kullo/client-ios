@@ -12,24 +12,26 @@ class StorageManager {
     class func getLastUserAddress() -> KAAddress? {
         let keychain = KeychainWrapper.standard
         if let addrString = keychain.string(forKey: KEY_ADDRESS, withAccessibility: .afterFirstUnlock) {
-            return KAAddress.create(addrString)
+            return KAAddressHelpers.create(addrString)
         }
 
         // try old accessibility setting because we're potentially running before migrate() has run
         if let addrString = keychain.string(forKey: KEY_ADDRESS) {
-            return KAAddress.create(addrString)
+            return KAAddressHelpers.create(addrString)
         }
         return nil
     }
 
     class func getAccounts() -> [KAAddress] {
         let keys = KeychainWrapper.standard.allKeys().filter(StorageManager.masterkeyBlock0Filter)
-        return keys.flatMap(addressFromBlockKey).sorted(by: { (lhs, rhs) in lhs.isLessThan(rhs) })
+        return keys.flatMap(addressFromBlockKey).sorted(by: { (lhs, rhs) in
+            lhs.description() < rhs.description()
+        })
     }
 
     init(address: KAAddress) {
         userAddress = address
-        userAddressString = address.toString()
+        userAddressString = address.description()
 
         migrate()
     }
@@ -39,7 +41,7 @@ class StorageManager {
         for index in 0...15 {
             blockList.append(keychain.string(forKey: getBlockKey(index), withAccessibility: .afterFirstUnlock)!)
         }
-        guard let masterKey = KAMasterKey.create(fromDataBlocks: blockList) else {
+        guard let masterKey = KAMasterKeyHelpers.create(fromDataBlocks: blockList) else {
             return nil
         }
         return Credentials(address: userAddress, masterKey: masterKey)
@@ -75,11 +77,11 @@ class StorageManager {
 
     func saveLoggedInUser(masterKey: KAMasterKey?) {
         keychain.set(
-            userAddress.toString(),
+            userAddress.description(),
             forKey: StorageManager.KEY_ADDRESS,
             withAccessibility: .afterFirstUnlock)
 
-        if let blockList = masterKey?.dataBlocks() {
+        if let blockList = masterKey?.blocks {
             for (index, block) in blockList.enumerated() {
                 keychain.set(block, forKey: getBlockKey(index), withAccessibility: .afterFirstUnlock)
             }
@@ -102,7 +104,7 @@ class StorageManager {
             keychain.removeObject(forKey: getBlockKey(index), withAccessibility: .afterFirstUnlock)
         }
 
-        if let lastUserAddress = StorageManager.getLastUserAddress(), lastUserAddress.isEqual(to: userAddress) {
+        if let lastUserAddress = StorageManager.getLastUserAddress(), lastUserAddress == userAddress {
             keychain.removeObject(forKey: StorageManager.KEY_ADDRESS, withAccessibility: .afterFirstUnlock)
         }
     }
@@ -126,7 +128,7 @@ class StorageManager {
             case 0:
                 // add domain to user directory name
                 StorageManager.moveFileOrDirectoryIfPossible(
-                    "\(documentsDirectory)/\(userAddress.localPart())",
+                    "\(documentsDirectory)/\(userAddress.localPart)",
                     to: userDirectory)
 
                 // move avatar into user directory and remove address from filename
@@ -136,7 +138,7 @@ class StorageManager {
 
                 // remove address and closing parenthesis from DB filename
                 moveDb(
-                    "\(userDirectory)/\(userAddress.localPart()).db)",
+                    "\(userDirectory)/\(userAddress.localPart).db)",
                     to: dbPath)
 
                 // add address to MasterKey block key
@@ -222,7 +224,7 @@ class StorageManager {
             omittingEmptySubsequences: false)
         guard keySplitByUnderscore.count >= 3 else { return nil }
 
-        return KAAddress.create(String(keySplitByUnderscore[1]))
+        return KAAddressHelpers.create(String(keySplitByUnderscore[1]))
     }
 
     fileprivate func getBlockKey(_ index: Int) -> String {
@@ -255,7 +257,7 @@ class StorageManager {
     }
 
     fileprivate var userDirectory: String {
-        let userDir = "\(documentsDirectory)/\(userAddress.toString())"
+        let userDir = "\(documentsDirectory)/\(userAddress.description())"
         StorageManager.createDirectory(userDir)
         StorageManager.excludeDirectoryFromBackup(userDir)
         return userDir

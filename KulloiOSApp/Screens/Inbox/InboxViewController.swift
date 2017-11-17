@@ -62,7 +62,7 @@ class InboxViewController: UIViewController {
 
     // MARK: Actions
 
-    func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
+    @objc fileprivate func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
         KulloConnector.shared.sync(.withoutAttachments)
         updateListAppearance()
     }

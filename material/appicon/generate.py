@@ -11,7 +11,7 @@ appstore_dir = os.path.join(export_dir, 'AppStore')
 
 sizes = {
     'appstore': {
-        'default': {
+        'ios-marketing': {
             'size': 1024,
             'scales': [1],
         },
@@ -76,11 +76,6 @@ try:
 except OSError:
     print("Directory '%s' already exists" % appicon_dir)
 
-try:
-    os.makedirs(appstore_dir)
-except OSError:
-    print("Directory '%s' already exists" % appicon_dir)
-
 for usage in sorted(sizes):
     for device in sorted(sizes[usage]):
         for scale in sorted(sizes[usage][device]['scales']):
@@ -89,19 +84,15 @@ for usage in sorted(sizes):
             filename = "%s_%s@%sx.png" % (usage, device, scale)
             print("%s: %d ..." % (filename, px))
 
-            if usage != 'appstore':
-                entry = {
-                    'size': "%dx%d" % (pt, pt),
-                    "idiom" : sizes[usage][device].get("iconset_device", device),
-                    "filename" : filename,
-                    "scale" : "%sx" % scale
-                }
-                contents['images'].append(entry)
+            entry = {
+                'size': "%dx%d" % (pt, pt),
+                "idiom" : sizes[usage][device].get("iconset_device", device),
+                "filename" : filename,
+                "scale" : "%sx" % scale
+            }
+            contents['images'].append(entry)
 
-            if usage == 'appstore':
-                outfile = os.path.join(appstore_dir, filename)
-            else:
-                outfile = os.path.join(appicon_dir, filename)
+            outfile = os.path.join(appicon_dir, filename)
 
             cmd = [
                 # brew cask install inkscape

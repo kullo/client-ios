@@ -88,13 +88,13 @@ extension UIImage {
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         
-        let textFontAttributes = [
-            NSFontAttributeName: fontAvatarInitials!,
-            NSForegroundColorAttributeName: colorAvatarInitials,
-            NSParagraphStyleAttributeName: paraStyle
+        let textFontAttributes: [NSAttributedStringKey: Any] = [
+            .font: fontAvatarInitials!,
+            .foregroundColor: colorAvatarInitials,
+            .paragraphStyle: paraStyle,
         ]
         
-        let textSize = drawText.size(attributes: textFontAttributes)
+        let textSize = drawText.size(withAttributes: textFontAttributes)
         
         let imageRect = CGRect(x: 0, y: 0, width: size.width, height: size.height).integral
         draw(in: imageRect)

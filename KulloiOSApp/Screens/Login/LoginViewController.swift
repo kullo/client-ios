@@ -176,7 +176,7 @@ class LoginViewController: UIViewController {
 
     // MARK: textfield on text changed
 
-    func blockTextFieldEditingChanged(_ textField: UITextField) {
+    @objc fileprivate func blockTextFieldEditingChanged(_ textField: UITextField) {
         if validateBlockFieldAndSetErrorStatus(textField) {
             focusNextBlockField(textField)
         }

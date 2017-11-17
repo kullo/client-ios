@@ -4,9 +4,9 @@ import LibKullo
 import XCTest
 
 class KAAddressTest: XCTestCase {
-    let uutA1 = KAAddress.create("a#example.com")!
-    let uutA2 = KAAddress.create("a#example.com")!
-    let uutB = KAAddress.create("b#example.com")!
+    let uutA1 = KAAddressHelpers.create("a#example.com")!
+    let uutA2 = KAAddressHelpers.create("a#example.com")!
+    let uutB = KAAddressHelpers.create("b#example.com")!
 
     func testEqualityOperator() {
         XCTAssert(uutA1 == uutA2)

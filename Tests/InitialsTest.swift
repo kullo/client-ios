@@ -1,7 +1,4 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
-//
-//  InitialsTest.swift
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import XCTest
 

@@ -1,10 +1,4 @@
-//
-//  AppDelegate.swift
-//  TestHost
-//
-//  Created by Daniel Seither on 24.03.17.
-//  Copyright © 2017 Kullo GmbH. All rights reserved.
-//
+/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
 
@@ -43,4 +37,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-
