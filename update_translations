@@ -45,10 +45,14 @@ def make_temp_filename(suffix=""):
     os.close(handle)
     return filename
 
-def update_storyboard_translations(storyboard, lprojs):
+def update_storyboard_translations(storyboard, base_language):
     new_strings_filename = make_temp_filename()
     try:
         subprocess.check_call(["ibtool", storyboard, "--export-strings-file", new_strings_filename])
+        lprojs = [
+            lproj for lproj in get_lproj_paths(os.path.dirname(storyboard) + "/..")
+            if not lproj.endswith("/" + base_language + ".lproj")
+        ]
         for lproj in lprojs:
             storyboard_basename = os.path.basename(storyboard).split(".")[0]
             translated_strings_filename = lproj + "/" + storyboard_basename + ".strings"
@@ -73,7 +77,7 @@ def update_localizable_strings(base_path, lprojs):
 
 
 def get_storyboards(base_path):
-    for path in glob.glob(base_path + "/Base.lproj/*.storyboard"):
+    for path in glob.glob(base_path + "/**/Base.lproj/*.storyboard", recursive=True):
         yield path
 
 def get_lproj_paths(base_path):
@@ -87,12 +91,8 @@ if __name__ == "__main__":
     base_language = "en"
 
     print("Processing storyboards...")
-    lprojs = [
-        lproj for lproj in get_lproj_paths(base_path)
-        if not lproj.endswith("/" + base_language + ".lproj")
-    ]
     for storyboard in get_storyboards(base_path):
-        update_storyboard_translations(storyboard, lprojs)
+        update_storyboard_translations(storyboard, base_language)
 
     print("Processing Localizable.strings...")
     update_localizable_strings(base_path, get_lproj_paths(base_path))

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="cK2-8r-wyu">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Address-->
+        <scene sceneID="5GZ-2g-JdZ">
+            <objects>
+                <viewController storyboardIdentifier="ChooseAddressVC" title="Address" id="cK2-8r-wyu" customClass="ChooseAddressViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WtM-AU-q5p"/>
+                        <viewControllerLayoutGuide type="bottom" id="kI4-Hc-cfJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aVi-fx-90g">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="your.username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="g7p-5P-Qol">
+                                <rect key="frame" x="16" y="81" width="259" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="usernameChanged:" destination="cK2-8r-wyu" eventType="editingChanged" id="xAr-AM-b6s"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#kullo.net" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ic-K5-LKJ">
+                                <rect key="frame" x="283" y="86" width="76" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose your Kullo address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VnJ-bJ-DW5">
+                                <rect key="frame" x="16" y="52" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can use letters and numbers. You can use more than one word, separated by . or - or _." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YDp-zM-j1V">
+                                <rect key="frame" x="16" y="119" width="343" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ddA-2G-qvm">
+                                <rect key="frame" x="310" y="164" width="51" height="31"/>
+                                <color key="onTintColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="termsAcceptedChanged:" destination="cK2-8r-wyu" eventType="valueChanged" id="d44-FM-0KO"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Lorem Ipsum Lorem Ipsum [Terms &amp; Conditions]" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="tpS-lb-d8P">
+                                <rect key="frame" x="20" y="160.5" width="282" height="38.5"/>
+                                <gestureRecognizers/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="G2G-lj-CPW" appends="YES" id="UEL-i4-UOL"/>
+                                </connections>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.92549019610000005" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="YDp-zM-j1V" firstAttribute="top" secondItem="g7p-5P-Qol" secondAttribute="bottom" constant="8" id="6jI-ri-pnu"/>
+                            <constraint firstItem="8Ic-K5-LKJ" firstAttribute="leading" secondItem="g7p-5P-Qol" secondAttribute="trailing" constant="8" id="9v9-q8-ljH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ddA-2G-qvm" secondAttribute="trailing" id="G3J-bh-GU8"/>
+                            <constraint firstItem="YDp-zM-j1V" firstAttribute="leading" secondItem="aVi-fx-90g" secondAttribute="leadingMargin" id="GNw-uf-au7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YDp-zM-j1V" secondAttribute="trailing" id="IDK-By-9oY"/>
+                            <constraint firstItem="VnJ-bJ-DW5" firstAttribute="top" secondItem="WtM-AU-q5p" secondAttribute="bottom" constant="32" id="RPa-y0-oIX"/>
+                            <constraint firstItem="g7p-5P-Qol" firstAttribute="top" secondItem="VnJ-bJ-DW5" secondAttribute="bottom" constant="8" id="RcS-iH-bXu"/>
+                            <constraint firstItem="ddA-2G-qvm" firstAttribute="leading" secondItem="tpS-lb-d8P" secondAttribute="trailing" constant="8" id="TDr-5I-BVO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VnJ-bJ-DW5" secondAttribute="trailing" id="Yzr-IY-hEb"/>
+                            <constraint firstItem="8Ic-K5-LKJ" firstAttribute="centerY" secondItem="g7p-5P-Qol" secondAttribute="centerY" id="a4R-se-xEb"/>
+                            <constraint firstItem="tpS-lb-d8P" firstAttribute="leading" secondItem="aVi-fx-90g" secondAttribute="leadingMargin" constant="4" id="acn-OX-Fgf"/>
+                            <constraint firstItem="8Ic-K5-LKJ" firstAttribute="trailing" secondItem="aVi-fx-90g" secondAttribute="trailingMargin" id="bcL-FT-dyA"/>
+                            <constraint firstItem="VnJ-bJ-DW5" firstAttribute="leading" secondItem="aVi-fx-90g" secondAttribute="leadingMargin" id="jcW-dB-SJr"/>
+                            <constraint firstItem="g7p-5P-Qol" firstAttribute="leading" secondItem="aVi-fx-90g" secondAttribute="leadingMargin" id="kEX-3y-YBD"/>
+                            <constraint firstItem="tpS-lb-d8P" firstAttribute="centerY" secondItem="ddA-2G-qvm" secondAttribute="centerY" id="uLJ-pi-t7h"/>
+                            <constraint firstItem="ddA-2G-qvm" firstAttribute="top" secondItem="YDp-zM-j1V" secondAttribute="bottom" constant="16" id="zLL-oR-Mo4"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="1Pt-m2-BFw" appends="YES" id="BMh-Da-kye"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="termsAcceptedSwitch" destination="ddA-2G-qvm" id="P31-Oq-cIv"/>
+                        <outlet property="termsLabel" destination="tpS-lb-d8P" id="bOJ-XJ-DjG"/>
+                        <outlet property="usernameField" destination="g7p-5P-Qol" id="wUh-cl-DkT"/>
+                        <segue destination="gwc-0h-jTf" kind="unwind" identifier="ChooseAddressSplashSegue" unwindAction="goToSplash:" id="Uj4-k1-ZWh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FHQ-wJ-W9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="gwc-0h-jTf" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="G2G-lj-CPW" userLabel="Terms Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="termsTapped:" destination="cK2-8r-wyu" id="7Je-Yk-L8W"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="1Pt-m2-BFw">
+                    <connections>
+                        <action selector="backgroundTapped:" destination="cK2-8r-wyu" id="NO4-t9-GlP"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1878" y="-1497"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.9098039269" green="0.55294120309999995" blue="0.01176470611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

@@ -29,6 +29,9 @@
 "App" = "App";
 
 /* No comment provided by engineer. */
+"Attachments" = "Anhänge";
+
+/* No comment provided by engineer. */
 "Attachments at one conversation are too big." = "Die Anhänge eines zu versendenden Entwurfs sind zu groß.";
 
 /* No comment provided by engineer. */
@@ -53,6 +56,9 @@
 "Couldn't log in with the given Kullo address and MasterKey." = "Login mit der angegebenen Kullo-Adresse und dem MasterKey fehlgeschlagen.";
 
 /* No comment provided by engineer. */
+"Create" = "Erstellen";
+
+/* No comment provided by engineer. */
 "Delete avatar" = "Avatar löschen";
 
 /* No comment provided by engineer. */
@@ -66,6 +72,9 @@
 
 /* No comment provided by engineer. */
 "delete_conv_title" = "Nachrichten löschen?";
+
+/* No comment provided by engineer. */
+"Download" = "Herunterladen";
 
 /* No comment provided by engineer. */
 "Downloading attachments" = "Lade Anhänge herunter";
@@ -176,6 +185,9 @@
 "new" = "neu";
 
 /* No comment provided by engineer. */
+"Next" = "Weiter";
+
+/* No comment provided by engineer. */
 "notification_body_new_message" = "Neue Kullo-Nachricht erhalten";
 
 /* No comment provided by engineer. */
@@ -206,6 +218,9 @@
 "Recipient unknown" = "Empfänger unbekannt";
 
 /* No comment provided by engineer. */
+"Register" = "Registrieren";
+
+/* No comment provided by engineer. */
 "Registering address" = "Registeriere Adresse";
 
 /* No comment provided by engineer. */
@@ -231,6 +246,9 @@
 
 /* No comment provided by engineer. */
 "search_scope_sent" = "gesendet";
+
+/* No comment provided by engineer. */
+"Send" = "Senden";
 
 /* No comment provided by engineer. */
 "Sending messages" = "Sende Nachrichten";

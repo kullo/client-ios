@@ -29,6 +29,9 @@
 "App" = "App";
 
 /* No comment provided by engineer. */
+"Attachments" = "Attachments";
+
+/* No comment provided by engineer. */
 "Attachments at one conversation are too big." = "Attachments at one conversation are too big.";
 
 /* No comment provided by engineer. */
@@ -53,6 +56,9 @@
 "Couldn't log in with the given Kullo address and MasterKey." = "Couldn't log in with the given Kullo address and MasterKey.";
 
 /* No comment provided by engineer. */
+"Create" = "Create";
+
+/* No comment provided by engineer. */
 "Delete avatar" = "Delete avatar";
 
 /* No comment provided by engineer. */
@@ -66,6 +72,9 @@
 
 /* No comment provided by engineer. */
 "delete_conv_title" = "Delete messages?";
+
+/* No comment provided by engineer. */
+"Download" = "Download";
 
 /* No comment provided by engineer. */
 "Downloading attachments" = "Downloading attachments";
@@ -176,6 +185,9 @@
 "new" = "new";
 
 /* No comment provided by engineer. */
+"Next" = "Next";
+
+/* No comment provided by engineer. */
 "notification_body_new_message" = "You received a new Kullo message";
 
 /* No comment provided by engineer. */
@@ -206,6 +218,9 @@
 "Recipient unknown" = "Recipient unknown";
 
 /* No comment provided by engineer. */
+"Register" = "Register";
+
+/* No comment provided by engineer. */
 "Registering address" = "Registering address";
 
 /* No comment provided by engineer. */
@@ -231,6 +246,9 @@
 
 /* No comment provided by engineer. */
 "search_scope_sent" = "sent";
+
+/* No comment provided by engineer. */
+"Send" = "Send";
 
 /* No comment provided by engineer. */
 "Sending messages" = "Sending messages";

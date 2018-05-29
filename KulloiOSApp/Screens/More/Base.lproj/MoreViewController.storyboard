@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="aaX-Uh-NH2">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--More-->
+        <scene sceneID="uYH-ld-icq">
+            <objects>
+                <tableViewController title="More" id="aaX-Uh-NH2" customClass="MoreViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="kzK-nr-gkX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MoreImageCell" rowHeight="220" id="DvX-ol-9gm" customClass="MoreImageTableViewCell" customModule="KulloiOSApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="220"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DvX-ol-9gm" id="6QB-MX-edR">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="219.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avatar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lak-QN-Kl3" userLabel="Avatar Label">
+                                            <rect key="frame" x="23" y="11" width="336" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="iOS_settings_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="Yws-3I-Qwr">
+                                            <rect key="frame" x="97.5" y="29" width="180" height="180"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="Yws-3I-Qwr" secondAttribute="height" multiplier="1:1" id="Lrq-T7-WPE"/>
+                                                <constraint firstAttribute="width" constant="180" id="NCC-GX-pyc"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Yws-3I-Qwr" firstAttribute="centerX" secondItem="6QB-MX-edR" secondAttribute="centerX" id="6cf-Ms-3zP"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Lak-QN-Kl3" secondAttribute="trailing" id="CkJ-GS-mwg"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Yws-3I-Qwr" secondAttribute="bottom" id="LmB-fS-MNf"/>
+                                        <constraint firstItem="Lak-QN-Kl3" firstAttribute="leading" secondItem="6QB-MX-edR" secondAttribute="leadingMargin" constant="7" id="WOp-P5-TzJ"/>
+                                        <constraint firstAttribute="topMargin" secondItem="Lak-QN-Kl3" secondAttribute="top" id="vbb-x4-ZeH"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="avatarImageView" destination="Yws-3I-Qwr" id="O9j-5h-gg8"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MoreEditInlineCell" id="zRV-Zj-BSQ" customClass="MoreEditInlineTableViewCell" customModule="KulloiOSApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="275.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zRV-Zj-BSQ" id="VOp-hW-jev">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="EditCellContent" textAlignment="right" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="aRy-fS-mxF">
+                                            <rect key="frame" x="123" y="13" width="236" height="17"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                            <connections>
+                                                <action selector="textfieldEditingChanged:" destination="zRV-Zj-BSQ" eventType="editingChanged" id="quJ-17-Wh7"/>
+                                            </connections>
+                                        </textField>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EditCellTitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qhL-nc-P4K">
+                                            <rect key="frame" x="23" y="11" width="92" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="aRy-fS-mxF" firstAttribute="centerY" secondItem="VOp-hW-jev" secondAttribute="centerY" id="31h-yP-Xo3"/>
+                                        <constraint firstItem="qhL-nc-P4K" firstAttribute="leading" secondItem="VOp-hW-jev" secondAttribute="leadingMargin" constant="7" id="CYN-7C-PWY"/>
+                                        <constraint firstItem="aRy-fS-mxF" firstAttribute="leading" secondItem="qhL-nc-P4K" secondAttribute="trailing" constant="8" id="KmT-YD-won"/>
+                                        <constraint firstItem="qhL-nc-P4K" firstAttribute="centerY" secondItem="VOp-hW-jev" secondAttribute="centerY" id="Ld6-3Z-bu4"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="aRy-fS-mxF" secondAttribute="trailing" id="x4j-dL-GHZ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cellEditContent" destination="aRy-fS-mxF" id="Jes-lH-BMO"/>
+                                    <outlet property="cellTitle" destination="qhL-nc-P4K" id="wU0-w6-s55"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MoreActionCell" id="IrU-bI-tg2" customClass="MoreActionTableViewCell" customModule="KulloiOSApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="319.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IrU-bI-tg2" id="6gh-sX-yrO">
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="CellTitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="M2v-dj-ly3">
+                                            <rect key="frame" x="23" y="11" width="62" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CellContent" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="egp-ym-rN7">
+                                            <rect key="frame" x="256" y="13" width="77" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="M2v-dj-ly3" firstAttribute="centerY" secondItem="6gh-sX-yrO" secondAttribute="centerY" id="GCG-uP-dJ9"/>
+                                        <constraint firstItem="M2v-dj-ly3" firstAttribute="leading" secondItem="6gh-sX-yrO" secondAttribute="leadingMargin" constant="7" id="ZcW-Mv-xOT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="egp-ym-rN7" secondAttribute="trailing" id="azu-zV-EsU"/>
+                                        <constraint firstItem="egp-ym-rN7" firstAttribute="centerY" secondItem="6gh-sX-yrO" secondAttribute="centerY" id="vLF-Zx-cic"/>
+                                        <constraint firstItem="egp-ym-rN7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M2v-dj-ly3" secondAttribute="trailing" id="xMn-MT-vwJ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cellContent" destination="egp-ym-rN7" id="k6Z-eL-B73"/>
+                                    <outlet property="cellTitle" destination="M2v-dj-ly3" id="GCC-Z8-AcV"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="aaX-Uh-NH2" id="O9d-ba-XWD"/>
+                            <outlet property="delegate" destination="aaX-Uh-NH2" id="ETh-Xe-TUD"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="Sl0-XD-QbN" kind="unwind" identifier="MoreLogoutSegue" unwindAction="logout:" id="rwn-fo-mPI"/>
+                        <segue destination="Sl0-XD-QbN" kind="unwind" identifier="MoreLeaveInboxSegue" unwindAction="goToLogin:" id="RAO-D9-Gfh"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1xG-jz-MPF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Sl0-XD-QbN" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1467" y="1176"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="iOS_settings_avatar" width="180" height="180"/>
+    </resources>
+    <color key="tintColor" red="0.9098039269" green="0.55294120309999995" blue="0.01176470611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

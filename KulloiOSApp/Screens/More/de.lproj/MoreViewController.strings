@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "Avatar"; ObjectID = "Lak-QN-Kl3"; */
+"Lak-QN-Kl3.text" = "Avatar";
+
+/* Class = "UILabel"; text = "CellTitle"; ObjectID = "M2v-dj-ly3"; */
+"M2v-dj-ly3.text" = "CellTitle";
+
+/* Class = "UITextField"; text = "EditCellContent"; ObjectID = "aRy-fS-mxF"; */
+"aRy-fS-mxF.text" = "EditCellContent";
+
+/* Class = "UITableViewController"; title = "More"; ObjectID = "aaX-Uh-NH2"; */
+"aaX-Uh-NH2.title" = "Mehr";
+
+/* Class = "UILabel"; text = "CellContent"; ObjectID = "egp-ym-rN7"; */
+"egp-ym-rN7.text" = "CellContent";
+
+/* Class = "UILabel"; text = "EditCellTitle"; ObjectID = "qhL-nc-P4K"; */
+"qhL-nc-P4K.text" = "EditCellTitle";

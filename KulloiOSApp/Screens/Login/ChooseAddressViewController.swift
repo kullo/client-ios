@@ -11,13 +11,19 @@ class ChooseAddressViewController: UIViewController {
     let addressSuffix = "#kullo.net"
     var alertDialog: UIAlertController?
 
-    @IBOutlet var registerButton: UIBarButtonItem!
+    private var registerButton: UIBarButtonItem!
     @IBOutlet var usernameField: UITextField!
     @IBOutlet var termsLabel: UILabel!
     @IBOutlet var termsAcceptedSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        registerButton = UIBarButtonItem(
+            title: NSLocalizedString("Register", comment: ""), style: .plain,
+            target: self, action: #selector(registerTapped))
+        navigationItem.rightBarButtonItem = registerButton
+        updateRegisterButtonState()
 
         usernameField.delegate = self
         loadTermsLabelText()
@@ -63,7 +69,7 @@ class ChooseAddressViewController: UIViewController {
         updateRegisterButtonState()
     }
 
-    @IBAction func registerTapped(_ sender: AnyObject) {
+    @objc private func registerTapped() {
         alertDialog = showWaitingDialog(
             NSLocalizedString("Registering address", comment: ""),
             message: NSLocalizedString("Please wait...", comment: "")

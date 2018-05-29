@@ -15,6 +15,7 @@ protocol AttachmentsViewDataSource: class {
 }
 
 protocol AttachmentsViewDelegate: class {
+    func attachmentsViewLaidOut(contentHeight: CGFloat)
     func attachmentsViewWillOpenAttachment(_ attachmentIndex: Int)
 }
 
@@ -44,12 +45,10 @@ class AttachmentsViewController: UITableViewController {
     }
 
     var contentHeight: CGFloat {
-        get {
-            if let dataSource = dataSource, dataSource.attachmentsViewNumberOfAttachments() > 0 {
-                return tableView.contentSize.height
-            } else {
-                return 0
-            }
+        if let dataSource = dataSource, dataSource.attachmentsViewNumberOfAttachments() > 0 {
+            return tableView.contentSize.height
+        } else {
+            return 0
         }
     }
 
@@ -82,7 +81,13 @@ class AttachmentsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.register(AttachmentTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         documentInteractionController.delegate = self
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        delegate?.attachmentsViewLaidOut(contentHeight: contentHeight)
     }
 
     private func getIconForFilename(_ filename: String) -> UIImage {

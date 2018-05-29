@@ -1,0 +1,15 @@
+
+/* Class = "UIViewController"; title = "New conversation"; ObjectID = "9eB-Hr-FJx"; */
+"9eB-Hr-FJx.title" = "Neue Konversation";
+
+/* Class = "UITextField"; placeholder = "Enter address"; ObjectID = "QZn-LT-I1o"; */
+"QZn-LT-I1o.placeholder" = "Adresse eingeben";
+
+/* Class = "UILabel"; text = "Kullo Address"; ObjectID = "XfA-Sk-Spb"; */
+"XfA-Sk-Spb.text" = "Kullo-Adresse";
+
+/* Class = "UILabel"; text = "Recipients"; ObjectID = "r9s-LR-ihu"; */
+"r9s-LR-ihu.text" = "Empfänger";
+
+/* Class = "UIButton"; normalTitle = "Add"; ObjectID = "ucv-vI-50h"; */
+"ucv-vI-50h.normalTitle" = "Hinzufügen";

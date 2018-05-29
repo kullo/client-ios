@@ -4,10 +4,6 @@ import LibKullo
 import UIKit
 
 class SplashViewController: UIViewController {
-
-    private static let welcomeSegue = "SplashWelcomeSegue"
-    private static let inboxSegue = "SplashInboxSegue"
-
     @IBOutlet weak var activityLabel: UILabel!
 
     private var forceGoingToLogin = false
@@ -24,7 +20,7 @@ class SplashViewController: UIViewController {
 
         guard !forceGoingToLogin else {
             forceGoingToLogin = false
-            performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
+            openWelcomeScreen(animated: true)
             return
         }
 
@@ -32,11 +28,11 @@ class SplashViewController: UIViewController {
 
         KulloConnector.shared.waitForSession(onSuccess: {
             KulloConnector.shared.sync(.withoutAttachments)
-            self.performSegue(withIdentifier: SplashViewController.inboxSegue, sender: self)
+            self.openInboxScreen(animated: true)
 
         }, onCredentialsMissing: {
             log.debug("Could not start creating a session due to missing credentials")
-            self.performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
+            self.openWelcomeScreen(animated: true)
 
         }, onError: { error in
             let alertDialog = UIAlertController(
@@ -46,7 +42,7 @@ class SplashViewController: UIViewController {
             alertDialog.addAction(AlertHelper.getAlertOKAction())
 
             self.present(alertDialog, animated: true) {
-                self.performSegue(withIdentifier: SplashViewController.welcomeSegue, sender: self)
+                self.openWelcomeScreen(animated: true)
             }
         })
     }
@@ -55,6 +51,22 @@ class SplashViewController: UIViewController {
         super.viewDidDisappear(animated)
 
         KulloConnector.shared.removeSessionEventsDelegate(self)
+    }
+
+    private func openInboxScreen(animated: Bool) {
+        let vc = StoryboardUtil.instantiate(InboxViewController.self)
+        let nav = UINavigationController(rootViewController: vc)
+        nav.isToolbarHidden = false
+        nav.modalTransitionStyle = .crossDissolve
+        present(nav, animated: animated)
+    }
+
+    private func openWelcomeScreen(animated: Bool) {
+        let vc = StoryboardUtil.instantiate(WelcomeViewController.self)
+        let nav = PortraitNavigationController()
+        nav.viewControllers = [vc]
+        nav.modalTransitionStyle = .crossDissolve
+        present(nav, animated: animated)
     }
 
     @IBAction func goToSplash(_ sender: UIStoryboardSegue) {

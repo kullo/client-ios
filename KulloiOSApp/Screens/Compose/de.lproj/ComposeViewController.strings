@@ -1,0 +1,12 @@
+
+/* Class = "UIViewController"; title = "Compose"; ObjectID = "3Q9-wE-w88"; */
+"3Q9-wE-w88.title" = "Schreiben";
+
+/* Class = "UILabel"; text = "John Doe"; ObjectID = "XiP-VK-Fjm"; */
+"XiP-VK-Fjm.text" = "John Doe";
+
+/* Class = "UIButton"; normalTitle = "Add an attachment"; ObjectID = "e4O-17-Lux"; */
+"e4O-17-Lux.normalTitle" = "Anhang hinzufügen";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."; ObjectID = "tqR-YT-OqM"; */
+"tqR-YT-OqM.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";

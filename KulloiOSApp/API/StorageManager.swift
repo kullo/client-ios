@@ -24,7 +24,7 @@ class StorageManager {
 
     class func getAccounts() -> [KAAddress] {
         let keys = KeychainWrapper.standard.allKeys().filter(StorageManager.masterkeyBlock0Filter)
-        return keys.flatMap(addressFromBlockKey).sorted(by: { (lhs, rhs) in
+        return keys.compactMap(addressFromBlockKey).sorted(by: { (lhs, rhs) in
             lhs.description() < rhs.description()
         })
     }

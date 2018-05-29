@@ -1,0 +1,63 @@
+
+/* Class = "UITextField"; placeholder = "Block O"; ObjectID = "79q-jj-8at"; */
+"79q-jj-8at.placeholder" = "Block O";
+
+/* Class = "UITextField"; placeholder = "Block B"; ObjectID = "8RR-Km-JnN"; */
+"8RR-Km-JnN.placeholder" = "Block B";
+
+/* Class = "UITextField"; placeholder = "Block G"; ObjectID = "AJV-dQ-m2t"; */
+"AJV-dQ-m2t.placeholder" = "Block G";
+
+/* Class = "UIViewController"; title = "Login"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Einloggen";
+
+/* Class = "UILabel"; text = "Kullo address"; ObjectID = "BfX-65-I7I"; */
+"BfX-65-I7I.text" = "Kullo-Adresse";
+
+/* Class = "UITextField"; placeholder = "Block K"; ObjectID = "GyY-5R-r4g"; */
+"GyY-5R-r4g.placeholder" = "Block K";
+
+/* Class = "UIButton"; normalTitle = "Log in"; ObjectID = "Jsp-q5-6TA"; */
+"Jsp-q5-6TA.normalTitle" = "Einloggen";
+
+/* Class = "UILabel"; text = "MasterKey"; ObjectID = "L8X-sr-mmA"; */
+"L8X-sr-mmA.text" = "MasterKey";
+
+/* Class = "UITextField"; placeholder = "Block H"; ObjectID = "LlT-iP-NlI"; */
+"LlT-iP-NlI.placeholder" = "Block H";
+
+/* Class = "UITextField"; placeholder = "Block J"; ObjectID = "OMb-8U-IO9"; */
+"OMb-8U-IO9.placeholder" = "Block J";
+
+/* Class = "UITextField"; placeholder = "Block D"; ObjectID = "S5X-JB-RGz"; */
+"S5X-JB-RGz.placeholder" = "Block D";
+
+/* Class = "UITextField"; placeholder = "Block E"; ObjectID = "XjT-tR-yHN"; */
+"XjT-tR-yHN.placeholder" = "Block E";
+
+/* Class = "UITextField"; placeholder = "Block A"; ObjectID = "bDp-wd-aai"; */
+"bDp-wd-aai.placeholder" = "Block A";
+
+/* Class = "UITextField"; placeholder = "Block I"; ObjectID = "gr3-g7-Pjm"; */
+"gr3-g7-Pjm.placeholder" = "Block I";
+
+/* Class = "UITextField"; placeholder = "Block F"; ObjectID = "j0E-ui-Ct5"; */
+"j0E-ui-Ct5.placeholder" = "Block F";
+
+/* Class = "UITextField"; placeholder = "Block P"; ObjectID = "kFi-UX-mKF"; */
+"kFi-UX-mKF.placeholder" = "Block P";
+
+/* Class = "UITextField"; placeholder = "Block N"; ObjectID = "lKk-ER-omB"; */
+"lKk-ER-omB.placeholder" = "Block N";
+
+/* Class = "UITextField"; placeholder = "Block M"; ObjectID = "oQg-Co-36a"; */
+"oQg-Co-36a.placeholder" = "Block M";
+
+/* Class = "UITextField"; placeholder = "Block L"; ObjectID = "uhe-7W-q6z"; */
+"uhe-7W-q6z.placeholder" = "Block L";
+
+/* Class = "UITextField"; placeholder = "Block C"; ObjectID = "xcT-Cc-9WG"; */
+"xcT-Cc-9WG.placeholder" = "Block C";
+
+/* Class = "UITextField"; placeholder = "Enter address"; ObjectID = "y3A-ft-yqL"; */
+"y3A-ft-yqL.placeholder" = "Adresse eingeben";

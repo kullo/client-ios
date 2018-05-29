@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="eYV-k4-J4T">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Welcome-->
+        <scene sceneID="7iL-c4-5Kc">
+            <objects>
+                <viewController title="Welcome" id="eYV-k4-J4T" customClass="WelcomeViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ULP-Q1-pKz"/>
+                        <viewControllerLayoutGuide type="bottom" id="m6a-MI-5qp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qZU-Ge-20A">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_header_image" translatesAutoresizingMaskIntoConstraints="NO" id="BGk-q2-k6V">
+                                <rect key="frame" x="0.0" y="20" width="375" height="187.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="BGk-q2-k6V" secondAttribute="height" multiplier="2:1" id="uvG-Fh-p2r"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iSO-H5-JSJ">
+                                <rect key="frame" x="16" y="307.5" width="38" height="30"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginTapped:" destination="eYV-k4-J4T" eventType="touchUpInside" id="OA5-Vv-d7A"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="os7-Ye-HNU">
+                                <rect key="frame" x="16" y="290.5" width="343" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BP7-RY-j4I">
+                                <rect key="frame" x="16" y="244.5" width="78" height="30"/>
+                                <state key="normal" title="Open inbox">
+                                    <color key="titleColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <state key="disabled">
+                                    <color key="titleColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                </state>
+                                <connections>
+                                    <action selector="openInboxTapped:" destination="eYV-k4-J4T" eventType="touchUpInside" id="gNP-fH-NNi"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already logged in?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agS-5a-e59">
+                                <rect key="frame" x="16" y="227.5" width="343" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need a new account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="efa-Sv-FzQ">
+                                <rect key="frame" x="16" y="353.5" width="343" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CVK-Za-my8">
+                                <rect key="frame" x="16" y="370.5" width="57" height="30"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerTapped:" destination="eYV-k4-J4T" eventType="touchUpInside" id="3bJ-iJ-fA4"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94509803921568625" green="0.92549019607843142" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="os7-Ye-HNU" secondAttribute="trailing" id="2LI-XV-sNE"/>
+                            <constraint firstItem="efa-Sv-FzQ" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leadingMargin" id="2eB-Oa-tmd"/>
+                            <constraint firstItem="BP7-RY-j4I" firstAttribute="top" secondItem="agS-5a-e59" secondAttribute="bottom" id="5ta-BJ-uW6"/>
+                            <constraint firstItem="CVK-Za-my8" firstAttribute="top" secondItem="efa-Sv-FzQ" secondAttribute="bottom" id="6ID-oV-Not"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CVK-Za-my8" secondAttribute="trailingMargin" id="8qV-D4-1Qk"/>
+                            <constraint firstItem="BGk-q2-k6V" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leading" id="9Ab-C9-DYH"/>
+                            <constraint firstAttribute="trailing" secondItem="BGk-q2-k6V" secondAttribute="trailing" id="AOs-wp-bmo"/>
+                            <constraint firstItem="CVK-Za-my8" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leadingMargin" id="BF7-sy-Mxm"/>
+                            <constraint firstItem="agS-5a-e59" firstAttribute="top" secondItem="BGk-q2-k6V" secondAttribute="bottom" constant="20" id="HVj-bS-F1L"/>
+                            <constraint firstItem="iSO-H5-JSJ" firstAttribute="top" secondItem="os7-Ye-HNU" secondAttribute="bottom" id="JwB-lD-zDG"/>
+                            <constraint firstItem="agS-5a-e59" firstAttribute="trailing" secondItem="qZU-Ge-20A" secondAttribute="trailingMargin" id="NXz-wm-ckM"/>
+                            <constraint firstItem="efa-Sv-FzQ" firstAttribute="top" secondItem="iSO-H5-JSJ" secondAttribute="bottom" constant="16" id="PKk-4m-PG3"/>
+                            <constraint firstItem="os7-Ye-HNU" firstAttribute="top" secondItem="BP7-RY-j4I" secondAttribute="bottom" constant="16" id="QhE-A0-yZJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="efa-Sv-FzQ" secondAttribute="trailing" id="qT9-rQ-DtR"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iSO-H5-JSJ" secondAttribute="trailingMargin" id="rOq-HS-cOX"/>
+                            <constraint firstItem="iSO-H5-JSJ" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leadingMargin" id="sma-1l-FgQ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BP7-RY-j4I" secondAttribute="trailingMargin" id="uEC-xM-lH1"/>
+                            <constraint firstItem="BP7-RY-j4I" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leadingMargin" id="uyj-sT-V0J"/>
+                            <constraint firstItem="BGk-q2-k6V" firstAttribute="top" secondItem="ULP-Q1-pKz" secondAttribute="bottom" id="wjS-QX-WHP"/>
+                            <constraint firstItem="os7-Ye-HNU" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leadingMargin" id="xAO-vi-s9I"/>
+                            <constraint firstItem="agS-5a-e59" firstAttribute="leading" secondItem="qZU-Ge-20A" secondAttribute="leadingMargin" id="y4X-Jy-4RE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="openInboxButton" destination="BP7-RY-j4I" id="7NY-YN-X6E"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xih-mv-MNz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045" y="-245"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="login_header_image" width="320" height="160"/>
+    </resources>
+    <color key="tintColor" red="0.9098039269" green="0.55294120309999995" blue="0.01176470611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

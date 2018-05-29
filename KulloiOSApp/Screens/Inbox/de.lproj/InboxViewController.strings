@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "John Doe"; ObjectID = "ObQ-DL-0k7"; */
+"ObQ-DL-0k7.text" = "John Doe";
+
+/* Class = "UIViewController"; title = "Inbox"; ObjectID = "d5o-N2-THi"; */
+"d5o-N2-THi.title" = "Posteingang";
+
+/* Class = "UILabel"; text = "12/02/2015"; ObjectID = "jiA-Md-lC7"; */
+"jiA-Md-lC7.text" = "12/02/2015";
+
+/* Class = "UILabel"; text = "Pull down to refresh your inbox"; ObjectID = "mHC-9z-Wxy"; */
+"mHC-9z-Wxy.text" = "Ziehe nach unten, um den Posteingang zu aktualisieren";
+
+/* Class = "UILabel"; text = "●"; ObjectID = "ofr-HR-Um3"; */
+"ofr-HR-Um3.text" = "●";

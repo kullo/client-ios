@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "#kullo.net"; ObjectID = "8Ic-K5-LKJ"; */
+"8Ic-K5-LKJ.text" = "#kullo.net";
+
+/* Class = "UILabel"; text = "Choose your Kullo address"; ObjectID = "VnJ-bJ-DW5"; */
+"VnJ-bJ-DW5.text" = "Wähle deine Kullo-Adresse";
+
+/* Class = "UILabel"; text = "You can use letters and numbers. You can use more than one word, separated by . or - or _."; ObjectID = "YDp-zM-j1V"; */
+"YDp-zM-j1V.text" = "Du kannst Buchstaben und Ziffern benutzen. Außerdem kannst du . oder - oder _ benutzen, um deine Adresse zu unterteilen.";
+
+/* Class = "UIViewController"; title = "Address"; ObjectID = "cK2-8r-wyu"; */
+"cK2-8r-wyu.title" = "Adresse";
+
+/* Class = "UITextField"; placeholder = "your.username"; ObjectID = "g7p-5P-Qol"; */
+"g7p-5P-Qol.placeholder" = "dein.benutzername";
+
+/* Class = "UILabel"; text = "Lorem Ipsum Lorem Ipsum [Terms & Conditions]"; ObjectID = "tpS-lb-d8P"; */
+"tpS-lb-d8P.text" = "[T&C]";

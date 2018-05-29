@@ -1,0 +1,9 @@
+
+/* Class = "UILabel"; text = "Component"; ObjectID = "bZh-ux-phz"; */
+"bZh-ux-phz.text" = "Komponente";
+
+/* Class = "UITableViewController"; title = "Versions"; ObjectID = "nHa-1Z-3Xb"; */
+"nHa-1Z-3Xb.title" = "Versionen";
+
+/* Class = "UILabel"; text = "Version"; ObjectID = "tML-HX-R72"; */
+"tML-HX-R72.text" = "Version";

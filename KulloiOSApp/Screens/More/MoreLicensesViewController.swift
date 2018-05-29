@@ -1,33 +1,44 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
+import WebKit
 
 class MoreLicensesViewController: UIViewController {
-    @IBOutlet var webView: UIWebView!
+    private let webView = WKWebView()
+
+    override func loadView() {
+        view = webView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = NSLocalizedString("Software licenses", comment: "")
+    }
 
-        webView.delegate = self
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        DispatchQueue.global(qos: .userInitiated).async {
-            let path = Bundle.main.path(forResource: "licenses", ofType: "html")
-            let html = try! String(contentsOfFile: path!, encoding: String.Encoding.utf8)
-            DispatchQueue.main.async {
-                self.webView.loadHTMLString(html, baseURL: nil)
-            }
-        }
+        webView.navigationDelegate = self
+
+        let licensesURL = Bundle.main.url(forResource: "licenses", withExtension: "html")!
+        webView.load(URLRequest(url: licensesURL))
     }
 }
 
-extension MoreLicensesViewController: UIWebViewDelegate {
+extension MoreLicensesViewController: WKNavigationDelegate {
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if let url = request.url {
-            if navigationType == .linkClicked && (url.scheme == "http" || url.scheme == "https") {
-                return !UIApplication.shared.openURL(url)
-            }
+        if
+            navigationAction.navigationType == .linkActivated,
+            let url = navigationAction.request.url,
+            url.scheme == "http" || url.scheme == "https" {
+                let opened = !UIApplication.shared.openURL(url)
+                decisionHandler(opened ? .cancel : .allow)
+        } else {
+            decisionHandler(.allow)
         }
-        return true
     }
 }

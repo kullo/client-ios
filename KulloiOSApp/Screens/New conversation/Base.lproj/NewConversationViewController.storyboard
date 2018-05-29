@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="9eB-Hr-FJx">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--New conversation-->
+        <scene sceneID="be7-JB-RtZ">
+            <objects>
+                <viewController title="New conversation" id="9eB-Hr-FJx" customClass="NewConversationViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r8G-BD-j1X"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Bq-Hx-zDA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rao-7i-4ir">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kullo Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfA-Sk-Spb">
+                                <rect key="frame" x="16" y="44" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QZn-LT-I1o" customClass="KulloAddressTextField" customModule="KulloiOSApp" customModuleProvider="target">
+                                <rect key="frame" x="16" y="73" width="305" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="9eB-Hr-FJx" id="QdQ-r2-sIS"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9s-LR-ihu">
+                                <rect key="frame" x="16" y="127" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Sg1-ji-WQl">
+                                <rect key="frame" x="16" y="156" width="343" height="511"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="9eB-Hr-FJx" id="F8I-2t-liR"/>
+                                    <outlet property="delegate" destination="9eB-Hr-FJx" id="YL3-D8-o9p"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucv-vI-50h">
+                                <rect key="frame" x="329" y="73" width="30" height="30"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="addButtonClicked:" destination="9eB-Hr-FJx" eventType="touchUpInside" id="Qbm-AI-kqi"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="QZn-LT-I1o" firstAttribute="leading" secondItem="rao-7i-4ir" secondAttribute="leadingMargin" id="26m-zP-3pa"/>
+                            <constraint firstItem="0Bq-Hx-zDA" firstAttribute="top" secondItem="Sg1-ji-WQl" secondAttribute="bottom" id="5AE-4T-qYN"/>
+                            <constraint firstItem="XfA-Sk-Spb" firstAttribute="top" secondItem="r8G-BD-j1X" secondAttribute="bottom" constant="24" id="7tj-tD-cp6"/>
+                            <constraint firstItem="Sg1-ji-WQl" firstAttribute="leading" secondItem="rao-7i-4ir" secondAttribute="leadingMargin" id="GIh-1F-Mb4"/>
+                            <constraint firstItem="Sg1-ji-WQl" firstAttribute="trailing" secondItem="rao-7i-4ir" secondAttribute="trailingMargin" id="IzQ-ye-YcA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XfA-Sk-Spb" secondAttribute="trailing" id="JZP-I9-Mag"/>
+                            <constraint firstItem="XfA-Sk-Spb" firstAttribute="leading" secondItem="rao-7i-4ir" secondAttribute="leadingMargin" id="JnI-m3-qh6"/>
+                            <constraint firstItem="QZn-LT-I1o" firstAttribute="top" secondItem="XfA-Sk-Spb" secondAttribute="bottom" constant="8" id="Pfc-G3-Fgh"/>
+                            <constraint firstItem="Sg1-ji-WQl" firstAttribute="top" secondItem="r9s-LR-ihu" secondAttribute="bottom" constant="8" id="TRH-Xy-hLa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ucv-vI-50h" secondAttribute="trailing" id="Xk1-3m-KLq"/>
+                            <constraint firstItem="r9s-LR-ihu" firstAttribute="trailing" secondItem="rao-7i-4ir" secondAttribute="trailingMargin" id="bAC-xL-gPq"/>
+                            <constraint firstItem="r9s-LR-ihu" firstAttribute="top" secondItem="QZn-LT-I1o" secondAttribute="bottom" constant="24" id="gRM-NU-83y"/>
+                            <constraint firstItem="ucv-vI-50h" firstAttribute="centerY" secondItem="QZn-LT-I1o" secondAttribute="centerY" id="h1S-Kx-6H2"/>
+                            <constraint firstItem="r9s-LR-ihu" firstAttribute="leading" secondItem="rao-7i-4ir" secondAttribute="leadingMargin" id="zNC-wY-yxv"/>
+                            <constraint firstItem="ucv-vI-50h" firstAttribute="leading" secondItem="QZn-LT-I1o" secondAttribute="trailing" constant="8" id="zhO-k5-lUY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="kulloAddressLabel" destination="XfA-Sk-Spb" id="0TM-FF-mki"/>
+                        <outlet property="kulloAddressTextField" destination="QZn-LT-I1o" id="UbL-ek-YXo"/>
+                        <outlet property="recipientsLabel" destination="r9s-LR-ihu" id="kdA-04-6Lk"/>
+                        <outlet property="tableView" destination="Sg1-ji-WQl" id="bGU-un-XTG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rEO-Rh-dAv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1878" y="-945"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.9098039269" green="0.55294120309999995" blue="0.01176470611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

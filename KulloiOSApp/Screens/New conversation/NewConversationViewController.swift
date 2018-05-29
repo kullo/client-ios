@@ -1,7 +1,6 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
-import XCGLogger
 import LibKullo
 
 protocol NewConversationDelegate: class {
@@ -16,7 +15,7 @@ class NewConversationViewController: UIViewController  {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var kulloAddressTextField: KulloAddressTextField!
     @IBOutlet var recipientsLabel: UILabel!
-    @IBOutlet var createButton: UIBarButtonItem!
+    private var createButton: UIBarButtonItem!
 
     private var recipientsAsString  = [String]()
     private var recipients = [KAAddress]()
@@ -27,6 +26,14 @@ class NewConversationViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
+
+        createButton = UIBarButtonItem(
+            title: NSLocalizedString("Create", comment: ""), style: .done,
+            target: self, action: #selector(createConversationTapped))
+        navigationItem.rightBarButtonItem = createButton
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         updateControlStates()
@@ -50,16 +57,16 @@ class NewConversationViewController: UIViewController  {
         }
     }
 
-    @IBAction func createConversationButtonClicked(_ sender: AnyObject) {
+    @objc private func createConversationTapped() {
         if recipients.count > 0 {
             let convId = KulloConnector.shared.addNewConversationForKulloAddresses(recipients)
             delegate?.newConversationCreatedWithId(convId)
-            dismiss()
+            dismiss(animated: true)
         }
     }
     
-    @IBAction func dismiss() {
-        self.dismiss(animated: true, completion: nil)
+    @objc private func closeTapped() {
+        dismiss(animated: true)
     }
     
     @IBAction func addButtonClicked(_ sender: AnyObject) {

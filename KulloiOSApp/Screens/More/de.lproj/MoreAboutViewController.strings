@@ -1,0 +1,12 @@
+
+/* Class = "UILabel"; text = "in Germany"; ObjectID = "NlI-ut-4EV"; */
+"NlI-ut-4EV.text" = "in Deutschland";
+
+/* Class = "UITextView"; text = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nGermany\n\nManaging Directors/Vertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nCommercial register/Registergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nVAT identification number/USt-ID:\nDE294537976"; ObjectID = "PeU-cW-Z6C"; */
+"PeU-cW-Z6C.text" = "Kullo GmbH\nKranzplatz 5–6\n65183 Wiesbaden\nDeutschland\n\nVertretungsberechtigte Geschäftsführer:\nSimon Warta, Daniel Seither\n\n+49 175 1930541\nsimon@kullo.net\nsimon#kullo.net\n\nRegistergericht: Amtsgericht Wiesbaden\nRegisternummer: HRB 27626\n\nUSt-ID:\nDE294537976";
+
+/* Class = "UILabel"; text = "Carefully crafted"; ObjectID = "t8B-FB-ZZ6"; */
+"t8B-FB-ZZ6.text" = "Sorgfältig hergestellt";
+
+/* Class = "UIViewController"; title = "About Kullo"; ObjectID = "wCP-Og-pgX"; */
+"wCP-Og-pgX.title" = "Über Kullo";

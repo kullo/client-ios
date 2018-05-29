@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="T0O-Vf-AEU">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash View Controller-->
+        <scene sceneID="XKp-3s-cRn">
+            <objects>
+                <viewController id="T0O-Vf-AEU" userLabel="Splash View Controller" customClass="SplashViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6JG-Pj-Jqh"/>
+                        <viewControllerLayoutGuide type="bottom" id="9bG-Jf-h5I"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MJb-7c-fGt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M34-tH-H36">
+                                <rect key="frame" x="157" y="304" width="61" height="59"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0zW-49-pcL">
+                                        <rect key="frame" x="20" y="8" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LtA-5a-xgr">
+                                        <rect key="frame" x="8" y="36" width="45" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="LtA-5a-xgr" firstAttribute="leading" secondItem="M34-tH-H36" secondAttribute="leadingMargin" id="4in-Sh-DZA"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="LtA-5a-xgr" secondAttribute="bottom" id="7b0-8g-BUN"/>
+                                    <constraint firstItem="LtA-5a-xgr" firstAttribute="top" secondItem="0zW-49-pcL" secondAttribute="bottom" constant="8" id="Bu8-rH-2Mu"/>
+                                    <constraint firstItem="0zW-49-pcL" firstAttribute="centerX" secondItem="M34-tH-H36" secondAttribute="centerX" id="DW7-JC-uet"/>
+                                    <constraint firstItem="0zW-49-pcL" firstAttribute="top" secondItem="M34-tH-H36" secondAttribute="topMargin" id="cVg-N4-gD3"/>
+                                    <constraint firstItem="LtA-5a-xgr" firstAttribute="trailing" secondItem="M34-tH-H36" secondAttribute="trailingMargin" id="iKv-Kf-xzS"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="M34-tH-H36" firstAttribute="centerY" secondItem="MJb-7c-fGt" secondAttribute="centerY" id="KKu-cR-sil"/>
+                            <constraint firstItem="M34-tH-H36" firstAttribute="centerX" secondItem="MJb-7c-fGt" secondAttribute="centerX" id="nw7-Al-pfJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityLabel" destination="LtA-5a-xgr" id="rGm-EH-fPD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j7Z-6b-66j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="219" y="437"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.9098039269" green="0.55294120309999995" blue="0.01176470611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

@@ -38,8 +38,3 @@ let colorTextFieldErrorText = UIColor.white
 // MARK: Textsize Message
 
 let textSizeMessage: CGFloat = 14.0
-
-// MARK: segues
-
-let showMessageSegueIdentifier = "ShowMessageSegue"
-let composeMessageSegueIdentifier = "MessagesComposeMessageSegue"

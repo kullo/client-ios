@@ -2,21 +2,40 @@
 
 import CoreGraphics
 import UIKit
-import XCGLogger
 
 class MessageAttachmentsViewController: UIViewController {
 
-    @IBOutlet var downloadBarButtonItem: UIBarButtonItem!
+    private var downloadButton: UIBarButtonItem!
 
     var messageId: Int64!
 
-    private let attachmentsSegueId = "MessageEmbedAttachmentsSegue"
-    private var attachmentsList: AttachmentsViewController?
+    private let attachmentsList = AttachmentsViewController()
     private var attachmentIds = [Int64]()
 
     private weak var alertDialog: UIAlertController?
 
     // MARK: lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = NSLocalizedString("Attachments", comment: "")
+
+        let closeButton = UIBarButtonItem(
+            barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
+        navigationItem.leftBarButtonItem = closeButton
+
+        downloadButton = UIBarButtonItem(
+            title: NSLocalizedString("Download", comment: ""), style: .plain,
+            target: self, action: #selector(downloadTapped))
+        navigationItem.rightBarButtonItem = downloadButton
+
+        attachmentsList.dataSource = self
+        addChildViewController(attachmentsList)
+        view.addSubview(attachmentsList.view)
+        attachmentsList.didMove(toParentViewController: self)
+        attachmentsList.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -24,24 +43,15 @@ class MessageAttachmentsViewController: UIViewController {
         updateDataAndRefreshUI()
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-
-        if segue.identifier == attachmentsSegueId {
-            attachmentsList = (segue.destination as! AttachmentsViewController)
-            attachmentsList?.dataSource = self
-        }
-    }
-
     // MARK: actions
 
-    @IBAction func dismiss() {
-        navigationController!.dismiss(animated: true, completion: nil)
+    @objc private func closeTapped() {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: download
 
-    @IBAction func download() {
+    @objc private func downloadTapped() {
         alertDialog = showWaitingDialog(
             NSLocalizedString("Downloading attachments", comment: ""),
             message: downloadingAlertMessage()
@@ -61,14 +71,14 @@ class MessageAttachmentsViewController: UIViewController {
 
     func updateDataAndRefreshUI() {
         if let messageId = messageId {
-            attachmentsList?.attachmentsAreDownloaded = KulloConnector.shared.getMessageAttachmentsDownloaded(messageId)
+            attachmentsList.attachmentsAreDownloaded = KulloConnector.shared.getMessageAttachmentsDownloaded(messageId)
             attachmentIds = KulloConnector.shared.getMessageAttachmentIds(messageId)
 
-            if attachmentsList?.attachmentsAreDownloaded ?? false {
-                downloadBarButtonItem.isEnabled = false
-                downloadBarButtonItem.tintColor = UIColor.clear
+            if attachmentsList.attachmentsAreDownloaded {
+                downloadButton.isEnabled = false
+                downloadButton.tintColor = UIColor.clear
             }
-            attachmentsList?.reloadData()
+            attachmentsList.reloadData()
         }
     }
 
@@ -77,11 +87,11 @@ class MessageAttachmentsViewController: UIViewController {
 extension MessageAttachmentsViewController: MessageAttachmentsSaveToDelegate {
 
     func messageAttachmentsSaveToFinished(_ msgId: Int64, attId: Int64, path: String) {
-        attachmentsList?.saveToFinished(path)
+        attachmentsList.saveToFinished(path)
     }
 
     func messageAttachmentsSaveToError(_ msgId: Int64, attId: Int64, path: String, error: String) {
-        attachmentsList?.saveToError(path, error: error)
+        attachmentsList.saveToError(path, error: error)
     }
 
 }

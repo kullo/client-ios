@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="d5o-N2-THi">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Inbox-->
+        <scene sceneID="CXZ-NG-uFP">
+            <objects>
+                <viewController title="Inbox" automaticallyAdjustsScrollViewInsets="NO" id="d5o-N2-THi" customClass="InboxViewController" customModule="KulloiOSApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aaQ-Ku-tba"/>
+                        <viewControllerLayoutGuide type="bottom" id="l2z-Cw-pv1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xlF-gA-pAa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uV2-Y8-Iay">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InboxPullToRefreshTableViewCell" rowHeight="200" id="1AU-hg-6aW">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1AU-hg-6aW" id="tIQ-Ek-e4P">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="kullo_swipe_to_refresh" translatesAutoresizingMaskIntoConstraints="NO" id="ndn-Te-FMg">
+                                                    <rect key="frame" x="137" y="27" width="46" height="99"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pull down to refresh your inbox" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHC-9z-Wxy">
+                                                    <rect key="frame" x="15" y="142" width="290" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ndn-Te-FMg" firstAttribute="centerX" secondItem="tIQ-Ek-e4P" secondAttribute="centerX" id="1Mb-67-brI"/>
+                                                <constraint firstItem="mHC-9z-Wxy" firstAttribute="centerX" secondItem="tIQ-Ek-e4P" secondAttribute="centerX" id="FF5-q5-GDr"/>
+                                                <constraint firstItem="mHC-9z-Wxy" firstAttribute="leading" secondItem="tIQ-Ek-e4P" secondAttribute="leadingMargin" id="apd-ly-Lha"/>
+                                                <constraint firstItem="mHC-9z-Wxy" firstAttribute="top" secondItem="ndn-Te-FMg" secondAttribute="bottom" constant="16" id="dbo-Om-my7"/>
+                                                <constraint firstItem="ndn-Te-FMg" firstAttribute="top" secondItem="tIQ-Ek-e4P" secondAttribute="topMargin" constant="16" id="tNi-6b-JP7"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ConversationTableViewCell" rowHeight="90" id="Lb9-Fc-xe6" customClass="ConversationTableViewCell" customModule="KulloiOSApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="228" width="375" height="90"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lb9-Fc-xe6" id="bCZ-sc-CVZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="89.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DFQ-ZW-yqN">
+                                                    <rect key="frame" x="15" y="18" width="54" height="54"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="54" id="GEZ-hA-Ow1"/>
+                                                        <constraint firstAttribute="width" secondItem="DFQ-ZW-yqN" secondAttribute="height" multiplier="1:1" id="TfH-PB-6tM"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="12/02/2015" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiA-Md-lC7">
+                                                    <rect key="frame" x="223" y="37" width="64" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="●" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ofr-HR-Um3">
+                                                    <rect key="frame" x="276" y="18" width="11" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.62352941179999999" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ObQ-DL-0k7">
+                                                    <rect key="frame" x="77" y="35" width="70" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ObQ-DL-0k7" secondAttribute="trailing" constant="4" id="4qk-TZ-5nt"/>
+                                                <constraint firstItem="DFQ-ZW-yqN" firstAttribute="centerY" secondItem="bCZ-sc-CVZ" secondAttribute="centerY" id="F8L-Uv-CyN"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="centerY" secondItem="bCZ-sc-CVZ" secondAttribute="centerY" id="Jo1-6L-coo"/>
+                                                <constraint firstItem="ObQ-DL-0k7" firstAttribute="leading" secondItem="DFQ-ZW-yqN" secondAttribute="trailing" constant="8" id="OOY-tf-PK5"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="top" secondItem="ofr-HR-Um3" secondAttribute="bottom" constant="4" id="TjT-0w-eai"/>
+                                                <constraint firstItem="DFQ-ZW-yqN" firstAttribute="leading" secondItem="bCZ-sc-CVZ" secondAttribute="leadingMargin" id="UL0-wd-Isg"/>
+                                                <constraint firstItem="jiA-Md-lC7" firstAttribute="trailing" secondItem="bCZ-sc-CVZ" secondAttribute="trailing" id="UOn-W7-Znc"/>
+                                                <constraint firstItem="ObQ-DL-0k7" firstAttribute="centerY" secondItem="bCZ-sc-CVZ" secondAttribute="centerY" id="Yne-ml-xOp"/>
+                                                <constraint firstItem="ofr-HR-Um3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bCZ-sc-CVZ" secondAttribute="leading" constant="20" symbolic="YES" id="eVs-CQ-Asp"/>
+                                                <constraint firstAttribute="trailing" secondItem="ofr-HR-Um3" secondAttribute="trailing" id="g7n-1Y-PX5"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="inboxDateLabel" destination="jiA-Md-lC7" id="h20-HU-vNY"/>
+                                            <outlet property="inboxImageView" destination="DFQ-ZW-yqN" id="Oil-ys-Cm8"/>
+                                            <outlet property="inboxTitleLabel" destination="ObQ-DL-0k7" id="lGC-yO-8hD"/>
+                                            <outlet property="inboxUnreadLabel" destination="ofr-HR-Um3" id="n3n-g3-9c8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="d5o-N2-THi" id="O11-cA-F9b"/>
+                                    <outlet property="delegate" destination="d5o-N2-THi" id="5zO-i1-mMP"/>
+                                </connections>
+                            </tableView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zih-xT-bWe">
+                                <rect key="frame" x="0.0" y="20" width="375" height="2"/>
+                            </progressView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="uV2-Y8-Iay" firstAttribute="top" secondItem="aaQ-Ku-tba" secondAttribute="bottom" id="GcU-rt-c7E"/>
+                            <constraint firstItem="uV2-Y8-Iay" firstAttribute="bottom" secondItem="l2z-Cw-pv1" secondAttribute="top" id="M9R-Ei-Lm1"/>
+                            <constraint firstAttribute="trailing" secondItem="zih-xT-bWe" secondAttribute="trailing" id="Otp-sC-0rG"/>
+                            <constraint firstItem="zih-xT-bWe" firstAttribute="leading" secondItem="xlF-gA-pAa" secondAttribute="leading" id="R6r-tA-G0p"/>
+                            <constraint firstAttribute="trailing" secondItem="uV2-Y8-Iay" secondAttribute="trailing" id="ctF-WO-9bU"/>
+                            <constraint firstItem="zih-xT-bWe" firstAttribute="top" secondItem="aaQ-Ku-tba" secondAttribute="bottom" id="gOA-P5-TLG"/>
+                            <constraint firstItem="uV2-Y8-Iay" firstAttribute="leading" secondItem="xlF-gA-pAa" secondAttribute="leading" id="sJl-1r-rxd"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <connections>
+                        <outlet property="progressView" destination="zih-xT-bWe" id="kJY-LM-HcT"/>
+                        <outlet property="tableView" destination="uV2-Y8-Iay" id="Vuq-gt-Krq"/>
+                        <outlet property="view" destination="xlF-gA-pAa" id="GD8-C2-PR1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tu1-iC-tOV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045" y="439"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="kullo_swipe_to_refresh" width="46" height="99"/>
+    </resources>
+    <color key="tintColor" red="0.9098039269" green="0.55294120309999995" blue="0.01176470611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+</document>

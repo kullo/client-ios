@@ -2,14 +2,10 @@
 
 import LibKullo
 import UIKit
-import XCGLogger
 
 class InboxViewController: UIViewController {
 
     // MARK: Properties
-    private let conversationDetailSegueIdentifier = "ConversationDetailSegue"
-    private static let newConversationSegueIdentifier = "NewConversationSegue"
-
     private static let pullToRefreshCellId = "InboxPullToRefreshTableViewCell"
     private static let pullToRefreshCellHeight: CGFloat = 200
     private static let conversationCellId = "ConversationTableViewCell"
@@ -20,7 +16,7 @@ class InboxViewController: UIViewController {
 
     private var conversationIds = [Int64]()
     private var shouldShowPullToRefreshHint = false
-    var destinationConversationId: Int64?
+    private var destinationConversationId: Int64?
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -32,6 +28,16 @@ class InboxViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: #imageLiteral(resourceName: "more_icon"), style: .plain, target: self, action: #selector(moreTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped)),
+        ]
 
         tableView.addSubview(refreshControl)
     }
@@ -47,8 +53,11 @@ class InboxViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if destinationConversationId != nil {
-            performSegue(withIdentifier: conversationDetailSegueIdentifier, sender: self)
+        if let convId = destinationConversationId {
+            let vc = StoryboardUtil.instantiate(MessagesViewController.self)
+            vc.convId = convId
+            destinationConversationId = nil
+            navigationController?.pushViewController(vc, animated: true)
             return
         }
     }
@@ -61,6 +70,21 @@ class InboxViewController: UIViewController {
     }
 
     // MARK: Actions
+    @objc private func addTapped(_ sender: UIBarButtonItem) {
+        let vc = StoryboardUtil.instantiate(NewConversationViewController.self)
+        vc.delegate = self
+        present(UINavigationController(rootViewController: vc), animated: true)
+    }
+
+    @objc private func moreTapped(_ sender: UIBarButtonItem) {
+        let vc = StoryboardUtil.instantiate(MoreViewController.self)
+        present(UINavigationController(rootViewController: vc), animated: true)
+    }
+
+    @objc private func searchTapped(_ sender: UIBarButtonItem) {
+        let vc = StoryboardUtil.instantiate(MessageSearchViewController.self)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     @objc private func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
         KulloConnector.shared.sync(.withoutAttachments)
@@ -114,32 +138,6 @@ class InboxViewController: UIViewController {
         // show row separators only if we have conversations
         tableView.separatorStyle = haveConversations ? .singleLine: .none
     }
-
-    // MARK: Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let segueIdentifier = segue.identifier {
-            switch segueIdentifier {
-
-            case conversationDetailSegueIdentifier:
-                let destination = segue.destination as! MessagesViewController
-                if let convId = destinationConversationId {
-                    destination.convId = convId
-                    destinationConversationId = nil
-                } else if let conversationIndex = tableView.indexPathForSelectedRow?.row {
-                    destination.convId = conversationIds[conversationIndex]
-                }
-
-            case InboxViewController.newConversationSegueIdentifier:
-                let destination = segue.destination.childViewControllers.first
-                    as! NewConversationViewController
-                destination.delegate = self
-
-            default: break
-            }
-        }
-    }
-
 }
 
 // MARK: NewConversationDelegate
@@ -225,6 +223,12 @@ extension InboxViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layoutMargins = UIEdgeInsets.zero
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = StoryboardUtil.instantiate(MessagesViewController.self)
+        vc.convId = conversationIds[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

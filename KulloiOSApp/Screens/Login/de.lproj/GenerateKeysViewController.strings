@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "Keys have been generated!"; ObjectID = "6cb-g7-xQU"; */
+"6cb-g7-xQU.text" = "Die Schlüssel wurden erzeugt!";
+
+/* Class = "UILabel"; text = "This may take a few minutes. Please be patient."; ObjectID = "Ezo-cu-Zfm"; */
+"Ezo-cu-Zfm.text" = "Das kann einige Minuten dauern. Bitte habe Geduld.";
+
+/* Class = "UIViewController"; title = "Keys"; ObjectID = "F35-Bi-mh7"; */
+"F35-Bi-mh7.title" = "Schlüssel";
+
+/* Class = "UILabel"; text = "What we're doing right now is generating strong cryptographic keys for you so that you can communicate securely. Finding secure keys takes some time because we need to make sure they are as secure as advertised. We do it on your device so that nobody else (including us) learns about them."; ObjectID = "Xd7-ed-TSn"; */
+"Xd7-ed-TSn.text" = "Wir erzeugen gerade starke kryptographische Schlüssel, damit du sicher kommunizieren kannst. Schlüssel zu suchen dauert ein wenig, denn wir müssen dafür sorgen, dass sie wirklich sicher sind. Wir erzeugen sie auf deinem Gerät, damit sie niemand anderes (uns eingeschlossen) einsehen kann.";
+
+/* Class = "UILabel"; text = "Generating keys"; ObjectID = "lD5-ne-Kwf"; */
+"lD5-ne-Kwf.text" = "Erzeuge Schlüssel";
+
+/* Class = "UILabel"; text = "Thank you for your patience. You can now proceed to the next step."; ObjectID = "pej-Zp-M8p"; */
+"pej-Zp-M8p.text" = "Vielen Dank für deine Geduld. Du kannst jetzt zum nächsten Schritt gehen.";

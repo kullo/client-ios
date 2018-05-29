@@ -3,7 +3,6 @@
 import UIKit
 import CoreGraphics
 import LibKullo
-import XCGLogger
 
 class MoreViewController: UITableViewController {
 
@@ -60,6 +59,14 @@ class MoreViewController: UITableViewController {
 
     // MARK: lifecycle
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let closeButton = UIBarButtonItem(
+            barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
+        navigationItem.leftBarButtonItem = closeButton
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -72,7 +79,7 @@ class MoreViewController: UITableViewController {
 
     // MARK: actions
 
-    @IBAction func dismissAndSaveChanges() {
+    @objc private func closeTapped() {
         // upload potential changes to UserSettings
         KulloConnector.shared.sync(.withoutAttachments)
         navigationController?.dismiss(animated: true, completion: nil)
@@ -217,32 +224,24 @@ extension MoreViewController {
     }
     
     private func showDetailViewControllerForRowType(_ rowType: RowType) {
-        let detailViewControllerName: String
+        let detailViewController: UIViewController
+
         switch rowType {
-
         case .footer, .masterKey:
-            detailViewControllerName = "MoreEditTextViewController"
-
+            let vc = MoreEditTextViewController()
+            vc.rowType = rowType
+            detailViewController = vc
         case .version:
-            detailViewControllerName = "MoreVersionsViewController"
-
+            detailViewController = StoryboardUtil.instantiate(MoreVersionsViewController.self)
         case .about:
-            detailViewControllerName = "MoreAboutViewController"
-
+            let storyboard = UIStoryboard(name: "MoreAboutViewController", bundle: Bundle.main)
+            detailViewController = storyboard.instantiateInitialViewController()!
         case .licenses:
-            detailViewControllerName = "MoreLicensesViewController"
-
+            detailViewController = MoreLicensesViewController()
         default:
             return
         }
-        let detailViewController = storyboard!.instantiateViewController(withIdentifier: detailViewControllerName)
 
-        switch rowType {
-        case .footer, .masterKey:
-            (detailViewController as! MoreEditTextViewController).rowType = rowType
-        default:
-            break
-        }
         navigationController!.pushViewController(detailViewController, animated: true)
     }
     

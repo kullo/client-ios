@@ -1,14 +1,10 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
-import XCGLogger
 
 class MessageViewController: UIViewController {
 
     // MARK: Properties
-
-    let composeMessageSegueIdentifier = "MessageComposeMessageSegue"
-    let showAttachmentsSegueIdentifier = "ShowAttachmentsSegue"
 
     var conversationId: Int64?
     var messageId: Int64?
@@ -22,6 +18,16 @@ class MessageViewController: UIViewController {
 
     // MARK: View lifecycle
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(openAttachmentsTapped)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeTapped)),
+        ]
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshContent()
@@ -30,6 +36,18 @@ class MessageViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         KulloConnector.shared.setMessageUnread(messageId!, value: false)
+    }
+
+    @objc private func composeTapped() {
+        let vc = StoryboardUtil.instantiate(ComposeViewController.self)
+        vc.convId = conversationId
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func openAttachmentsTapped() {
+        let vc = MessageAttachmentsViewController()
+        vc.messageId = messageId
+        present(UINavigationController(rootViewController: vc), animated: true)
     }
 
     // MARK: refresh content
@@ -87,24 +105,4 @@ class MessageViewController: UIViewController {
             }
         }
     }
-
-    // MARK: Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == composeMessageSegueIdentifier {
-            if let destination = segue.destination as? ComposeViewController {
-                destination.convId = conversationId
-            }
-        } else if segue.identifier == showAttachmentsSegueIdentifier {
-            if let navController = segue.destination as? UINavigationController {
-                let attachmentsViewController = navController.viewControllers[0] as? MessageAttachmentsViewController
-                
-                if let attachmentsViewController = attachmentsViewController {
-                    attachmentsViewController.messageId = messageId
-                }
-            }
-        }
-    }
-    
-    
 }

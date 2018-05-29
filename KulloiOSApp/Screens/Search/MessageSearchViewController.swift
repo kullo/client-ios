@@ -5,7 +5,6 @@ import UIKit
 
 class MessageSearchViewController: UITableViewController {
     private static let resultCellId = "MessageSearchResultTableViewCell"
-    private static let openMessageSegue = "MessageSearchOpenMessage"
     private static let snippetFontNormal = UIFont.systemFont(ofSize: 14)
     private static let snippetFontHighlighted = UIFont.boldSystemFont(ofSize: 14)
 
@@ -62,17 +61,6 @@ class MessageSearchViewController: UITableViewController {
         view.endEditing(true)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == MessageSearchViewController.openMessageSegue {
-            if let destination = segue.destination as? MessageViewController {
-                if let index = tableView.indexPathForSelectedRow?.row {
-                    destination.conversationId = results[index].convId
-                    destination.messageId = results[index].msgId
-                }
-            }
-        }
-    }
-
     //MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,6 +86,15 @@ class MessageSearchViewController: UITableViewController {
             highlightFont: MessageSearchViewController.snippetFontHighlighted)
 
         return cell
+    }
+
+    //MARK: - UITableViewDelegate
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = StoryboardUtil.instantiate(MessageViewController.self)
+        vc.conversationId = results[indexPath.row].convId
+        vc.messageId = results[indexPath.row].msgId
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -1,14 +1,12 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
-import XCGLogger
 
 class MessagesViewController: UIViewController {
 
     // MARK: Properties
     private static let writeNewMessageCellId = "WriteNewMessageTableViewCell"
     private static let messageCellId = "MessagesTableViewCell"
-    private static let openSearchSegueIdentifier = "MessagesOpenSearch"
 
     var convId: Int64?
     private var messageIds = [Int64]()
@@ -37,6 +35,13 @@ class MessagesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchTapped))
+
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeTapped)),
+        ]
 
         headerView = tableView.tableHeaderView as! MessagesHeaderView
         tableView.addSubview(refreshControl)
@@ -100,6 +105,18 @@ class MessagesViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    @objc private func searchTapped() {
+        let vc = StoryboardUtil.instantiate(MessageSearchViewController.self)
+        vc.conversationFilter = convId
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func composeTapped() {
+        let vc = StoryboardUtil.instantiate(ComposeViewController.self)
+        vc.convId = convId
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     @objc private func refreshControlTriggered(_ refreshControl: UIRefreshControl) {
         KulloConnector.shared.sync(.withoutAttachments)
@@ -239,29 +256,6 @@ class MessagesViewController: UIViewController {
     func shouldShowWriteMessageHint() -> Bool {
         return !hideHint && messageIds.count == 0
     }
-
-    // MARK: Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showMessageSegueIdentifier {
-            if let destination = segue.destination as? MessageViewController {
-                if let index = tableView.indexPathForSelectedRow?.row {
-                    destination.conversationId = convId
-                    destination.messageId = messageIds[index]
-                }
-            }
-        } else if segue.identifier == composeMessageSegueIdentifier {
-            if let destination = segue.destination as? ComposeViewController {
-                destination.convId = convId
-            }
-        } else if segue.identifier == MessagesViewController.openSearchSegueIdentifier {
-            if let destination = segue.destination as? MessageSearchViewController {
-                destination.conversationFilter = convId
-            }
-        }
-
-    }
-
 }
 
 extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
@@ -313,6 +307,13 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
         cell.layoutMargins = UIEdgeInsets.zero
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = StoryboardUtil.instantiate(MessageViewController.self)
+        vc.conversationId = convId
+        vc.messageId = messageIds[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

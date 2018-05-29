@@ -1,0 +1,21 @@
+
+/* Class = "UILabel"; text = "John Doe"; ObjectID = "11g-AS-teA"; */
+"11g-AS-teA.text" = "John Doe";
+
+/* Class = "UILabel"; text = "This is a conversation with first.last#kullo.net, first.last#kullo.net, first.last#kullo.net, first.last#kullo.net"; ObjectID = "8iv-WD-Uia"; */
+"8iv-WD-Uia.text" = "This is a conversation with first.last#kullo.net, first.last#kullo.net, first.last#kullo.net, first.last#kullo.net";
+
+/* Class = "UILabel"; text = "Doe Inc."; ObjectID = "Jfb-Tw-Obh"; */
+"Jfb-Tw-Obh.text" = "Doe Inc.";
+
+/* Class = "UILabel"; text = "This conversation is empty. You can change that! Tap on the button at the bottom right to write a new message."; ObjectID = "WXZ-b3-OpW"; */
+"WXZ-b3-OpW.text" = "Diese Konversation ist leer. Das kannst du ändern! Tippe auf das Symbol unten rechts, um eine neue Nachricht zu schreiben.";
+
+/* Class = "UILabel"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "b7C-q4-aQR"; */
+"b7C-q4-aQR.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "●"; ObjectID = "ch6-Rq-8Wt"; */
+"ch6-Rq-8Wt.text" = "●";
+
+/* Class = "UILabel"; text = "12/02/2015"; ObjectID = "d8f-Sc-MCK"; */
+"d8f-Sc-MCK.text" = "12/02/2015";

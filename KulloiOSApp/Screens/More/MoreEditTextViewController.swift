@@ -1,17 +1,23 @@
 /* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
 
 import UIKit
-import XCGLogger
 
 class MoreEditTextViewController: UIViewController {
-    
-    // MARK: Properties
-
     var rowType: MoreViewController.RowType?
-    @IBOutlet var editTextView: UITextView!
+    private let editTextView = UITextView()
 
-    // MARK: View lifecycle
-    
+    override func loadView() {
+        view = editTextView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        editTextView.delegate = self
+        editTextView.keyboardDismissMode = .interactive
+        editTextView.font = UIFont.preferredFont(forTextStyle: .body)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

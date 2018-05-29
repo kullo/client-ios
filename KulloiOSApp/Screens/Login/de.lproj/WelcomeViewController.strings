@@ -1,0 +1,21 @@
+
+/* Class = "UIButton"; normalTitle = "Open inbox"; ObjectID = "BP7-RY-j4I"; */
+"BP7-RY-j4I.normalTitle" = "Postfach öffnen";
+
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "CVK-Za-my8"; */
+"CVK-Za-my8.normalTitle" = "Registrieren";
+
+/* Class = "UILabel"; text = "Already logged in?"; ObjectID = "agS-5a-e59"; */
+"agS-5a-e59.text" = "Bereits eingeloggt?";
+
+/* Class = "UIViewController"; title = "Welcome"; ObjectID = "eYV-k4-J4T"; */
+"eYV-k4-J4T.title" = "Willkommen";
+
+/* Class = "UILabel"; text = "Need a new account?"; ObjectID = "efa-Sv-FzQ"; */
+"efa-Sv-FzQ.text" = "Benötigst du eine neue Adresse?";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "iSO-H5-JSJ"; */
+"iSO-H5-JSJ.normalTitle" = "Einloggen";
+
+/* Class = "UILabel"; text = "Already have an account?"; ObjectID = "os7-Ye-HNU"; */
+"os7-Ye-HNU.text" = "Hast du bereits eine Adresse?";

@@ -11,12 +11,17 @@ class GenerateKeysViewController: UIViewController {
     @IBOutlet var doneTopSpacing: NSLayoutConstraint!
 
     @IBOutlet var progressView: UIProgressView!
-    @IBOutlet var nextButton: UIBarButtonItem!
+    private var nextButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         doneTopSpacing.constant = activeTopSpacing.constant
+
+        nextButton = UIBarButtonItem(
+            title: NSLocalizedString("Next", comment: ""), style: .plain,
+            target: self, action: #selector(nextTapped))
+        navigationItem.rightBarButtonItem = nextButton
 
         // Necessary because otherwise, when waiting for completion, then going back and finally
         // re-entering this view, "Next" is already enabled.
@@ -43,11 +48,16 @@ class GenerateKeysViewController: UIViewController {
         KulloConnector.shared.removeGenerateKeysDelegate(self)
     }
 
-    func getProgress() -> Int8 {
+    @objc private func nextTapped(_ sender: UIBarButtonItem) {
+        let chooseAddressVC = StoryboardUtil.instantiate(ChooseAddressViewController.self)
+        navigationController?.pushViewController(chooseAddressVC, animated: true)
+    }
+
+    private func getProgress() -> Int8 {
         return KulloConnector.shared.getGenerateKeysProgress()
     }
 
-    func updateProgress(_ progress: Int8) {
+    private func updateProgress(_ progress: Int8) {
         log.debug("Key generation progress: \(progress)%")
 
         progressView.progress = Float(progress) / 100.0

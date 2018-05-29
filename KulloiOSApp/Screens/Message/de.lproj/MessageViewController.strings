@@ -1,0 +1,12 @@
+
+/* Class = "UILabel"; text = "John Doe"; ObjectID = "2wP-ij-x7g"; */
+"2wP-ij-x7g.text" = "John Doe";
+
+/* Class = "UILabel"; text = "Doe Inc."; ObjectID = "5qf-IK-PDp"; */
+"5qf-IK-PDp.text" = "Doe Inc.";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "NrS-fZ-U4C"; */
+"NrS-fZ-U4C.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "12/02/2015"; ObjectID = "shY-cY-KjM"; */
+"shY-cY-KjM.text" = "12/02/2015";

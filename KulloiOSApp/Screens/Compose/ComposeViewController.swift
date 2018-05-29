@@ -12,8 +12,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     private weak var alertDialog: UIAlertController?
     private var draftState: KADraftState?
 
-    private let attachmentsSegueId = "ComposeEmbedAttachmentsSegue"
-    private var attachmentsList: AttachmentsViewController?
+    private let attachmentsList = AttachmentsViewController()
     private var attachmentIds = [Int64]()
     private let viewName = "Compose"
 
@@ -21,19 +20,18 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var scrolledContentView: UIView!
     @IBOutlet var scrollViewTapRecognizer: UITapGestureRecognizer!
     @IBOutlet var messageTextView: UITextView!
+    @IBOutlet var attachmentsContainer: UIView!
     @IBOutlet var attachmentsListHeight: NSLayoutConstraint!
     @IBOutlet var conversationTitleLabel: UILabel!
     @IBOutlet var conversationImageView: UIImageView!
-    @IBOutlet var sendButton: UIBarButtonItem!
+    private var sendButton: UIBarButtonItem!
 
-    var readyToSend: Bool {
-        get {
-            if let draftState = draftState {
-                return draftState == .editing &&
-                    (!messageTextView.text.isEmpty || !attachmentIds.isEmpty)
-            } else {
-                return false
-            }
+    private var readyToSend: Bool {
+        if let draftState = draftState {
+            return draftState == .editing &&
+                (!messageTextView.text.isEmpty || !attachmentIds.isEmpty)
+        } else {
+            return false
         }
     }
 
@@ -44,6 +42,38 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
 
         // let conversationImageView calculate its size
         conversationImageView.layoutIfNeeded()
+
+        sendButton = UIBarButtonItem(
+            title: NSLocalizedString("Send", comment: ""), style: .plain,
+            target: self, action: #selector(sendTapped))
+        navigationItem.rightBarButtonItem = sendButton
+
+        attachmentsList.dataSource = self
+        attachmentsList.delegate = self
+        attachmentsList.removable = true
+        attachmentsList.attachmentsAreDownloaded = true
+        attachmentsList.scrollable = false
+
+        addChildViewController(attachmentsList)
+        attachmentsContainer.addSubview(attachmentsList.view)
+        attachmentsList.didMove(toParentViewController: self)
+
+        attachmentsList.view.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(
+                item: attachmentsList.view, attribute: .leading, relatedBy: .equal,
+                toItem: attachmentsContainer, attribute: .leading, multiplier: 1, constant: 0),
+            NSLayoutConstraint(
+                item: attachmentsList.view, attribute: .trailing, relatedBy: .equal,
+                toItem: attachmentsContainer, attribute: .trailing, multiplier: 1, constant: 0),
+            NSLayoutConstraint(
+                item: attachmentsList.view, attribute: .top, relatedBy: .equal,
+                toItem: attachmentsContainer, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(
+                item: attachmentsList.view, attribute: .bottom, relatedBy: .equal,
+                toItem: attachmentsContainer, attribute: .bottom, multiplier: 1, constant: 0),
+        ])
 
         messageTextView.delegate = self
         scrollViewTapRecognizer.delegate = self
@@ -72,19 +102,6 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         removeKeyboardNotificationListeners()
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-
-        if segue.identifier == attachmentsSegueId {
-            attachmentsList = (segue.destination as! AttachmentsViewController)
-            attachmentsList?.dataSource = self
-            attachmentsList?.delegate = self
-            attachmentsList?.removable = true
-            attachmentsList?.attachmentsAreDownloaded = true
-            attachmentsList?.scrollable = false
-        }
-    }
-
     // MARK: text view delegate
 
     func textViewDidChange(_ textView: UITextView) {
@@ -96,7 +113,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     
     // MARK: update content
 
-    func reloadRecipientData() {
+    private func reloadRecipientData() {
         if let convId = convId {
             let conversationName = KulloConnector.shared.getConversationNameOrPlaceHolder(convId)
             let conversationImage = KulloConnector.shared.getConversationImage(convId, size: conversationImageView.frame.size)
@@ -106,13 +123,13 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    func reloadDraft() {
+    private func reloadDraft() {
         reloadDraftState()
         reloadDraftText()
         reloadDraftAttachments()
     }
 
-    func reloadDraftState() {
+    private func reloadDraftState() {
         if let convId = convId {
             let draftState = KulloConnector.shared.getDraftState(convId)
             self.draftState = draftState
@@ -121,20 +138,20 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    func reloadDraftText() {
+    private func reloadDraftText() {
         if let convId = convId {
-            messageTextView.text = KulloConnector.shared.getDraftText(convId)
+            let newDraftText = KulloConnector.shared.getDraftText(convId)
+            if newDraftText != messageTextView.text {
+                messageTextView.text = newDraftText
+            }
             sendButton.isEnabled = readyToSend
         }
     }
 
-    func reloadDraftAttachments() {
+    private func reloadDraftAttachments() {
         attachmentIds = KulloConnector.shared.getDraftAttachmentIds(convId)
         sendButton.isEnabled = readyToSend
-        if let attachmentsList = attachmentsList {
-            attachmentsList.reloadData()
-            attachmentsListHeight.constant = attachmentsList.contentHeight
-        }
+        attachmentsList.reloadData()
     }
 
     // MARK: actions
@@ -157,7 +174,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         present(imagePickerController, animated: true, completion: nil)
     }
 
-    @IBAction func sendButtonClicked(_ sender: AnyObject) {
+    @objc private func sendTapped() {
         if let convId = convId {
             alertDialog = showWaitingDialog(
                 NSLocalizedString("Sending messages", comment: ""),
@@ -218,21 +235,23 @@ extension ComposeViewController: AttachmentsViewDataSource {
 }
 
 extension ComposeViewController: AttachmentsViewDelegate {
+    func attachmentsViewLaidOut(contentHeight: CGFloat) {
+        attachmentsListHeight.constant = contentHeight
+    }
 
     func attachmentsViewWillOpenAttachment(_ attachmentIndex: Int) {
         messageTextView.resignFirstResponder()
     }
-
 }
 
 extension ComposeViewController: DraftAttachmentsSaveToDelegate {
 
     func draftAttachmentsSaveToFinished(_ convId: Int64, attId: Int64, path: String) {
-        attachmentsList?.saveToFinished(path)
+        attachmentsList.saveToFinished(path)
     }
 
     func draftAttachmentsSaveToError(_ convId: Int64, attId: Int64, path: String, error: String) {
-        attachmentsList?.saveToError(path, error: error)
+        attachmentsList.saveToError(path, error: error)
     }
 
 }

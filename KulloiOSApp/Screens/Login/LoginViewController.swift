@@ -31,6 +31,7 @@ class LoginViewController: UIViewController {
 
     private var blockTextFields = [UITextField]()
     private weak var alertDialog: UIAlertController?
+    private var shouldClearInputFieldsAfterDisappearing = false
 
     private enum AddressError {
         case emptyAddress
@@ -83,6 +84,15 @@ class LoginViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         removeKeyboardNotificationListeners()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        if shouldClearInputFieldsAfterDisappearing {
+            shouldClearInputFieldsAfterDisappearing = false
+            clearInputFields()
+        }
     }
 
     // MARK: Login
@@ -255,7 +265,7 @@ extension LoginViewController: ClientCheckCredentialsDelegate {
 
     func checkCredentialsSuccess(_ address: KAAddress, masterKey: KAMasterKey) {
         KulloConnector.shared.prepareLogin(address, masterKey: masterKey)
-        clearInputFields()
+        shouldClearInputFieldsAfterDisappearing = true
 
         alertDialog?.dismiss(animated: true, completion: {
             self.performSegue(withIdentifier: LoginViewController.splashSegue, sender: self)

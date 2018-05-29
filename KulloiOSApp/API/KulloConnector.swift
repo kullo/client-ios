@@ -3,7 +3,6 @@
 import LibKullo
 import SwiftyMimeTypes
 import UIKit
-import XCGLogger
 
 struct Credentials {
     let address: KAAddress
@@ -62,6 +61,17 @@ class KulloConnector {
     private var sessionEventsDelegates = [SessionEventsDelegate]()
 
     // MARK: initialization
+
+    static func initLibrary() {
+        KARegistry.setLogListener(KISystemLogLogger())
+        KARegistry.setTaskRunner(KIOperationTaskRunner())
+        KHRegistry.setHttpClientFactory(KIUrlSessionHttpClientFactory())
+    }
+
+    static func deinitLibrary() {
+        // restore default log listener because we had some crashes during static deinitialization
+        KARegistry.setLogListener(nil)
+    }
 
     private init() {
         client = KAClient.create()
