@@ -247,13 +247,10 @@ extension MoreViewController {
     
     private func showFeedbackDialog() {
         if let navigationController = navigationController {
-            let vc = storyboard?.instantiateViewController(withIdentifier: "ComposeViewController")
-
-            if let composeViewController = vc as? ComposeViewController {
-                let convId = KulloConnector.shared.startConversationWithSingleRecipient(feedbackAddress)
-                composeViewController.convId = convId
-                navigationController.pushViewController(composeViewController, animated: true)
-            }
+            let composeViewController = StoryboardUtil.instantiate(ComposeViewController.self)
+            let convId = KulloConnector.shared.startConversationWithSingleRecipient(feedbackAddress)
+            composeViewController.convId = convId
+            navigationController.pushViewController(composeViewController, animated: true)
         }
     }
 

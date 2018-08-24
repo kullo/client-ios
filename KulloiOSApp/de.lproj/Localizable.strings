@@ -50,6 +50,9 @@
 "conversation_with" = "Konversation mit";
 
 /* No comment provided by engineer. */
+"Couldn't find files to attach" = "Keine Dateien zum Anhängen gefunden";
+
+/* No comment provided by engineer. */
 "Couldn't load data" = "Daten konnten nicht geladen werden";
 
 /* No comment provided by engineer. */
@@ -111,6 +114,12 @@
 
 /* No comment provided by engineer. */
 "Footer" = "Impressum";
+
+/* No comment provided by engineer. */
+"From Files" = "Aus Dateien";
+
+/* No comment provided by engineer. */
+"From Photos" = "Aus Fotos";
 
 /* No comment provided by engineer. */
 "image_basename" = "Bild";

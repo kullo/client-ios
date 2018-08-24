@@ -9,27 +9,9 @@ class LoginViewController: UIViewController {
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var addressTextField: KulloAddressTextField!
-
-    @IBOutlet var blockATextField: UITextField!
-    @IBOutlet var blockBTextField: UITextField!
-    @IBOutlet var blockCTextField: UITextField!
-    @IBOutlet var blockDTextField: UITextField!
-    @IBOutlet var blockETextField: UITextField!
-    @IBOutlet var blockFTextField: UITextField!
-    @IBOutlet var blockGTextField: UITextField!
-    @IBOutlet var blockHTextField: UITextField!
-    @IBOutlet var blockITextField: UITextField!
-    @IBOutlet var blockJTextField: UITextField!
-    @IBOutlet var blockKTextField: UITextField!
-    @IBOutlet var blockLTextField: UITextField!
-    @IBOutlet var blockMTextField: UITextField!
-    @IBOutlet var blockNTextField: UITextField!
-    @IBOutlet var blockOTextField: UITextField!
-    @IBOutlet var blockPTextField: UITextField!
-
+    @IBOutlet var blockTextFields: [UITextField]!
     @IBOutlet var loginButton: UIButton!
 
-    private var blockTextFields = [UITextField]()
     private weak var alertDialog: UIAlertController?
     private var shouldClearInputFieldsAfterDisappearing = false
 
@@ -51,14 +33,6 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        blockTextFields = [
-            blockATextField, blockBTextField, blockCTextField, blockDTextField,
-            blockETextField, blockFTextField, blockGTextField, blockHTextField,
-            blockITextField, blockJTextField, blockKTextField, blockLTextField,
-            blockMTextField, blockNTextField, blockOTextField, blockPTextField,
-        ]
-
         addressTextField.includeDefaultKulloNetCompletion = true
         addressTextField.delegate = self
 

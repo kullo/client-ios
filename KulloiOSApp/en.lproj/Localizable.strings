@@ -50,6 +50,9 @@
 "conversation_with" = "Conversation with";
 
 /* No comment provided by engineer. */
+"Couldn't find files to attach" = "Couldn't find files to attach";
+
+/* No comment provided by engineer. */
 "Couldn't load data" = "Couldn't load data";
 
 /* No comment provided by engineer. */
@@ -111,6 +114,12 @@
 
 /* No comment provided by engineer. */
 "Footer" = "Footer";
+
+/* No comment provided by engineer. */
+"From Files" = "From Files";
+
+/* No comment provided by engineer. */
+"From Photos" = "From Photos";
 
 /* No comment provided by engineer. */
 "image_basename" = "image";

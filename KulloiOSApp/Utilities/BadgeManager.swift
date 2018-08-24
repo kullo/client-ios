@@ -24,10 +24,6 @@ class BadgeManager {
 
 extension BadgeManager: SessionEventsDelegate {
 
-    func sessionEventSessionCreated() {
-        update()
-    }
-
     func sessionEventMessageAdded(_ convId: Int64, msgId: Int64) {
         update()
     }

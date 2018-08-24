@@ -163,6 +163,45 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     }
 
     @IBAction func addAttachmentsButtonTapped(_ sender: UIButton) {
+        let photosAvailable = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+        if #available(iOS 11.0, *), photosAvailable {
+            let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            sheet.addAction(
+                UIAlertAction(
+                    title: NSLocalizedString("From Files", comment: ""),
+                    style: .default,
+                    handler: { _ in self.addFileAttachment() }
+            ))
+            sheet.addAction(
+                UIAlertAction(
+                    title: NSLocalizedString("From Photos", comment: ""),
+                    style: .default,
+                    handler: { _ in self.addImageAttachment() }
+            ))
+            sheet.addAction(AlertHelper.getAlertCancelAction())
+            present(sheet, animated: true)
+
+        } else if #available(iOS 11.0, *) {
+            addFileAttachment()
+        } else if photosAvailable {
+            addImageAttachment()
+        } else {
+            let alert = UIAlertController(
+                title: NSLocalizedString("Couldn't find files to attach", comment: ""),
+                message: nil,
+                preferredStyle: .alert)
+            alert.addAction(AlertHelper.getAlertOKAction())
+            present(alert, animated: true)
+        }
+    }
+
+    private func addFileAttachment() {
+        let picker = UIDocumentPickerViewController(documentTypes: ["public.data", "public.content"], in: .import)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+
+    private func addImageAttachment() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.sourceType = .photoLibrary
@@ -170,7 +209,6 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         // imagePickerController:didFinishPickingMediaWithInfo:
         // must also be extended.
         imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-
         present(imagePickerController, animated: true, completion: nil)
     }
 
@@ -254,6 +292,30 @@ extension ComposeViewController: DraftAttachmentsSaveToDelegate {
         attachmentsList.saveToError(path, error: error)
     }
 
+}
+
+extension ComposeViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        for url in urls {
+            let filename = url.lastPathComponent
+            let path = StorageManager.getTempPathForView(viewName, filename: dedupeFilename(convId, filename: filename))
+            do {
+                try FileManager.default.moveItem(atPath: url.path, toPath: path)
+            } catch {
+                let errorMsg = NSLocalizedString("Error while saving attachment", comment: "")
+                let alert = UIAlertController(
+                    title: NSLocalizedString("Error while adding attachment", comment: ""),
+                    message: errorMsg,
+                    preferredStyle: .alert
+                )
+                alert.addAction(AlertHelper.getAlertOKAction())
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            log.debug("attachment to be added: \(path)")
+            KulloConnector.shared.addAttachmentToDraft(convId, path: path, delegate: self)
+        }
+    }
 }
 
 extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

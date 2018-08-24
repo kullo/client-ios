@@ -89,7 +89,6 @@ class KulloConnector {
         log.debug("State: \(self.sessionState)")
         switch sessionState {
         case .created:
-            badgeManager.update()
             onSuccess()
 
         case .creating:
@@ -504,6 +503,7 @@ class KulloConnector {
             handler(.newData)
         }
         fetchCompletionHandlers.removeAll()
+        badgeManager.update()
         UIApplication.shared.isIdleTimerDisabled = false
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -325,25 +325,25 @@
                     </view>
                     <connections>
                         <outlet property="addressTextField" destination="y3A-ft-yqL" id="YJe-Sp-4aA"/>
-                        <outlet property="blockATextField" destination="bDp-wd-aai" id="zLw-1a-EG2"/>
-                        <outlet property="blockBTextField" destination="8RR-Km-JnN" id="mDw-Kz-tsg"/>
-                        <outlet property="blockCTextField" destination="xcT-Cc-9WG" id="lXw-Yo-dEp"/>
-                        <outlet property="blockDTextField" destination="S5X-JB-RGz" id="IYh-NH-uud"/>
-                        <outlet property="blockETextField" destination="XjT-tR-yHN" id="nFC-20-PNg"/>
-                        <outlet property="blockFTextField" destination="j0E-ui-Ct5" id="kCD-4w-BYE"/>
-                        <outlet property="blockGTextField" destination="AJV-dQ-m2t" id="uLn-9U-bD7"/>
-                        <outlet property="blockHTextField" destination="LlT-iP-NlI" id="B6b-tk-ytt"/>
-                        <outlet property="blockITextField" destination="gr3-g7-Pjm" id="G51-6x-3FG"/>
-                        <outlet property="blockJTextField" destination="OMb-8U-IO9" id="0ok-vk-YPg"/>
-                        <outlet property="blockKTextField" destination="GyY-5R-r4g" id="Z8F-Dv-qVm"/>
-                        <outlet property="blockLTextField" destination="uhe-7W-q6z" id="Q28-t2-XFf"/>
-                        <outlet property="blockMTextField" destination="oQg-Co-36a" id="gOt-xM-amF"/>
-                        <outlet property="blockNTextField" destination="lKk-ER-omB" id="81T-IF-Znf"/>
-                        <outlet property="blockOTextField" destination="79q-jj-8at" id="3N3-AY-hyQ"/>
-                        <outlet property="blockPTextField" destination="kFi-UX-mKF" id="LkY-fv-WC5"/>
                         <outlet property="loginButton" destination="Jsp-q5-6TA" id="XU4-ik-IGp"/>
                         <outlet property="scrollView" destination="Cns-eg-FJg" id="CyN-QE-0DD"/>
                         <outlet property="view" destination="8bC-Xf-vdC" id="wPm-WV-l3m"/>
+                        <outletCollection property="blockTextFields" destination="bDp-wd-aai" collectionClass="NSMutableArray" id="A30-0q-rki"/>
+                        <outletCollection property="blockTextFields" destination="8RR-Km-JnN" collectionClass="NSMutableArray" id="v5Z-Bh-C2K"/>
+                        <outletCollection property="blockTextFields" destination="xcT-Cc-9WG" collectionClass="NSMutableArray" id="WOY-gO-BUR"/>
+                        <outletCollection property="blockTextFields" destination="S5X-JB-RGz" collectionClass="NSMutableArray" id="kdc-67-Nfn"/>
+                        <outletCollection property="blockTextFields" destination="XjT-tR-yHN" collectionClass="NSMutableArray" id="UqR-Td-4ha"/>
+                        <outletCollection property="blockTextFields" destination="j0E-ui-Ct5" collectionClass="NSMutableArray" id="S3b-jx-SaY"/>
+                        <outletCollection property="blockTextFields" destination="AJV-dQ-m2t" collectionClass="NSMutableArray" id="Jgo-Td-Zvh"/>
+                        <outletCollection property="blockTextFields" destination="LlT-iP-NlI" collectionClass="NSMutableArray" id="4uI-iU-1do"/>
+                        <outletCollection property="blockTextFields" destination="gr3-g7-Pjm" collectionClass="NSMutableArray" id="TXW-5f-zOj"/>
+                        <outletCollection property="blockTextFields" destination="OMb-8U-IO9" collectionClass="NSMutableArray" id="dia-wx-FP7"/>
+                        <outletCollection property="blockTextFields" destination="GyY-5R-r4g" collectionClass="NSMutableArray" id="Tib-Jy-R1B"/>
+                        <outletCollection property="blockTextFields" destination="uhe-7W-q6z" collectionClass="NSMutableArray" id="fOE-Ol-6yV"/>
+                        <outletCollection property="blockTextFields" destination="oQg-Co-36a" collectionClass="NSMutableArray" id="EQs-9c-9rR"/>
+                        <outletCollection property="blockTextFields" destination="lKk-ER-omB" collectionClass="NSMutableArray" id="mRr-cR-o8x"/>
+                        <outletCollection property="blockTextFields" destination="79q-jj-8at" collectionClass="NSMutableArray" id="Y5a-Kj-qbx"/>
+                        <outletCollection property="blockTextFields" destination="kFi-UX-mKF" collectionClass="NSMutableArray" id="cjz-fx-sa1"/>
                         <segue destination="WMG-zL-ngu" kind="unwind" identifier="LoginSplashSegue" unwindAction="goToSplash:" id="opH-NT-erB"/>
                     </connections>
                 </viewController>
