@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import UIKit
 
@@ -74,13 +79,13 @@ class MessageViewController: UIViewController {
         let message = KulloConnector.shared.getMessageText(messageId)
         let imprint = KulloConnector.shared.getSenderImprint(messageId)
 
-        let messageAttributes: [NSAttributedStringKey: Any] = [
+        let messageAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
             .font: UIFont.systemFont(ofSize: textSizeMessage),
         ]
         let messageText = NSMutableAttributedString(string: message, attributes: messageAttributes)
 
-        let imprintAttributes: [NSAttributedStringKey: Any] = [
+        let imprintAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.lightGray,
             .font: UIFont.systemFont(ofSize: textSizeMessage),
         ]

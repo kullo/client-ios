@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import UIKit
 import CoreImage
@@ -88,7 +93,7 @@ extension UIImage {
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         
-        let textFontAttributes: [NSAttributedStringKey: Any] = [
+        let textFontAttributes: [NSAttributedString.Key: Any] = [
             .font: fontAvatarInitials!,
             .foregroundColor: colorAvatarInitials,
             .paragraphStyle: paraStyle,

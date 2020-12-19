@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import LibKullo
 import SwiftyMimeTypes
@@ -747,7 +752,7 @@ class KulloConnector {
     func compressAvatar(_ image: UIImage) -> Data? {
         var quality = avatarBestQuality
         while true {
-            guard let imageData = UIImageJPEGRepresentation(image, quality) else {
+            guard let imageData = image.jpegData(compressionQuality: quality) else {
                 return nil
             }
             if imageData.count <= avatarMaxSize {

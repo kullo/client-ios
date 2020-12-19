@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import UIKit
 import CoreGraphics
@@ -321,9 +326,9 @@ extension MoreViewController {
 
 extension MoreViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         DispatchQueue.main.async {
-            let image = info[UIImagePickerControllerEditedImage] as! UIImage
+            let image = info[.editedImage] as! UIImage
             let croppedSquareImage = image.squareImageWithSize(CGSize(width: avatarDimension, height: avatarDimension))
             KulloConnector.shared.setClientAvatar(croppedSquareImage)
             picker.dismiss(animated: true, completion: nil)

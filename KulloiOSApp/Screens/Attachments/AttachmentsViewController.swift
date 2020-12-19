@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import UIKit
 
@@ -174,7 +179,7 @@ extension AttachmentsViewController { // UITableViewDataSource
         return removable
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             dataSource?.attachmentsViewRemoveAttachment(indexPath.row)
         }

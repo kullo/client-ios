@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import MLPAutoCompleteTextField
 
@@ -31,7 +36,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(kulloAddrTextDidChange),
-            name: NSNotification.Name.UITextFieldTextDidChange,
+            name: UITextField.textDidChangeNotification,
             object: nil
         )
     }
@@ -39,7 +44,7 @@ class KulloAddressTextField: MLPAutoCompleteTextField {
     deinit {
         NotificationCenter.default.removeObserver(
             self,
-            name: NSNotification.Name.UITextFieldTextDidChange,
+            name: UITextField.textDidChangeNotification,
             object: nil
         )
     }

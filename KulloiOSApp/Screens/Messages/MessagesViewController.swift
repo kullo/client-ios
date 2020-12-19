@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import UIKit
 
@@ -43,7 +48,7 @@ class MessagesViewController: UIViewController {
             UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(composeTapped)),
         ]
 
-        headerView = tableView.tableHeaderView as! MessagesHeaderView
+        headerView = tableView.tableHeaderView as? MessagesHeaderView
         tableView.addSubview(refreshControl)
     }
 
@@ -52,7 +57,7 @@ class MessagesViewController: UIViewController {
 
         headerView.setNeedsLayout()
         headerView.layoutIfNeeded()
-        let headerHeight = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let headerHeight = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         headerView.frame.size.height = ceil(headerHeight)
 
         // necessary to inform tableView of headerView's height change
@@ -74,12 +79,12 @@ class MessagesViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appDidBecomeActive),
-            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            name: UIApplication.didBecomeActiveNotification,
             object: nil)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appWillResignActive),
-            name: NSNotification.Name.UIApplicationWillResignActive,
+            name: UIApplication.willResignActiveNotification,
             object: nil)
     }
 
@@ -89,11 +94,11 @@ class MessagesViewController: UIViewController {
         isShown = false
         NotificationCenter.default.removeObserver(
             self,
-            name: NSNotification.Name.UIApplicationDidBecomeActive,
+            name: UIApplication.didBecomeActiveNotification,
             object: nil)
         NotificationCenter.default.removeObserver(
             self,
-            name: NSNotification.Name.UIApplicationWillResignActive,
+            name: UIApplication.willResignActiveNotification,
             object: nil)
     }
 
@@ -132,7 +137,7 @@ class MessagesViewController: UIViewController {
         updateVisibleSinceTimer(appState: .inactive)
     }
 
-    private func updateVisibleSinceTimer(appState: UIApplicationState) {
+    private func updateVisibleSinceTimer(appState: UIApplication.State) {
         if isShown && appState == .active {
             visibleSinceMap.removeAll()
             visibleSinceTimer?.invalidate()
@@ -310,6 +315,8 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !messageIds.isEmpty else { return }
+
         let vc = StoryboardUtil.instantiate(MessageViewController.self)
         vc.conversationId = convId
         vc.messageId = messageIds[indexPath.row]
@@ -320,7 +327,7 @@ extension MessagesViewController: UITableViewDataSource, UITableViewDelegate {
         return !shouldShowWriteMessageHint()
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             // We need to hide the hint because UITableView expects that the number of rows
             // after deletion is one less than before, which wouldn't be the case if we deleted

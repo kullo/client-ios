@@ -1,3 +1,9 @@
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 import UIKit
 
 class AppCoordinator {
@@ -29,7 +35,7 @@ class AppCoordinator {
         data: [AnyHashable : Any], completion: ((UIBackgroundFetchResult) -> Void)?) {
 
         let task = UIApplication.shared.beginBackgroundTask()
-        guard task != UIBackgroundTaskInvalid else {
+        guard task != .invalid else {
             log.error("Running in the background is not possible")
             return
         }

@@ -1,4 +1,9 @@
-/* Copyright 2015-2017 Kullo GmbH. All rights reserved. */
+/*
+ * Copyright 2015–2019 Kullo GmbH
+ *
+ * This source code is licensed under the 3-clause BSD license. See LICENSE.txt
+ * in the root directory of this source tree for details.
+ */
 
 import LibKullo
 import MobileCoreServices
@@ -54,9 +59,9 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         attachmentsList.attachmentsAreDownloaded = true
         attachmentsList.scrollable = false
 
-        addChildViewController(attachmentsList)
+        addChild(attachmentsList)
         attachmentsContainer.addSubview(attachmentsList.view)
-        attachmentsList.didMove(toParentViewController: self)
+        attachmentsList.didMove(toParent: self)
 
         attachmentsList.view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -344,15 +349,15 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
         return result
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        let mediaType = info[UIImagePickerControllerMediaType] as! String
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        let mediaType = info[.mediaType] as! String
         var path = ""
         var errorMsg: String?
 
         switch mediaType {
         case String(kUTTypeImage):
-            let url = info[UIImagePickerControllerReferenceURL] as! URL
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let url = info[.referenceURL] as! URL
+            let image = info[.originalImage] as! UIImage
 
             // The URL always contains the file basename "asset", which isn't user friendly.
             let basename = NSLocalizedString("image_basename", comment: "")
@@ -361,10 +366,10 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
             let imageExtension: String
             switch url.pathExtension.lowercased() {
             case "png":
-                imageDataOpt = UIImagePNGRepresentation(image)
+                imageDataOpt = image.pngData()
                 imageExtension = "png"
             default:
-                imageDataOpt = UIImageJPEGRepresentation(image, attachmentImageQuality)
+                imageDataOpt = image.jpegData(compressionQuality: attachmentImageQuality)
                 imageExtension = "jpg"
             }
             guard let imageData = imageDataOpt else {
@@ -379,7 +384,7 @@ extension ComposeViewController: UIImagePickerControllerDelegate, UINavigationCo
             }
 
         case String(kUTTypeMovie):
-            let originalUrl = info[UIImagePickerControllerMediaURL] as! URL
+            let originalUrl = info[.mediaURL] as! URL
 
             // The URL contains a UUID as the file's basename, which isn't user friendly.
             let basename = NSLocalizedString("video_basename", comment: "")

@@ -2,70 +2,41 @@ PODS:
   - DTFoundation/Core (1.7.13)
   - DTFoundation/DTASN1 (1.7.13):
     - DTFoundation/Core
-  - Firebase/Core (5.6.0):
+  - Firebase/CoreOnly (5.15.0):
+    - FirebaseCore (= 5.1.10)
+  - Firebase/Messaging (5.15.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.1.1)
-  - Firebase/CoreOnly (5.6.0):
-    - FirebaseCore (= 5.1.1)
-  - Firebase/Messaging (5.6.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.1.0)
-  - FirebaseAnalytics (5.1.1):
-    - FirebaseCore (~> 5.1)
-    - FirebaseInstanceID (~> 3.2)
-    - GoogleAppMeasurement (~> 5.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 5.2.0)
-    - GoogleUtilities/MethodSwizzler (~> 5.2.0)
-    - GoogleUtilities/Network (~> 5.2)
-    - "GoogleUtilities/NSData+zlib (~> 5.2)"
-    - nanopb (~> 0.3)
-  - FirebaseCore (5.1.1):
+    - FirebaseMessaging (= 3.2.2)
+  - FirebaseAnalyticsInterop (1.1.0)
+  - FirebaseCore (5.1.10):
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseInstanceID (3.2.1):
+  - FirebaseInstanceID (3.3.0):
     - FirebaseCore (~> 5.1)
-    - GoogleUtilities/Environment (~> 5.2)
-  - FirebaseMessaging (3.1.0):
-    - FirebaseCore (~> 5.0)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseMessaging (3.2.2):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.1)
     - FirebaseInstanceID (~> 3.0)
+    - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Reachability (~> 5.2)
     - Protobuf (~> 3.1)
-  - GoogleAppMeasurement (5.1.1):
-    - GoogleUtilities/AppDelegateSwizzler (~> 5.2.0)
-    - GoogleUtilities/MethodSwizzler (~> 5.2.0)
-    - GoogleUtilities/Network (~> 5.2)
-    - "GoogleUtilities/NSData+zlib (~> 5.2)"
-    - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (5.2.2):
+  - GoogleUtilities/Environment (5.3.7)
+  - GoogleUtilities/Logger (5.3.7):
     - GoogleUtilities/Environment
+  - GoogleUtilities/Reachability (5.3.7):
     - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.2.2)
-  - GoogleUtilities/Logger (5.2.2):
-    - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.2.2):
-    - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.2.2):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.2.2)"
-  - GoogleUtilities/Reachability (5.2.2):
+  - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
   - MLPAutoCompleteTextField (1.6)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
   - SwiftKeychainWrapper (3.1.0)
-  - SwiftyBeaver (1.6.0)
+  - SwiftyBeaver (1.6.1)
   - SwiftyMimeTypes (2.1.0)
   - TCMobileProvision (1.0.0):
     - DTFoundation/DTASN1 (~> 1.6)
 
 DEPENDENCIES:
-  - Firebase/Core
   - Firebase/Messaging
   - MLPAutoCompleteTextField (from `https://github.com/EddyBorja/MLPAutoCompleteTextField.git`, branch `master`)
   - SwiftKeychainWrapper (from `https://github.com/tiwoc/SwiftKeychainWrapper.git`, branch `kullo`)
@@ -77,13 +48,11 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - DTFoundation
     - Firebase
-    - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
     - FirebaseCore
     - FirebaseInstanceID
     - FirebaseMessaging
-    - GoogleAppMeasurement
     - GoogleUtilities
-    - nanopb
     - Protobuf
     - SwiftyBeaver
     - SwiftyMimeTypes
@@ -107,21 +76,19 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   DTFoundation: f03be9fd786f11e505bb8fc44e2a3732bf0917df
-  Firebase: 75ea9e232eefa158c1049028030b8f661a2ccb62
-  FirebaseAnalytics: 993577e91157feb40945abedd6ab346d8a4b6ac8
-  FirebaseCore: cb9ee75e0894def766167c95a4d5a14b1c138269
-  FirebaseInstanceID: ea5af6920d0a4a29b40459d055bebe4a6c1333c4
-  FirebaseMessaging: f67b3719f520ee200da0e20ce577fe2bce0c01d0
-  GoogleAppMeasurement: f7507b39b70ad0bd80b3d81518b2f43868974307
-  GoogleUtilities: 06b66f9567769a7958db20a92f0128b2843e49d5
+  Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
+  FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
+  FirebaseCore: 35747502d9e8c6ee217385ad04446c7c2aaf9c5c
+  FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
+  FirebaseMessaging: b412996f6a09337d232bb3a6676ce4d1f353d024
+  GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
   MLPAutoCompleteTextField: 02700789c32dce9b3a7e9991810adf5edb757d80
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SwiftKeychainWrapper: fe63ac0e19acd227aa031043de5a8f88a3ff23da
-  SwiftyBeaver: e45759613e50b522b0e6f53b1f0f14389b45ca34
+  SwiftyBeaver: ccfcdf85a04d429f1633f668650b0ce8020bda3a
   SwiftyMimeTypes: df2392d0f7b7c06bb3a65909e0d1efc09f5b6b6b
   TCMobileProvision: 2a8962b38821a20fad53b9d7851bbc9ae8c52995
 
-PODFILE CHECKSUM: da17dba960ce94e3032473cb1a10e9c33af7415d
+PODFILE CHECKSUM: c189d09990c83254471dcb17a8f4c283b42180a3
 
 COCOAPODS: 1.5.3
